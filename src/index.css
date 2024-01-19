@@ -1,0 +1,42 @@
+/* global site styling behaviors */
+
+*, *:before, *:after {
+  box-sizing: border-box;
+  text-wrap: wrap;
+  line-height: 1em;
+  color: inherit;
+}
+
+html, body, #root {
+  max-height: 100vh;
+  margin: 0;
+  text-align: center;
+  background-color: rgb(43, 43, 43);
+  color: white;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+fieldset {
+  border: none;
+}
+
+legend {
+  font-size: larger;
+  padding: 0.5em;
+}
+
+input[type=button], input[type=submit] {
+  cursor: pointer;
+}
+
+input, input::placeholder {
+  color: inherit;
+  background-color: inherit;
+}
