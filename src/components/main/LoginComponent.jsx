@@ -32,6 +32,8 @@ const LoginComponent = () => {
       <form id='login-form'>
         {/* username/password fieldset */}
         <fieldset id='login-inputs-fieldset'>
+          <legend>Authenticate</legend>
+
           {/* username input */}
           <input id='username-input' placeholder='username' value={ username } onChange={ handleUsernameOnChange }></input>
           <label hidden htmlFor='username-input' value='username'></label>
@@ -43,6 +45,8 @@ const LoginComponent = () => {
 
         {/* submission fieldset */}
         <fieldset id='login-submission-fieldset'>
+          <legend>Submit</legend>
+
           {/* button inputs do not require labels */}
 
           {/* register button */}
