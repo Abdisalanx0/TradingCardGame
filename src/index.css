@@ -40,3 +40,7 @@ input, input::placeholder {
   color: inherit;
   background-color: inherit;
 }
+
+input::placeholder, :disabled {
+  opacity: 0.5;
+}
