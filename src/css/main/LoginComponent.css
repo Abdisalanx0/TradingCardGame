@@ -1,11 +1,13 @@
 #login-main {
   min-width: min-content;
+  width: 15vw;
   height: 80vh;
   display: flex;
   align-items: center;
 }
 
 #login-form {
+  width: 100%;
   padding: 0.5em;
   border: 1px solid;
   border-radius: 10px;
@@ -15,6 +17,8 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  margin: 10px 0;
+  padding: 10px 0;
   border-bottom: 1px solid;
 }
 
@@ -28,6 +32,8 @@
   width: 100%;
   display: flex;
   justify-content: space-around;
+  margin: 10px 0;
+  padding: 10px 0;
 }
 
 #register-button, #login-button {

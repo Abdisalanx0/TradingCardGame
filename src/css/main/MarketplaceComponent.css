@@ -1,0 +1,86 @@
+#marketplace-main {
+  width: 100%;
+  height: 80vh;
+}
+
+#marketplace-filter-and-sort-form {
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid;
+}
+
+#price-filter-fieldset, #sort-fieldset {
+  width: 25%;
+}
+
+#name-filter-input {
+  width: 15em;
+  border: 1px solid;
+}
+
+#listed-card-items-section {
+  height: 70vh;
+  overflow-y: scroll;
+}
+
+#listed-card-items-ul {
+  height: max-content;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+}
+
+.listed-card-item {
+  width: 200px;
+  height: min-content;
+  margin: 10px;
+  border: 10px solid;
+  border-radius: 10px;
+}
+
+.listed-card-item-figure {
+  width: 100%;
+  margin: 0;
+}
+
+.listed-card-item-rarity-p {
+  border-bottom: 1px solid;
+}
+
+.listed-card-item-price-p {
+  padding-top: 10px;
+}
+
+.listed-card-item-thumbnail {
+  width: 100%;
+}
+
+.listed-card-item-name-figcaption {
+  height: 2em;
+}
+
+.listed-card-item-description-p {
+  height: 3em;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+}
+
+.common-item {
+  background-color: gray;
+  border-color: lightgray;
+}
+
+.uncommon-item {
+  background-color: green;
+  border-color: lightgreen;
+}
+
+.rare-item {
+  background-color: cornflowerblue;
+  border-color: lightblue;
+}

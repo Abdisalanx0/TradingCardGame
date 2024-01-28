@@ -2,11 +2,46 @@
   width: 100vw;
   height: 10vh;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   border-bottom: 1px solid;
 }
 
 #page-h1 {
+  width: 33%;
+  text-align: start;
   text-decoration: underline;
+  margin: 10px;
+}
+
+#navigation-container {
+  width: 33%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.navigation-button {
+  width: 6em;
+  font-size: x-large;
+  margin: 5px;
+  padding-bottom: 5px;
+  border: none;
+}
+
+.pointed-navigation-button, .current-tab-button {
+  box-shadow: 0 5px 0 0 white;
+}
+
+#user-dropdown {
+  width: 33%;
+  text-align: end;
+  margin: 10px;
+}
+
+#logout-button {
+  margin-top: 5px;
+  border: 1px solid;
+  border-radius: 10px;
 }

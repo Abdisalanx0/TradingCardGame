@@ -1,9 +1,14 @@
 import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import AuthContext from '../../contexts/AuthContext'
+import HeaderContext from '../../contexts/HeaderContext'
 import '../../css/main/LoginComponent.css'
 
 const LoginComponent = () => {
   const { username, setUsername, password, setPassword } = useContext(AuthContext)
+  const { setCurrentTab } = useContext(HeaderContext)
+
+  const navigate = useNavigate()
 
   const handleUsernameOnChange = (e) => {
     setUsername(e.target.value)
@@ -13,16 +18,19 @@ const LoginComponent = () => {
     setPassword(e.target.value)
   }
 
-  const handleRegisterOnSubmit = (e) => {
+  const handleRegisterOnClick = (e) => {
     e.preventDefault()
 
     setPassword('')
   }
 
-  const handleLoginOnSubmit = (e) => {
+  const handleLoginOnClick = (e) => {
     e.preventDefault()
 
     setPassword('')
+    setCurrentTab('marketplace')
+
+    navigate('/dashboard')
   }
 
   return (
@@ -39,7 +47,7 @@ const LoginComponent = () => {
           <label hidden htmlFor='username-input' value='username'></label>
 
           {/* password input */}
-          <input id='password-input' placeholder='password' value={ password } onChange={ handlePasswordOnChange }></input>
+          <input id='password-input' type='password' placeholder='password' value={ password } onChange={ handlePasswordOnChange }></input>
           <label hidden htmlFor='password-input' value='password'></label>
         </fieldset>
 
@@ -50,10 +58,10 @@ const LoginComponent = () => {
           {/* button inputs do not require labels */}
 
           {/* register button */}
-          <input id='register-button' type='submit' value='Register' onClick={ handleRegisterOnSubmit }></input>
+          <input id='register-button' type='submit' value='Register' onClick={ handleRegisterOnClick }></input>
 
           {/* login button */}
-          <input id='login-button' type='submit' value='Login' onClick={ handleLoginOnSubmit }></input>
+          <input id='login-button' type='submit' value='Login' onClick={ handleLoginOnClick }></input>
         </fieldset>
       </form>
     </main>
