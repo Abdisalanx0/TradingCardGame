@@ -81,7 +81,7 @@ const MarketplaceComponent = () => {
       let orientation = oldSort.substring(delimiter + 1)
 
       if(e.target.value === 'Name') {
-        if(oldSort.includes('name') && orientation === 'asc') {
+        if(property === 'name' && orientation === 'asc') {
           orientation = 'des'
         }
         else {
@@ -90,7 +90,7 @@ const MarketplaceComponent = () => {
         }
       }
       else if(e.target.value === 'Price') {
-        if(oldSort.includes('price') && orientation === 'asc') {
+        if(property === 'price' && orientation === 'asc') {
           orientation = 'des'
         }
         else {
@@ -99,7 +99,7 @@ const MarketplaceComponent = () => {
         }
       }
       else if(e.target.value === 'Rarity') {
-        if(oldSort.includes('rarity') && orientation === 'asc') {
+        if(property === 'rarity' && orientation === 'asc') {
           orientation = 'des'
         }
         else {
