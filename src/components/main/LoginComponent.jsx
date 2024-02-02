@@ -59,7 +59,7 @@ const handleLoginOnClick = (e) => {
 
               // After a delay of 5 seconds, navigates to the dashboard.
               setTimeout(function () {
-                setCurrentTab("MarketPlace") // Set the current tab to 'MarketPlace'.
+                setCurrentTab("marketplace") // Set the current tab to 'marketPlace'.
                 navigate('/dashboard'); // Navigate to the dashboard.
               }, 5000);
           } else {
