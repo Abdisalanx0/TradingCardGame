@@ -14,7 +14,7 @@ header('Content-Type: application/json'); // Sets the content type of the respon
 $servername = "localhost";
 $username = "root";
 $password = "1384";
-$dbname = "tgc";
+$dbname = "tcg";
 
 // Establishing a connection to the MySQL database.
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -40,7 +40,7 @@ $user = $dData['username'];
 $pass = $dData['password'];
 
 // Prepares an SQL statement to prevent SQL injection.
-$stmt = $conn->prepare("SELECT * FROM tgc_user WHERE username = ? AND password_hash = ?");
+$stmt = $conn->prepare("SELECT * FROM tcg_user WHERE username = ? AND password_hash = ?");
 $stmt->bind_param("ss", $user, $pass); // Binds parameters to the SQL statement.
 $stmt->execute(); // Executes the SQL statement.
 $res = $stmt->get_result(); // Gets the result of the query.
