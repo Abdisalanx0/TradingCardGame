@@ -1,8 +1,10 @@
 <?php
+//https://www.php.net/manual/en/function.json-encode.php
 // Enables error reporting for debugging purposes.
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 
 // Setting Cross-Origin Resource Sharing (CORS) headers for security.
 header('Access-Control-Allow-Origin: http://localhost:5173'); // Only allows requests from this origin.
@@ -35,19 +37,26 @@ if (!isset($dData["username"]) || !isset($dData["password"])) {
     exit();
 }
 
-// Extracts the username and password from the decoded data.
+// Extracts the username from the decoded data.
 $user = $dData['username'];
 $pass = $dData['password'];
 
-// Prepares an SQL statement to prevent SQL injection.
-$stmt = $conn->prepare("SELECT * FROM tcg_user WHERE username = ? AND password_hash = ?");
-$stmt->bind_param("ss", $user, $pass); // Binds parameters to the SQL statement.
+// Prepares an SQL statement to retrieve the user by username.
+$stmt = $conn->prepare("SELECT password_hash FROM tcg_user WHERE username = ?");
+$stmt->bind_param("s", $user); // Binds the username parameter to the SQL statement.
 $stmt->execute(); // Executes the SQL statement.
 $res = $stmt->get_result(); // Gets the result of the query.
 
-// Checks if the user exists and the password is correct.
 if ($res && $res->num_rows > 0) {
-    echo json_encode(['success' => true, 'message' => 'Login Successful! Redirecting...']);
+    $row = $res->fetch_assoc();
+    $hashedPassword = $row['password_hash'];
+    
+    // Verifies the password against the hashed password in the database.
+    if (password_verify($pass, $hashedPassword)) {
+        echo json_encode(['success' => true, 'message' => 'Login Successful! Redirecting...']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
+    }
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
 }

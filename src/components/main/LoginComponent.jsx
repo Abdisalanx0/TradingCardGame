@@ -23,10 +23,51 @@ const LoginComponent = () => {
   }
 
   const handleRegisterOnClick = (e) => {
-    e.preventDefault()
+    e.preventDefault();  // Prevents the default form submission behavior.
 
-    setPassword('')
-  }
+    // Checks if both username and password are not empty.
+    if (username !== "" && password !== "") {
+        const url = "http://localhost/php/registration.php"; // URL to send the registration request.
+        
+        // Headers for the fetch request.
+        const headers = {
+            "Accept": "application/json", // Tells the server to send data in JSON format.
+            "Content-Type": "application/json" // Indicates that the request body will be JSON.
+        };
+
+        // Data to be sent in the request, containing the username and password.
+        const data = { username, password };
+
+        // Making a POST request to the registration URL.
+        fetch(url, {
+            method: "POST",   // Using POST method for the request.
+            headers: headers, // Including headers in the request.
+            body: JSON.stringify(data) // Sending the registration data as a JSON string.
+        })
+        .then((response) => response.json()) // Parses the JSON response from the server.
+        .then((response) => {
+            // If registration is successful and a message is received.
+            if (response.success && response.message) {
+                setMsg(response.message); // Sets the message to be displayed.
+
+                // Optionally, navigate to login page or directly log the user in.
+                navigate('/'); // Navigate to the login page after registration.
+            } else {
+                // If registration fails, set an error message.
+                setErrorMsg(response.message || "An unknown error occurred.");
+            }
+        })
+        .catch((err) => {
+            // In case of a network or other fetch-related error.
+            setErrorMsg("An error occurred. Please try again.");
+            console.error(err); // Logs the error to the console.
+        });
+    } else {
+        // If either username or password is empty.
+        setErrorMsg("Username and password cannot be empty.");
+    }
+};
+
 
   // This function handles the login process when the login button is clicked.
 const handleLoginOnClick = (e) => {

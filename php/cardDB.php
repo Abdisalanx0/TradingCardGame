@@ -11,8 +11,10 @@
    <?php
    define("SERVER_NAME", "localhost");
    define("DBF_USER_NAME", "root");
+
    define("DBF_PASSWORD", "mysql");
    define("DATABASE_NAME", "tradingCardDB");
+
    $conn = new mysqli(SERVER_NAME, DBF_USER_NAME, DBF_PASSWORD);
    // Start with a new database to start primary keys at 1
    $sql = "DROP DATABASE " . DATABASE_NAME;
