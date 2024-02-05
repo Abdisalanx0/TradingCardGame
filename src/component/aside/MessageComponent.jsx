@@ -18,7 +18,12 @@ const MessageComponent = () => {
   }
 
   const handleConversationButtonOnClick = (e) => {
-    setExpandedConversation(e.target.value)
+    if(expandedConversation === e.target.value) {
+      setExpandedConversation('')
+    }
+    else {
+      setExpandedConversation(e.target.value)
+    }
   }
 
   const handleEnterMessageOnKeyDown = (e) => {
