@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "Sample Card (Common) #1",
+    "description": "This is a sample trading card of 'Common' rarity.",
+    "rarity": "common",
+    "thumbnail": "/card-image-placeholder.png"
+  },
+  {
+    "id": 5,
+    "name": "Sample Card (Uncommon) #2",
+    "description": "This is a sample trading card of 'Uncommon' rarity.",
+    "rarity": "uncommon",
+    "thumbnail": "/card-image-placeholder.png"
+  },
+  {
+    "id": 7,
+    "name": "Sample Card (Common) #3",
+    "description": "This is a sample trading card of 'Common' rarity.",
+    "rarity": "common",
+    "thumbnail": "/card-image-placeholder.png"
+  },
+  {
+    "id": 8,
+    "name": "Sample Card (Uncommon) #3",
+    "description": "This is a sample trading card of 'Uncommon' rarity.",
+    "rarity": "uncommon",
+    "thumbnail": "/card-image-placeholder.png"
+  },
+  {
+    "id": 9,
+    "name": "Sample Card (Rare) #3",
+    "description": "This is a sample trading card of 'Rare' rarity.",
+    "rarity": "rare",
+    "thumbnail": "/card-image-placeholder.png"
+  },
+  {
+    "id": 12,
+    "name": "Sample Card (Rare) #4",
+    "description": "This is a sample trading card of 'Rare' rarity.",
+    "rarity": "rare",
+    "thumbnail": "/card-image-placeholder.png"
+  }
+]

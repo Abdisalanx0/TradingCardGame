@@ -1,16 +1,20 @@
 import React, { useContext } from 'react'
-import MarketplaceContext from '../../contexts/MarketplaceContext'
+import MarketplaceContext from '../../context/MarketplaceContext'
 import '../../css/main/MarketplaceComponent.css'
 
 const MarketplaceComponent = () => {
-  const { listedCardItems, listedCardItemsSort, setListedCardItemsSort, priceFilter, setPriceFilter, nameFilter, setNameFilter } = useContext(MarketplaceContext)
+  const { listedItems, setListedItemsSort, listedItemPriceFilter, setListedItemPriceFilter, listedItemNameFilter, setListedItemNameFilter } = useContext(MarketplaceContext)
 
   let isAtLeastOneCardVisible = false
 
-  const generateListedCardItem = (item) => {
+  const handlePurchaseOnClick = (e) => {
+
+  }
+
+  const generateListedItem = (item) => {
     let isVisible
 
-    switch(priceFilter) {
+    switch(listedItemPriceFilter) {
       case '':
         isVisible = true
 
@@ -27,7 +31,7 @@ const MarketplaceComponent = () => {
         isVisible = item.price >= 100 && item.price <= 1000
     }
 
-    if(!item.name.toLowerCase().includes(nameFilter.toLowerCase())) {
+    if(!item.name.toLowerCase().includes(listedItemNameFilter.toLowerCase())) {
       isVisible = false
     }
 
@@ -37,18 +41,24 @@ const MarketplaceComponent = () => {
 
     return (
       isVisible ? 
-        <li key={ item.id } id={ `${item.id}-listed-card-item` } className={ `${item.rarity}-item listed-card-item` }>
-          <figure className='listed-card-item-figure'>
-            <p className='listed-card-item-rarity-p'>{ item.rarity }</p>
+        <li key={ item.id } id={ `${item.id}-listed-item` } className={ `${item.rarity}-item listed-item` }>
+          <figure className='listed-item-figure'>
+            <p className='listed-item-rarity-p'>{ item.rarity }</p>
 
-            <img className='listed-card-item-thumbnail' src={ item.thumbnail }></img>
+            <img className='listed-item-thumbnail' src={ item.thumbnail }></img>
 
-            <figcaption className='listed-card-item-name-figcaption'>{ item.name }</figcaption>
+            <figcaption className='listed-item-name-figcaption'>{ item.name }</figcaption>
 
-            <p className='listed-card-item-description-p' title={ item.description }>{ item.description }</p>
-
-            <p className='listed-card-item-price-p'>${ item.price }</p>
+            <p className='listed-item-description-p' title={ item.description }>{ item.description }</p>
           </figure>
+
+          <form className='listed-item-purchase-form'>
+            <label className='listed-item-purchase-button-label'>
+              <input id={ `${item.id}-purchase-button` } className='listed-item-purchase-button' type='button' value='Purchase' onClick={ handlePurchaseOnClick }></input>
+
+              ${ item.price }
+            </label>
+          </form>
         </li> 
       : null
     )
@@ -56,25 +66,25 @@ const MarketplaceComponent = () => {
 
   const handlePriceFilterOnClick = (e) => {
     if(e.target.id === '0-50-price-filter-radio') {
-      setPriceFilter('0-50')
+      setListedItemPriceFilter('0-50')
     }
     else if(e.target.id === '50-100-price-filter-radio') {
-      setPriceFilter('50-100')
+      setListedItemPriceFilter('50-100')
     }
     else if(e.target.id === '100-1000-price-filter-radio') {
-      setPriceFilter('100-1000')
+      setListedItemPriceFilter('100-1000')
     }
     else if(e.target.id === 'all-price-filter-radio') {
-      setPriceFilter('')
+      setListedItemPriceFilter('')
     }
   }
 
   const handleNameFilterOnChange = (e) => {
-    setNameFilter(e.target.value)
+    setListedItemNameFilter(e.target.value)
   }
 
   const handleSortButtonOnClick = (e) => {
-    setListedCardItemsSort((oldSort) => {
+    setListedItemsSort((oldSort) => {
       const delimiter = oldSort.indexOf(' ')
 
       let property = oldSort.substring(0, delimiter)
@@ -113,9 +123,9 @@ const MarketplaceComponent = () => {
   }
 
   return (
-    <main id='marketplace-main'>
-      <form id='marketplace-filter-and-sort-form'>
-        <fieldset id='price-filter-fieldset' className='marketplace-filter-and-sort-fieldset'>
+    <>
+      <form id='mp-filter-and-sort-form'>
+        <fieldset id='mp-price-filter-fieldset' className='mp-filter-and-sort-fieldset'>
           <legend>Price Filter</legend>
 
           <label>
@@ -143,13 +153,13 @@ const MarketplaceComponent = () => {
           </label>
         </fieldset>
 
-        <fieldset id='name-filter-fieldset' className='marketplace-filter-and-sort-fieldset'>
+        <fieldset id='mp-name-filter-fieldset' className='mp-filter-and-sort-fieldset'>
           <legend hidden>Name Filter</legend>
 
-          <input id='name-filter-input' placeholder='search by card name' value={ nameFilter } onChange={ handleNameFilterOnChange }></input>
+          <input id='mp-name-filter-input' placeholder='search by card name' value={ listedItemNameFilter } onChange={ handleNameFilterOnChange }></input>
         </fieldset>
 
-        <fieldset id='sort-fieldset' className='marketplace-filter-and-sort-fieldset'>
+        <fieldset id='mp-sort-fieldset' className='mp-filter-and-sort-fieldset'>
           <legend>Sort</legend>
 
           <input type='button' value='Name' onClick={ handleSortButtonOnClick }></input>
@@ -160,16 +170,16 @@ const MarketplaceComponent = () => {
         </fieldset>
       </form>
 
-      <section id='listed-card-items-section'>
+      <section id='listed-items-section'>
         <h2>Listed Trading Cards</h2>
 
-        <ul id='listed-card-items-ul'>
-          { listedCardItems.map((item) => generateListedCardItem(item)) }
+        <ul id='listed-items-ul'>
+          { listedItems.map(generateListedItem) }
 
           { !isAtLeastOneCardVisible ? <p>No items to show</p> : null }
         </ul>
       </section>
-    </main>
+    </>
   )
 }
 

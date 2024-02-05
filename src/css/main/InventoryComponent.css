@@ -1,4 +1,4 @@
-#mp-filter-and-sort-form {
+#inv-filter-and-sort-form {
   height: 10vh;
   display: flex;
   justify-content: space-between;
@@ -7,21 +7,21 @@
   border-bottom: 1px solid;
 }
 
-#mp-price-filter-fieldset, #mp-sort-fieldset {
+#inv-price-filter-fieldset, #inv-sort-fieldset {
   width: 25%;
 }
 
-#mp-name-filter-input {
+#inv-name-filter-input {
   width: 15em;
   border: 1px solid;
 }
 
-#listed-items-section {
+#inventory-items-section {
   height: 70vh;
   overflow-y: scroll;
 }
 
-#listed-items-ul {
+#inventory-items-ul {
   height: max-content;
   display: flex;
   flex-wrap: wrap;
@@ -30,7 +30,7 @@
   padding: 0;
 }
 
-.listed-item {
+.inventory-item {
   width: 200px;
   height: min-content;
   margin: 10px;
@@ -38,43 +38,27 @@
   border-radius: 10px;
 }
 
-.listed-item-figure {
+.inventory-item-figure {
   width: 100%;
   margin: 0;
 }
 
-.listed-item-rarity-p {
+.inventory-item-rarity-p {
   border-bottom: 1px solid;
 }
 
-.listed-item-thumbnail {
+.inventory-item-thumbnail {
   width: 100%;
 }
 
-.listed-item-name-figcaption {
+.inventory-item-name-figcaption {
   height: 2em;
 }
 
-.listed-item-description-p {
+.inventory-item-description-p {
   height: 3em;
   border-top: 1px solid;
   border-bottom: 1px solid;
-}
-
-.listed-item-purchase-form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 5px;
-  border: 1px solid;
-}
-
-.listed-item-purchase-button-label {
-  width: 100%;
-}
-
-.listed-item-purchase-button {
-  border: none;
 }
 
 .common-item {

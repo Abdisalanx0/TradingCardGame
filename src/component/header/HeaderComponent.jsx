@@ -1,9 +1,11 @@
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import HeaderContext from '../../contexts/HeaderContext'
+import AuthContext from '../../context/AuthContext'
+import HeaderContext from '../../context/HeaderContext'
 import '../../css/header/HeaderComponent.css'
 
 const HeaderComponent = () => {
+  const { username } = useContext(AuthContext)
   const { currentTab, setCurrentTab } = useContext(HeaderContext)
 
   const navigate = useNavigate()
@@ -34,7 +36,7 @@ const HeaderComponent = () => {
       </nav>
 
       <details id='user-dropdown'>
-        <summary>Welcome, User</summary>
+        <summary>Welcome, { username }</summary>
 
         <input id='logout-button' type='button' value='Logout' onClick={ handleLogoutOnClick }></input>
       </details>
