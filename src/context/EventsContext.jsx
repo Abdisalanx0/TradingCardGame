@@ -1,5 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react'
-import HeaderContext from './HeaderContext'
+import React, { createContext, useEffect } from 'react'
 
 const EventsContext = createContext()
 

@@ -1,0 +1,20 @@
+{
+  "Joe": [
+    {
+      "id": 1,
+      "content": "ersgersgerrg",
+      "originator": "other"
+    },
+    {
+      "id": 2,
+      "content": "mcjnjiiecoe",
+      "originator": "self"
+    },
+    {
+      "id": 3,
+      "content": "rereerrrrrrrrr",
+      "originator": "other"
+    }
+  ],
+  "Jane": []
+}
