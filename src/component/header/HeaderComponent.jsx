@@ -5,7 +5,7 @@ import HeaderContext from '../../context/HeaderContext'
 import '../../css/header/HeaderComponent.css'
 
 const HeaderComponent = () => {
-  const { username } = useContext(AuthContext)
+  const { username, userSettings, setUserSettings } = useContext(AuthContext)
   const { currentTab, setCurrentTab } = useContext(HeaderContext)
 
   const navigate = useNavigate()
@@ -25,6 +25,16 @@ const HeaderComponent = () => {
     location.reload()
   }
 
+  const handleColorModeButtonOnClick = (e) => {
+    setUserSettings((oldSettings) => {
+      const newSettings = { ...oldSettings }
+
+      newSettings.isDarkMode = !newSettings.isDarkMode
+
+      return newSettings
+    })
+  }
+
   return (
     <header id='page-header'>
       <h1 id='page-h1'>Trading Card Game</h1>
@@ -36,7 +46,9 @@ const HeaderComponent = () => {
       </nav>
 
       <details id='user-dropdown'>
-        <summary>Welcome, { username }</summary>
+        <summary id='user-dropdown-summary'>Welcome, { username }</summary>
+
+        <input id='color-mode-button' type='button' value={ userSettings.isDarkMode ? 'Light Mode' : 'Dark Mode' } onClick={ handleColorModeButtonOnClick }></input>
 
         <input id='logout-button' type='button' value='Logout' onClick={ handleLogoutOnClick }></input>
       </details>

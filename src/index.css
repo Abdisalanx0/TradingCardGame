@@ -14,8 +14,6 @@
 html, body, #root {
   margin: 0;
   text-align: center;
-  background-color: rgb(43, 43, 43);
-  color: white;
 }
 
 #root {
@@ -65,4 +63,14 @@ input::placeholder, :disabled {
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+.dark-mode {
+  background-color: rgb(43, 43, 43);
+  color: whitesmoke;
+}
+
+.light-mode {
+  background-color: whitesmoke;
+  color: rgb(43, 43, 43);
 }

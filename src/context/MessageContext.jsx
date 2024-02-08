@@ -18,7 +18,8 @@ export const MessageProvider = ({ children }) => {
   */
   const [messages, setMessages] = useState({})
   const [isMessageBoxExpanded, setIsMessageBoxExpanded] = useState(false)
-  const [expandedConversation, setExpandedConversation] = useState('')
+  const [selectedConversation, setSelectedConversation] = useState('')
+  const [messageToSend, setMessageToSend] = useState('')
 
   useEffect(() => {
     const handleFetchMessages = async () => {
@@ -39,8 +40,18 @@ export const MessageProvider = ({ children }) => {
     handleFetchMessages()
   }, [])
 
+  useEffect(() => {
+    const userConversationList = document.getElementById('message-box-selected-user-conversation-ul')
+  
+    if(userConversationList) {
+      const lastListItem = userConversationList.children[userConversationList.children.length - 1]
+
+      userConversationList.scrollTo(0, lastListItem.offsetTop)
+    }
+  }, [messages])
+
   return (
-    <MessageContext.Provider value={ { messages, setMessages, isMessageBoxExpanded, setIsMessageBoxExpanded, expandedConversation, setExpandedConversation } }>{ children }</MessageContext.Provider>
+    <MessageContext.Provider value={ { messages, setMessages, isMessageBoxExpanded, setIsMessageBoxExpanded, selectedConversation, setSelectedConversation, messageToSend, setMessageToSend } }>{ children }</MessageContext.Provider>
   )
 }
 
