@@ -47,7 +47,7 @@ legend {
   font-size: larger;
 }
 
-input[type=button], input[type=submit], input[type=checkbox], label:has(input[type=radio]), label:has(input[type=button]), summary {
+input[type=button], input[type=submit], input[type=checkbox], input[type=radio], label:has(input[type=radio]), label:has(input[type=button]), summary {
   cursor: pointer;
 }
 
