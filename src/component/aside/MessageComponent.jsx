@@ -3,72 +3,64 @@ import MessageContext from '../../context/MessageContext'
 import '../../css/aside/MessageComponent.css'
 
 const MessageComponent = () => {
-  const { messages, setMessages, isMessageBoxExpanded, setIsMessageBoxExpanded, expandedConversation, setExpandedConversation } = useContext(MessageContext)
+  const { messages, setMessages, isMessageBoxExpanded, setIsMessageBoxExpanded, selectedConversation, setSelectedConversation, messageToSend, setMessageToSend } = useContext(MessageContext)
 
   const handleToggleExpandOnClick = (e) => {
     setIsMessageBoxExpanded(!isMessageBoxExpanded)
   }
 
-  const generateMessageItem = (item) => {
-    return (
-      <li key={ item.id } id={ `${item.id}-message-item` } className={ (item.originator === 'self' ? 'sent-message-item' : 'received-message-item') + ' message-item' }>
-        <p>{ item.content }</p>
-      </li>
-    )
-  }
-
   const handleConversationButtonOnClick = (e) => {
-    if(expandedConversation === e.target.value) {
-      setExpandedConversation('')
+    if(selectedConversation === e.target.value) {
+      setSelectedConversation('')
     }
     else {
-      setExpandedConversation(e.target.value)
+      setSelectedConversation(e.target.value)
     }
+  }
+
+  const handleEnterMessageOnChange = (e) => {
+    setMessageToSend(e.target.value)
   }
 
   const handleEnterMessageOnKeyDown = (e) => {
     if(e.key === 'Enter') {
       e.preventDefault()
 
-      if(e.target.value) {
+      if(messageToSend) {
         setMessages((oldMessages) => {
           const newMessages = { ...oldMessages }
   
-          const delimiterIndex = e.target.id.indexOf('-message-input')
+          const delimiterIndex = e.target.id.indexOf('-textarea')
           const usernameKey = e.target.id.substring(0, delimiterIndex)
   
-          newMessages[usernameKey] = [...newMessages[usernameKey], { id: newMessages[usernameKey].length + 1, content: e.target.value, originator: 'self' }]
+          newMessages[usernameKey] = [...newMessages[usernameKey], { id: newMessages[usernameKey].length + 1, content: messageToSend, originator: 'self' }]
   
           return newMessages
         })
+
+        setMessageToSend('')
       }
     }
   }
 
-  const generateMessagesBetweenUser = (otherUsername) => {
-    const messagesBetweenUser = messages[otherUsername]
-
+  const generateConversationUser = (otherUsername) => {
     return (
-      <li key={ `${otherUsername}-conversation-item` } id='message-box-conversation-list-item'>
-        <input className='message-box-conversation-button' type='button' value={ otherUsername } onClick={ handleConversationButtonOnClick }></input>
-
-        {
-          expandedConversation === otherUsername ?
-            <>
-              <ul className='message-box-conversation-ul'>
-                { messagesBetweenUser.map(generateMessageItem) }
-              </ul>
-
-              <form autoComplete='off'>
-                <input id={ `${otherUsername}-message-input` } className='message-box-message-input' placeholder='enter message' onKeyDown={ handleEnterMessageOnKeyDown }></input>
-              </form>
-            </>
-          :
-            null
-        }
-
+      <li key={ `${otherUsername}-conversation-item` } className='message-box-conversation-list-item'>
+        <input className={ (otherUsername === selectedConversation ? 'selected-conversation-button ' : '') + 'message-box-conversation-button' } type='button' value={ otherUsername } onClick={ handleConversationButtonOnClick }></input>
       </li>
     )
+  }
+
+  const generateSelectedConversation = (message) => {
+    return (
+      <li key={ message.id } id={ `${message.id}-message-item` } className={ (message.originator === 'self' ? 'sent-message-item' : 'received-message-item') + ' message-item' }>
+        { message.content }
+      </li>
+    )
+  }
+
+  const handleAddUserButtonOnClick = (e) => {
+    e.preventDefault()
   }
 
   return (
@@ -83,9 +75,49 @@ const MessageComponent = () => {
 
       {
         isMessageBoxExpanded ?
-          <ul id='message-box-all-conversations-ul'>
-            { Object.keys(messages).map(generateMessagesBetweenUser) }
-          </ul>
+        <section id='message-box-conversations-section'>
+          <h3 hidden>Conversations</h3>
+
+          <section id='message-box-conversation-users-section'>
+            <h4 hidden>Conversation Users</h4>
+
+            <form id='message-box-user-search-form' autoComplete='off'>
+              <fieldset id='message-box-user-search-fieldset'>
+                <legend id='add-conversation-legend'>Add Conversation</legend>
+
+                <input id='message-box-user-search-input' placeholder='enter username'></input>
+
+                <input id='message-box-add-user-button' type='submit' value='Add' onClick={ handleAddUserButtonOnClick }></input>
+              </fieldset>
+            </form>
+
+            <section id='active-conversations-section'>
+              <h5 id='active-conversations-heading'>Active Conversations</h5>
+
+              <ul id='message-box-conversation-users-ul'>
+                { Object.keys(messages).map(generateConversationUser) }
+              </ul>
+
+            </section>
+          </section>
+
+          { 
+            messages[selectedConversation] ? 
+              <section id='message-box-selected-user-conversation-section'>
+                <h4 hidden>Selected Conversation</h4>
+
+                <ul id='message-box-selected-user-conversation-ul'>
+                  { messages[selectedConversation].map(generateSelectedConversation) }
+                </ul>
+
+                <form autoComplete='off'>
+                  <textarea id={ `${selectedConversation}-textarea` } className='message-box-textarea' placeholder='enter message' value={ messageToSend } onChange={ handleEnterMessageOnChange } onKeyDown={ handleEnterMessageOnKeyDown }></textarea>
+                </form>
+              </section>
+            :
+              <p id='no-selected-conversation-p'>Select a Conversation</p>
+          }
+        </section>
         :
           null
       }
