@@ -11,10 +11,8 @@
    <?php
    define("SERVER_NAME", "localhost");
    define("DBF_USER_NAME", "root");
-
    define("DBF_PASSWORD", "mysql");
    define("DATABASE_NAME", "tradingCardDB");
-
    $conn = new mysqli(SERVER_NAME, DBF_USER_NAME, DBF_PASSWORD);
    // Start with a new database to start primary keys at 1
    $sql = "DROP DATABASE " . DATABASE_NAME;
@@ -29,58 +27,50 @@
    $sql = "CREATE DATABASE IF NOT EXISTS " . DATABASE_NAME;
    runQuery($sql, "Creating " . DATABASE_NAME, true);
    $conn->select_db(DATABASE_NAME);
-   // Create Table: tgc_user
-   $sql = "CREATE TABLE IF NOT EXISTS tgc_user (
+   // Create Table: tcg_user
+   $sql = "CREATE TABLE IF NOT EXISTS tcg_user (
         id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(255) NOT NULL,
         password_hash VARCHAR(255) NOT NULL
         )";
-   runQuery($sql, "Creating tgc_user table", false);
+   runQuery($sql, "Creating tcg_user table", false);
 
    // Create Table: trading_card
    $sql = "CREATE TABLE IF NOT EXISTS trading_card (
     id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
     description VARCHAR(255),
-    rarity VARCHAR(255),
-    price DECIMAL(11,2)
+    rarity VARCHAR(255)
     )";
    runQuery($sql, "Creating trading_card table", false);
 
    // Populate trading_card table with Pokemon cards
 $pokemonCards = array(
-   array("Rattata", "A normal type pokemon that likes to bite.", "Common", 2.00),
-   array("Pidgeotto", "A normal and flying-type pokemon that is commonly found.", "Common", 3.00),
-   array("Geodude", "A rock and ground-type Pokemon with a tough exterior.", "Common", 4.50),
-   array("Squirtle", "A water-type starter Pokemon with powerful water attacks.", "Common", 7.00),
-   array("Meowth", "A normal-type Pokemon known for its ability to pick up coins.", "Common", 4.00),
-   array("Bulbasaur", "A grass and poison-type starter pokemon.", "Common", 7.00),
-   array("Eevee", "A versatile normal-type Pokemon capable of evolving into various powerful forms.", "Uncommon", 8.00),
-   array("Vulpix", "A fire-type Pokemon with six beautiful tails .", "Uncommon", 9.50),
-   array("Dratini", "A rare dragon-type Pokemon known for its immense potential.", "Uncommon", 20.00),
-   array("Growlithe", "A fire-type pokemon that grows stronger with its evolution.", "Uncommon", 10.00),
-   array("Jigglypuff", "A fairy and normal-type pokemon ", "Uncommon", 12.00),
-   array("Gengar", "A Ghost/posion-type that is the last of its evolution.", "Uncommon", 15.00),
-   array("Snorlax", "A huge and lazy normal-type pokemon that does a lot of damange.", "Rare", 50.00),
-   array("Ponyta", "A fire-type pokemon that evolves into Rapidash.", "Rare", 35.00),
-   array("Charizard", "A powerful fire and flying-type pokemon that is the last of its evolution.", "Rare", 60.00),
-   array("Kangaskhan", "A protective and powerful normal-type Pokemon known for its maternal instincts.", "Rare", 45.50),
-   array("Lapras", "A gentle water and ice-type Pokemon that is often seen carrying people on its back across the sea.", "Rare", 55.50),
-   array("Alakazam", "A psychic-type Pokemon with an exceptionally high IQ and extraordinary telekinetic powers.", "Rare", 65.00),
-   array("Dragonite", "A majestic dragon and flying-type Pokemon capable of flying faster than the speed of sound.", "Super Rare", 120.00),
-   array("Mewtwo", "A super rare psychic-type pokemon that packs a punch.", "Super Rare", 100.00)
+   array("Rattata", "A normal type pokemon that likes to bite.", "Common"),
+   array("Pidgeotto", "A normal and flying-type pokemon that is commonly found.", "Common"),
+   array("Geodude", "A rock and ground-type Pokemon with a tough exterior.", "Common"),
+   array("Squirtle", "A water-type starter Pokemon with powerful water attacks.", "Common"),
+   array("Meowth", "A normal-type Pokemon known for its ability to pick up coins.", "Common"),
+   array("Bulbasaur", "A grass and poison-type starter pokemon.", "Common"),
+   array("Eevee", "A versatile normal-type Pokemon capable of evolving into various powerful forms.", "Uncommon"),
+   array("Vulpix", "A fire-type Pokemon with six beautiful tails .", "Uncommon"),
+   array("Dratini", "A rare dragon-type Pokemon known for its immense potential.", "Uncommon"),
+   array("Growlithe", "A fire-type pokemon that grows stronger with its evolution.", "Uncommon"),
+   array("Jigglypuff", "A fairy and normal-type pokemon ", "Uncommon"),
+   array("Gengar", "A Ghost/posion-type that is the last of its evolution.", "Uncommon"),
+   array("Snorlax", "A huge and lazy normal-type pokemon that does a lot of damange.", "Rare"),
+   array("Ponyta", "A fire-type pokemon that evolves into Rapidash.", "Rare"),
+   array("Charizard", "A powerful fire and flying-type pokemon that is the last of its evolution.", "Rare"),
+   array("Kangaskhan", "A protective and powerful normal-type Pokemon known for its maternal instincts.", "Rare"),
+   array("Lapras", "A gentle water and ice-type Pokemon that is often seen carrying people on its back across the sea.", "Rare"),
+   array("Alakazam", "A psychic-type Pokemon with an exceptionally high IQ and extraordinary telekinetic powers.", "Rare"),
+   array("Dragonite", "A majestic dragon and flying-type Pokemon capable of flying faster than the speed of sound.", "Super Rare"),
+   array("Mewtwo", "A super rare psychic-type pokemon that packs a punch.", "Super Rare")
 
 );
 
 foreach ($pokemonCards as $card) {
-   // Check if the price is set
-   $price = isset($card[3]) ? $card[3] : null;
-   $name = mysqli_real_escape_string($conn, $card[0]);
-   $description = mysqli_real_escape_string($conn, $card[1]);
-   $rarity = mysqli_real_escape_string($conn, $card[2]);
-
-   // Prepare SQL statement
-   $sql = "INSERT INTO trading_card (name, description, rarity, price) VALUES ('$name', '$description', '$rarity', '$price')";
+   $sql = "INSERT INTO trading_card (name, description, rarity) VALUES ('" . $card[0] . "', '" . $card[1] . "', '" . $card[2] . "')";
    runQuery($sql, "Pokemon card inserted: " . $card[0], false);
 }
 
@@ -91,7 +81,7 @@ foreach ($pokemonCards as $card) {
     num_owned INT(11),
     user_id INT(11) UNSIGNED,
     card_id INT(11) UNSIGNED,
-    FOREIGN KEY (user_id) REFERENCES tgc_user(id),
+    FOREIGN KEY (user_id) REFERENCES tcg_user(id),
     FOREIGN KEY (card_id) REFERENCES trading_card(id)
   )";
   runQuery($sql, "Creating user_card table", false);
@@ -104,14 +94,15 @@ foreach ($pokemonCards as $card) {
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     sending_user_id INT(11) UNSIGNED,
     receiving_user_id INT(11) UNSIGNED,
-    FOREIGN KEY (sending_user_id) REFERENCES tgc_user(id),
-    FOREIGN KEY (receiving_user_id) REFERENCES tgc_user(id)
+    FOREIGN KEY (sending_user_id) REFERENCES tcg_user(id),
+    FOREIGN KEY (receiving_user_id) REFERENCES tcg_user(id)
     )";
    runQuery($sql, "Creating user_message table", false);
 
    // Create Table: listed_card
    $sql = "CREATE TABLE IF NOT EXISTS listed_card (
     id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    price INT(11),
     user_card_id INT(11) UNSIGNED,
     trading_card_id INT(11) UNSIGNED,
     FOREIGN KEY (trading_card_id) REFERENCES trading_card(id),
