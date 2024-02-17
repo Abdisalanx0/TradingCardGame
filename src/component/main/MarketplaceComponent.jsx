@@ -1,9 +1,33 @@
-import React, { useContext } from 'react'
-import MarketplaceContext from '../../context/MarketplaceContext'
-import '../../css/main/MarketplaceComponent.css'
+import React, { useContext, useEffect } from 'react';
+import MarketplaceContext from '../../context/MarketplaceContext';
+import '../../css/main/MarketplaceComponent.css';
 
 const MarketplaceComponent = () => {
-  const { listedItems, setListedItemsSort, listedItemPriceFilter, setListedItemPriceFilter, listedItemNameFilter, setListedItemNameFilter } = useContext(MarketplaceContext)
+  // Assuming MarketplaceContext provides functions to set and get listed items among other things
+  const { listedItems, setListedItems, setListedItemsSort, listedItemPriceFilter, setListedItemPriceFilter, listedItemNameFilter, setListedItemNameFilter } = useContext(MarketplaceContext);
+
+  useEffect(() => {//https://legacy.reactjs.org/docs/hooks-effect.html
+    // Fetch the listed items from the PHP backend
+    fetch('http://localhost/php/cardDisplay.php')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Update the listedItems state with the fetched data
+        console.log(data);
+        setListedItems(data);
+      })
+      .catch(error => {
+        console.error('There was an error fetching the listed items:', error);
+      });
+  }, [setListedItems]); // The dependency array ensures this effect runs only when setListedItems function changes
+
+  // Rest of your component code remains the same...
+
+
 
   let isAtLeastOneCardVisible = false
 
@@ -45,7 +69,8 @@ const MarketplaceComponent = () => {
           <figure className='listed-item-figure'>
             <p className='listed-item-rarity-p'>{ item.rarity }</p>
 
-            <img className='listed-item-thumbnail' src={ item.thumbnail }></img>
+            <img className='listed-item-thumbnail' src={`/public/graphics/${item.image}`}
+></img>
 
             <figcaption className='listed-item-name-figcaption'>{ item.name }</figcaption>
 
@@ -56,7 +81,7 @@ const MarketplaceComponent = () => {
             <label className='listed-item-purchase-button-label'>
               <input id={ `${item.id}-purchase-button` } className='listed-item-purchase-button' type='button' value='Purchase' onClick={ handlePurchaseOnClick }></input>
 
-              ${ item.price }
+           
             </label>
           </form>
         </li> 
