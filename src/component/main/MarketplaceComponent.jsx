@@ -80,7 +80,7 @@ const MarketplaceComponent = () => {
           <form className='listed-item-purchase-form'>
             <label className='listed-item-purchase-button-label'>
               <input id={ `${item.id}-purchase-button` } className='listed-item-purchase-button' type='button' value='Purchase' onClick={ handlePurchaseOnClick }></input>
-
+              
            
             </label>
           </form>
