@@ -1,38 +1,62 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import MarketplaceContext from '../../context/MarketplaceContext';
 import '../../css/main/MarketplaceComponent.css';
+import CheckoutContext from '../../context/CheckoutContext';
 
 const MarketplaceComponent = () => {
   // Assuming MarketplaceContext provides functions to set and get listed items among other things
-  const { listedItems, setListedItems, setListedItemsSort, listedItemPriceFilter, setListedItemPriceFilter, listedItemNameFilter, setListedItemNameFilter } = useContext(MarketplaceContext);
-
-  useEffect(() => {//https://legacy.reactjs.org/docs/hooks-effect.html
-    // Fetch the listed items from the PHP backend
-    fetch('http://localhost/php/cardDisplay.php')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        // Update the listedItems state with the fetched data
-        console.log(data);
-        setListedItems(data);
-      })
-      .catch(error => {
-        console.error('There was an error fetching the listed items:', error);
-      });
-  }, [setListedItems]); // The dependency array ensures this effect runs only when setListedItems function changes
-
-  // Rest of your component code remains the same...
-
-
+  const { listedItems, setListedItemsSort, listedItemPriceFilter, setListedItemPriceFilter, listedItemNameFilter, setListedItemNameFilter } = useContext(MarketplaceContext);
+  const { cart, setCart } = useContext(CheckoutContext)
 
   let isAtLeastOneCardVisible = false
 
-  const handlePurchaseOnClick = (e) => {
+  const handleAddToCartOnClick = (e) => {
+    const delimiterIndex = e.target.id.indexOf('-add-to-cart-button')
+    const itemId = e.target.id.substring(0, delimiterIndex)
 
+    if(e.target.value === 'Add to Cart') {
+      setCart((oldCart) => {
+        const newCart = { 
+          items: [...oldCart.items], 
+          count: oldCart.count,
+          totalPrice: oldCart.totalPrice
+        }
+  
+        for(let item of listedItems) {
+          if(item.id === itemId) {
+            newCart.items.push(item)
+  
+            newCart.count++
+            newCart.totalPrice += item.price
+  
+            break
+          }
+        }
+  
+        return newCart
+      })
+    }
+    else if(e.target.value === 'Remove from Cart') {
+      setCart((oldCart) => {
+        const newCart = { 
+          items: [], 
+          count: oldCart.count,
+          totalPrice: oldCart.totalPrice
+        }
+  
+        for(let i = 0; i < oldCart.items.length; i++) {
+          if(oldCart.items[i].id === itemId) {
+            newCart.count--
+            newCart.totalPrice -= oldCart.items[i].price
+          }
+          else {
+            newCart.items.push(oldCart.items[i])
+          }
+        }
+  
+        return newCart
+      })
+    }
   }
 
   const generateListedItem = (item) => {
@@ -69,19 +93,17 @@ const MarketplaceComponent = () => {
           <figure className='listed-item-figure'>
             <p className='listed-item-rarity-p'>{ item.rarity }</p>
 
-            <img className='listed-item-thumbnail' src={`/public/graphics/${item.image}`}
-></img>
+            <img className='listed-item-thumbnail' src={`/public/graphics/${item.image}`}></img>
 
             <figcaption className='listed-item-name-figcaption'>{ item.name }</figcaption>
 
             <p className='listed-item-description-p' title={ item.description }>{ item.description }</p>
           </figure>
 
-          <form className='listed-item-purchase-form'>
-            <label className='listed-item-purchase-button-label'>
-              <input id={ `${item.id}-purchase-button` } className='listed-item-purchase-button' type='button' value='Purchase' onClick={ handlePurchaseOnClick }></input>
-
-           
+          <form className='listed-item-add-to-cart-form'>
+            <label className='listed-item-add-to-cart-button-label'>
+              <p>{ item.price }</p>
+              <input id={ `${item.id}-add-to-cart-button` } className='listed-item-add-to-cart-button' type='button' value={ cart.items.some((cartItem) => cartItem.id === item.id) ? 'Remove from Cart' : 'Add to Cart' } onClick={ handleAddToCartOnClick }></input>
             </label>
           </form>
         </li> 

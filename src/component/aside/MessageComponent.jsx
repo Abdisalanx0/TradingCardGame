@@ -68,7 +68,7 @@ const MessageComponent = () => {
       <header id='message-box-header'>
         <h3 id='message-box-h3'>Messages</h3>
 
-        <img src={ isMessageBoxExpanded ? '/collapse-icon.svg' : '/expand-icon.svg' }></img>
+        <img src={ isMessageBoxExpanded ? '/icons/collapse-icon.svg' : '/icons/expand-icon.svg' }></img>
 
         <input id='message-box-toggle-expand-button' type='button' value={ isMessageBoxExpanded ? 'Collapse' : 'Expand' } onClick={ handleToggleExpandOnClick }></input>
       </header>

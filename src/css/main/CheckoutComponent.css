@@ -1,36 +1,23 @@
-#inv-filter-and-sort-form {
+#checkout-form {
   height: 10vh;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 10px;
   border-bottom: 1px solid;
 }
 
-#inv-price-filter-fieldset, #inv-sort-fieldset {
-  width: 25%;
-}
-
-#inv-name-filter-input {
-  width: 15em;
-  border: 1px solid;
-}
-
-#inventory-items-section {
+#cart-items-section {
   height: 70vh;
   overflow-y: scroll;
 }
 
-#inventory-items-ul {
-  height: max-content;
+#cart-items-ul {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around; 
   list-style-type: none;
   padding: 0;
 }
 
-.inventory-item {
+.cart-item {
   width: 350px; 
   height: 450px; 
   margin: 20px;
@@ -43,40 +30,27 @@
   overflow: hidden; 
 }
 
-.inventory-item-figure {
+.cart-item-figure {
   width: 100%;
   height: 50%; 
   margin: 0;
   background-color: transparent;
 }
 
-.inventory-item-rarity-p {
-  border-bottom: 1px solid;
-}
-
-.inventory-item-thumbnail {
+.cart-item-thumbnail {
   width: 100%;
   height: 100%;
   object-fit: contain;  
 }
 
-.inventory-item-name-figcaption, .inventory-item-description-p, .inventory-item-rarity-p {
+.cart-item-name-figcaption, .cart-item-description-p, .cart-item-rarity-p {
   padding: 5px 10px; 
   background-color: transparent;
+  
 }
 
-.inventory-item-name-figcaption {
-  font-size: 1.2em; 
-  font-weight: bold; 
-  border-bottom: 1px solid #eeeeee; 
-}
-
-.inventory-item-description-p, .inventory-item-rarity-p {
-  font-size: 0.9em; 
-}
-
-.inventory-item-rarity-p {
-  padding: 5px 10px;
+.cart-item-rarity-p{
+    padding: 5px 10px;
     background-color: transparent;
     color: black;
     font-weight: bold; /* Make the font bolder */
@@ -85,4 +59,33 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow for a slight 3D effect */
     border-radius: 4px; /* Slightly rounded corners for a softer look */
     margin: 8px; /* Add some margin around these elements for better spacing */
+}
+.cart-item-name-figcaption {
+  font-size: 1.2em; 
+  font-weight: bold; 
+  border-bottom: 1px solid #eeeeee; 
+}
+
+.cart-item-description-p, .cart-item-rarity-p {
+  font-size: 0.9em; 
+}
+
+.cart-item-remove-from-cart-form {
+  margin-top: auto; 
+  padding: 10px; 
+  background-color: transparent;
+}
+
+.cart-item-remove-from-cart-button {
+  width: 100%;
+  padding: 10px 0; 
+  background-color: #007bff; 
+  color: white; 
+  border: none; 
+  border-radius: 5px; 
+  cursor: pointer; 
+}
+
+.cart-item-remove-from-cart-button:hover {
+  background-color: #0056b3; 
 }

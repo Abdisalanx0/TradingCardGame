@@ -35,10 +35,10 @@
   width: 350px; 
   height: 450px; 
   margin: 20px;
-  border: 5px solid #dddddd; 
+  border-width: 5px;
+  border-style: solid; 
   border-radius: 10px; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-  background-color: transparent;
   display: flex;
   flex-direction: column; 
   overflow: hidden; 
@@ -85,13 +85,13 @@
   font-size: 0.9em; 
 }
 
-.listed-item-purchase-form {
+.listed-item-add-to-cart-form {
   margin-top: auto; 
   padding: 10px; 
   background-color: transparent;
 }
 
-.listed-item-purchase-button {
+.listed-item-add-to-cart-button {
   width: 100%;
   padding: 10px 0; 
   background-color: #007bff; 
@@ -101,35 +101,6 @@
   cursor: pointer; 
 }
 
-.listed-item-purchase-button:hover {
+.listed-item-add-to-cart-button:hover {
   background-color: #0056b3; 
 }
-
-
-.Common-item {background-color: transparent; border-color: #CBCBCB;
-  .listed-item-rarity-p{
-    color:  #CBCBCB;
- } 
-}
-
-.Uncommon-item {background-color: transparent; border-color: lightgreen; 
-  .listed-item-rarity-p{
-    color:  lightgreen;
- }
-}
-
-.Rare-item {background-color: transparent;border-color: #4178BE; 
-  .listed-item-rarity-p{
-    color: #4178BE;
- }
-}
-
-.Super-Rare-item { background-color: transparent;border-color: #E6C200; 
-  .listed-item-rarity-p{
-   color: #E6C200;
- }
-}
-
-
-
-
