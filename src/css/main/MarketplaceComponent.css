@@ -1,3 +1,4 @@
+/*https://heatherketten.wordpress.com/2018/03/27/css-fake-pokemon-cards/*/
 #mp-filter-and-sort-form {
   height: 10vh;
   display: flex;
@@ -19,75 +20,116 @@
 #listed-items-section {
   height: 70vh;
   overflow-y: scroll;
+  background-color: transparent;
 }
 
 #listed-items-ul {
-  height: max-content;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around; 
   list-style-type: none;
   padding: 0;
 }
 
 .listed-item {
-  width: 200px;
-  height: min-content;
-  margin: 10px;
-  border: 10px solid;
-  border-radius: 10px;
+  width: 350px; 
+  height: 450px; 
+  margin: 20px;
+  border: 5px solid #dddddd; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  background-color: transparent;
+  display: flex;
+  flex-direction: column; 
+  overflow: hidden; 
 }
 
 .listed-item-figure {
   width: 100%;
+  height: 50%; 
   margin: 0;
-}
-
-.listed-item-rarity-p {
-  border-bottom: 1px solid;
+  background-color: transparent;
 }
 
 .listed-item-thumbnail {
   width: 100%;
+  height: 100%;
+  object-fit: contain;  
 }
 
+.listed-item-name-figcaption, .listed-item-description-p, .listed-item-rarity-p {
+  padding: 5px 10px; 
+  background-color: transparent;
+  
+}
+
+.listed-item-rarity-p{
+    padding: 5px 10px;
+    background-color: transparent;
+    color: black;
+    font-weight: bold; /* Make the font bolder */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Add a subtle text shadow for depth */
+    border: 1px solid #e0e0e0; /* Add a subtle border for definition */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow for a slight 3D effect */
+    border-radius: 4px; /* Slightly rounded corners for a softer look */
+    margin: 8px; /* Add some margin around these elements for better spacing */
+
+}
 .listed-item-name-figcaption {
-  height: 2em;
+  font-size: 1.2em; 
+  font-weight: bold; 
+  border-bottom: 1px solid #eeeeee; 
 }
 
-.listed-item-description-p {
-  height: 3em;
-  border-top: 1px solid;
-  border-bottom: 1px solid;
+.listed-item-description-p, .listed-item-rarity-p {
+  font-size: 0.9em; 
 }
 
 .listed-item-purchase-form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 5px;
-  border: 1px solid;
-}
-
-.listed-item-purchase-button-label {
-  width: 100%;
+  margin-top: auto; 
+  padding: 10px; 
+  background-color: transparent;
 }
 
 .listed-item-purchase-button {
-  border: none;
+  width: 100%;
+  padding: 10px 0; 
+  background-color: #007bff; 
+  color: white; 
+  border: none; 
+  border-radius: 5px; 
+  cursor: pointer; 
 }
 
-.common-item {
-  background-color: gray;
-  border-color: lightgray;
+.listed-item-purchase-button:hover {
+  background-color: #0056b3; 
 }
 
-.uncommon-item {
-  background-color: green;
-  border-color: lightgreen;
+
+.Common-item {background-color: transparent; border-color: #CBCBCB;
+  .listed-item-rarity-p{
+    color:  #CBCBCB;
+ } 
 }
 
-.rare-item {
-  background-color: cornflowerblue;
-  border-color: lightblue;
+.Uncommon-item {background-color: transparent; border-color: lightgreen; 
+  .listed-item-rarity-p{
+    color:  lightgreen;
+ }
 }
+
+.Rare-item {background-color: transparent;border-color: #4178BE; 
+  .listed-item-rarity-p{
+    color: #4178BE;
+ }
+}
+
+.Super-Rare-item { background-color: transparent;border-color: #E6C200; 
+  .listed-item-rarity-p{
+   color: #E6C200;
+ }
+}
+
+
+
+
