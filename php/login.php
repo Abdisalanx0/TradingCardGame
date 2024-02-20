@@ -16,7 +16,7 @@ header('Content-Type: application/json'); // Sets the content type of the respon
 $servername = "localhost";
 $username = "root";
 $password = "1384";
-$dbname = "tcg";
+$dbname = "tradingCardDB";
 
 // Establishing a connection to the MySQL database.
 $conn = new mysqli($servername, $username, $password, $dbname);
