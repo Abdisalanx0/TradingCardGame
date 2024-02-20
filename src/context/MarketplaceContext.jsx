@@ -18,11 +18,12 @@ export const MarketplaceProvider = ({ children }) => {
   useEffect(() => {
     const fetchListedCardItems = async () => {
       try {
-        const response = await fetch('./src/context/listedCards.json')
+        const response = await fetch('http://localhost/php/cardDisplay.php')
   
         if(response.ok) {
           const data = await response.json()
     
+          // remove sortCardItems when server is setup to return pre-sorted cards
           setListedItems(sortCardItems(data, listedItemsSort))
         }
       }

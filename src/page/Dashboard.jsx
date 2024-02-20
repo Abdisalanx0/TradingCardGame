@@ -3,6 +3,7 @@ import HeaderComponent from '../component/header/HeaderComponent'
 import HeaderContext from '../context/HeaderContext'
 import MarketplaceComponent from '../component/main/MarketplaceComponent'
 import InventoryComponent from '../component/main/InventoryComponent'
+import CheckoutComponent from '../component/main/CheckoutComponent'
 import FooterComponent from '../component/footer/FooterComponent'
 import MessageComponent from '../component/aside/MessageComponent'
 import '../css/page/Dashboard.css'
@@ -17,6 +18,9 @@ const Dashboard = () => {
 
       case 'inventory':
         return <InventoryComponent></InventoryComponent>
+
+      case 'checkout':
+        return <CheckoutComponent></CheckoutComponent>
     }
   }
 
