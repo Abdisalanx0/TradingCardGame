@@ -2,19 +2,32 @@
 #mp-filter-and-sort-form {
   height: 10vh;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 10px;
   border-bottom: 1px solid;
 }
 
-#mp-price-filter-fieldset, #mp-sort-fieldset {
-  width: 25%;
+#mp-price-filter-fieldset {
+  width: 41%;
+}
+
+#mp-name-filter-fieldset {
+  width: 18%;
 }
 
 #mp-name-filter-input {
-  width: 15em;
   border: 1px solid;
+  border-radius: 5px;
+}
+
+#mp-sort-fieldset {
+  width: 30%;
+}
+
+#mp-page-selection-fieldset {
+  width: 10%;
+  display: flex;
+  justify-content: center;
 }
 
 #listed-items-section {
