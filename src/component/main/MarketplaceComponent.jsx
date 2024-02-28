@@ -93,7 +93,7 @@ const MarketplaceComponent = () => {
           <figure className='listed-item-figure'>
             <p className='listed-item-rarity-p'>{ item.rarity }</p>
 
-            <img className='listed-item-thumbnail' src={`/public/graphics/${item.image}`}></img>
+            <img className='listed-item-thumbnail' src={`/graphics/${item.image}`}></img>
 
             <figcaption className='listed-item-name-figcaption'>{ item.name }</figcaption>
 
@@ -128,6 +128,12 @@ const MarketplaceComponent = () => {
 
   const handleNameFilterOnChange = (e) => {
     setListedItemNameFilter(e.target.value)
+  }
+
+  const handleNameFilterOnKeyDown = (e) => {
+    if(e.key === 'Enter') {
+      e.preventDefault()
+    }
   }
 
   const handleSortButtonOnClick = (e) => {
@@ -203,7 +209,7 @@ const MarketplaceComponent = () => {
         <fieldset id='mp-name-filter-fieldset' className='mp-filter-and-sort-fieldset'>
           <legend hidden>Name Filter</legend>
 
-          <input id='mp-name-filter-input' placeholder='search by card name' value={ listedItemNameFilter } onChange={ handleNameFilterOnChange }></input>
+          <input id='mp-name-filter-input' placeholder='search by card name' value={ listedItemNameFilter } onChange={ handleNameFilterOnChange } onKeyDown={ handleNameFilterOnKeyDown }></input>
         </fieldset>
 
         <fieldset id='mp-sort-fieldset' className='mp-filter-and-sort-fieldset'>
@@ -214,6 +220,26 @@ const MarketplaceComponent = () => {
           <input type='button' value='Price' onClick={ handleSortButtonOnClick }></input>
 
           <input type='button' value='Rarity' onClick={ handleSortButtonOnClick }></input>
+        </fieldset>
+
+        <fieldset id='mp-page-selection-fieldset'>
+          <legend>Page</legend>
+
+          <div className='overlayed-button-container'>
+            {/* src: /icons/arrow-back.svg */}
+            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z"/></svg>
+
+            <input className='pagination-button overlayed-button' type='button' value='Previous'></input>
+          </div>
+
+          <p>1 of 1</p>
+
+          <div className='overlayed-button-container'>
+            {/* src: /icons/arrow-forward.svg */}
+            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/></svg>
+
+            <input className='pagination-button overlayed-button' type='button' value='Next'></input>
+          </div>
         </fieldset>
       </form>
 

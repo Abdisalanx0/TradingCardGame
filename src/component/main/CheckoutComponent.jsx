@@ -55,11 +55,18 @@ const CheckoutComponent = () => {
   return (
     <>
       <form id='checkout-form'>
-        <fieldset id='checkout-fieldset'>
-          <legend hidden>Checkout Confirmation</legend>
+        { 
+          cart.count ? 
+            <fieldset id='checkout-fieldset'>
+              <legend hidden>Checkout Confirmation</legend>
 
-          <p>Cart Total: ${ cart.totalPrice }</p>
-        </fieldset>
+              <p>Cart Total: ${ cart.totalPrice }</p>
+
+              <input id='checkout-button' type='button' value='Checkout'></input>
+            </fieldset>
+          :
+            null
+        }
       </form>
 
       <section id='cart-items-section'>
