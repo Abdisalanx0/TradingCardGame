@@ -3,8 +3,6 @@
   include 'dbConnection.php';
   include 'sqlHelpers.php';
 
-  session_start();
-
   $conn = new mysqli(SERVER_NAME, DBF_USER_NAME, DBF_PASSWORD, DATABASE_NAME);
 
   if ($conn -> connect_errno > 0) {
