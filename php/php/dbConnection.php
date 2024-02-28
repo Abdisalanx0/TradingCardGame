@@ -1,7 +1,7 @@
 <?php
   /*
     This file contains the database connectin information.
-    Uncomment your local database's information and comment out the other member's information.
+    Uncomment your local database's information and comment out the other members' information.
 
     Include these variables in other PHP files by simply including the line:
       include 'dbConnection.php';  
