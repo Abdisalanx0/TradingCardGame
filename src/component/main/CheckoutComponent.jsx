@@ -7,7 +7,7 @@ const CheckoutComponent = () => {
 
   const handleRemoveFromCartOnClick = (e) => {
     const delimiterIndex = e.target.id.indexOf('-remove-from-cart-button')
-    const itemId = e.target.id.substring(0, delimiterIndex)
+    const itemId = Number(e.target.id.substring(0, delimiterIndex))
 
     setCart((oldCart) => {
       const newCart = { 
@@ -36,7 +36,7 @@ const CheckoutComponent = () => {
         <figure className='cart-item-figure'>
           <p className='cart-item-rarity-p'>{ item.rarity }</p>
 
-          <img className='cart-item-thumbnail' src={`/public/graphics/${item.image}`}></img>
+          <img className='cart-item-thumbnail' src={`/graphics/${item.image}`}></img>
 
           <figcaption className='cart-item-name-figcaption'>{ item.name }</figcaption>
 
