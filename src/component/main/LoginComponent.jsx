@@ -9,7 +9,6 @@ const LoginComponent = () => {
   const { username, setUsername, password, setPassword} = useContext(AuthContext)
   const { setCurrentTab } = useContext(HeaderContext)
   const [serverMessage, setServerMessage] = useState("")
-
   const navigate = useNavigate()
 
   const handleUsernameOnChange = (e) => {
@@ -47,8 +46,8 @@ const LoginComponent = () => {
             // If registration is successful and a message is received.
             if (response.success && response.message) {
                 setServerMessage(response.message) // Sets the message to be displayed.
-
-                // Optionally, navigate to login page or directly log the user in.
+                sessionStorage.setItem("username", username);
+               
                 navigate('/') // Navigate to the login page after registration.
             } else {
                 // If registration fails, set an error message.

@@ -111,7 +111,7 @@
     $returningFields = substr($sql, $returnFieldsStartIndex, $returnFieldsCharacterLength);
 
     // initialize a variable for the returning fields
-    $bindResults;
+    $bindResults = null;
 
     // if fields selected by wildcard
     if($returningFields == '*') {

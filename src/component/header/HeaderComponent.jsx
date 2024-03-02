@@ -9,7 +9,7 @@ const HeaderComponent = () => {
   const { username, userSettings, setUserSettings } = useContext(AuthContext)
   const { currentTab, setCurrentTab } = useContext(HeaderContext)
   const { cart } = useContext(CheckoutContext)
-
+  
   const navigate = useNavigate()
 
   const handleNavigationButtonOnClick = (e) => {
@@ -37,7 +37,7 @@ const HeaderComponent = () => {
 
   const handleLogoutOnClick = async (e) => {
     navigate('/')
-
+    sessionStorage.removeItem("username");
     location.reload()
   }
 
@@ -68,7 +68,7 @@ const HeaderComponent = () => {
         </section>
 
         <details id='user-dropdown'>
-          <summary id='user-dropdown-summary'>Welcome, { username }</summary>
+          <summary id='user-dropdown-summary'>Welcome,{sessionStorage.getItem("username")}</summary>
 
           <input id='color-mode-button' type='button' value={ userSettings.isDarkMode ? 'Light Mode' : 'Dark Mode' } onClick={ handleColorModeButtonOnClick }></input>
 

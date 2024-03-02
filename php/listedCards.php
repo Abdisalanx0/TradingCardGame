@@ -71,8 +71,8 @@
           
           $sortOrientationMultiplier = $sortOrientation === 'asc' ? 1 : -1;
 
-          $aNumeric;
-          $bNumeric;
+          $aNumeric =0;
+          $bNumeric = 0;
 
           switch($aValue) {
             case 'Super-Rare':
