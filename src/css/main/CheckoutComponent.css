@@ -1,42 +1,35 @@
-/*https://heatherketten.wordpress.com/2018/03/27/css-fake-pokemon-cards/*/
-#mp-filter-and-sort-form {
+#checkout-form {
   height: 10vh;
-  display: flex;
-  align-items: center;
   padding: 10px;
   border-bottom: 1px solid;
 }
 
-#mp-price-filter-fieldset {
-  width: 41%;
-}
-
-#mp-name-filter-fieldset {
-  width: 18%;
-}
-
-#mp-name-filter-input {
-  border: 1px solid;
-  border-radius: 5px;
-}
-
-#mp-sort-fieldset {
-  width: 30%;
-}
-
-#mp-page-selection-fieldset {
-  width: 10%;
+#checkout-fieldset {
+  height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-#listed-items-section {
+#checkout-button {
+  margin-left: 10px;
+  padding: 10px; 
+  background-color: #007bff; 
+  color: white; 
+  border: none; 
+  border-radius: 5px; 
+}
+
+#checkout-button:hover {
+  background-color: #0056b3; 
+}
+
+#cart-items-section {
   height: 70vh;
   overflow-y: scroll;
-  background-color: transparent;
 }
 
-#listed-items-ul {
+#cart-items-ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around; 
@@ -44,7 +37,7 @@
   padding: 0;
 }
 
-.listed-item {
+.cart-item {
   width: 350px; 
   height: 450px; 
   margin: 20px;
@@ -57,26 +50,26 @@
   overflow: hidden; 
 }
 
-.listed-item-figure {
+.cart-item-figure {
   width: 100%;
   height: 50%; 
   margin: 0;
   background-color: transparent;
 }
 
-.listed-item-thumbnail {
+.cart-item-thumbnail {
   width: 100%;
   height: 100%;
   object-fit: contain;  
 }
 
-.listed-item-name-figcaption, .listed-item-description-p, .listed-item-rarity-p {
+.cart-item-name-figcaption, .cart-item-description-p, .cart-item-rarity-p {
   padding: 5px 10px; 
   background-color: transparent;
   
 }
 
-.listed-item-rarity-p{
+.cart-item-rarity-p{
     padding: 5px 10px;
     background-color: transparent;
     color: black;
@@ -86,44 +79,33 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow for a slight 3D effect */
     border-radius: 4px; /* Slightly rounded corners for a softer look */
     margin: 8px; /* Add some margin around these elements for better spacing */
-
 }
-
-.listed-item-name-figcaption {
+.cart-item-name-figcaption {
   font-size: 1.2em; 
   font-weight: bold; 
   border-bottom: 1px solid #eeeeee; 
 }
 
-.listed-item-description-p, .listed-item-rarity-p {
+.cart-item-description-p, .cart-item-rarity-p {
   font-size: 0.9em; 
 }
 
-.listed-item-add-to-cart-form {
+.cart-item-remove-from-cart-form {
   margin-top: auto; 
   padding: 10px; 
   background-color: transparent;
 }
 
-.listed-item-add-to-cart-button-label {
-  display: flex;
-  flex-direction: column;
+.cart-item-remove-from-cart-button {
+  width: 100%;
+  padding: 10px 0; 
   background-color: #007bff; 
   color: white; 
-  border-radius: 5px;
-  overflow: hidden;
+  border: none; 
+  border-radius: 5px; 
+  cursor: pointer; 
 }
 
-.listed-item-add-to-cart-button-label:hover {
+.cart-item-remove-from-cart-button:hover {
   background-color: #0056b3; 
-}
-
-.listed-item-add-to-cart-button {
-  width: 100%;
-  background-color: inherit; 
-  border: none;
-}
-
-.listed-item-price {
-  background-color: inherit;
 }

@@ -143,7 +143,7 @@ const LoginComponent = () => {
           {/* button inputs do not require labels */}
 
           {/* register button */}
-          <input id='register-button' type='submit' value='Register' onClick={ handleRegisterOnClick }></input>
+          <input id='register-button' type='button' value='Register' onClick={ handleRegisterOnClick }></input>
 
           {/* login button */}
           <input id='login-button' type='submit' value='Login' onClick={ handleLoginOnClick }></input>

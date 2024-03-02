@@ -1,29 +1,57 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import CardContext from './CardContext'
+import React, { createContext, useEffect, useState } from 'react'
 
 const MarketplaceContext = createContext()
 
 export const MarketplaceProvider = ({ children }) => {
-  const [listedItems, setListedItems] = useState([])
+  const [listedItems, setListedItems] = useState({ items: [] })
   const [listedItemsSort, setListedItemsSort] = useState('name asc')
-  const [listedItemPriceFilter, setListedItemPriceFilter] = useState('')
-  const [listedItemNameFilter, setListedItemNameFilter] = useState('')
-
-  const { sortCardItems } = useContext(CardContext)
-
-  useEffect(() => {
-    setListedItems(sortCardItems(listedItems, listedItemsSort))
-  }, [listedItemsSort])
+  const [listedItemsPriceFilter, setListedItemsPriceFilter] = useState('')
+  const [listedItemsNameFilter, setListedItemsNameFilter] = useState('')
+  const [listedItemsCurrentPage, setListedItemsCurrentPage] = useState(1);
 
   useEffect(() => {
-    const fetchListedCardItems = async () => {
+    const fetchSortedListedCardItems = async () => {
       try {
-        const response = await fetch('./src/context/listedCards.json')
+        const response = await fetch('http://localhost/php/listedCards.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ listedItemsSort, listedItemsPriceFilter, listedItemsNameFilter, listedItemsCurrentPage })
+        })
   
         if(response.ok) {
           const data = await response.json()
     
-          setListedItems(sortCardItems(data, listedItemsSort))
+          setListedItems(data)
+
+          setListedItemsCurrentPage((oldCurrentPage) => {
+            if(oldCurrentPage > data.totalPages) {
+              return 1
+            }
+            else {
+              return oldCurrentPage
+            }
+          })
+        }
+      }
+      catch(err) {
+        console.log(err.message)
+      }
+    }
+
+    fetchSortedListedCardItems()
+  }, [listedItemsSort, listedItemsPriceFilter, listedItemsNameFilter, listedItemsCurrentPage])
+
+  useEffect(() => {
+    const fetchListedCardItems = async () => {
+      try {
+        const response = await fetch('http://localhost/php/listedCards.php')
+  
+        if(response.ok) {
+          const data = await response.json()
+    
+          setListedItems(data)
         }
       }
       catch(err) {
@@ -35,7 +63,7 @@ export const MarketplaceProvider = ({ children }) => {
   }, [])
 
   return (
-    <MarketplaceContext.Provider value={ { listedItems, setListedItems, listedItemsSort, setListedItemsSort, listedItemPriceFilter, setListedItemPriceFilter, listedItemNameFilter, setListedItemNameFilter } }>{ children }</MarketplaceContext.Provider>
+    <MarketplaceContext.Provider value={ { listedItems, setListedItems, listedItemsSort, setListedItemsSort, listedItemsPriceFilter, setListedItemsPriceFilter, listedItemsNameFilter, setListedItemsNameFilter, listedItemsCurrentPage, setListedItemsCurrentPage } }>{ children }</MarketplaceContext.Provider>
   )
 }
 
