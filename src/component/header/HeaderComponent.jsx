@@ -27,13 +27,21 @@ const HeaderComponent = () => {
 
   const handleColorModeButtonOnClick = (e) => {
     setUserSettings((oldSettings) => {
-      const newSettings = { ...oldSettings }
-
-      newSettings.isDarkMode = !newSettings.isDarkMode
-
-      return newSettings
-    })
-  }
+      const newSettings = { ...oldSettings };
+      const logo = document.getElementById('page-logo');
+      
+      if (newSettings.isDarkMode) {
+        logo.src = 'public/icons/logo.png'; 
+      } else {
+        logo.src = 'public/icons/light-logo.png'; 
+      }
+      
+      newSettings.isDarkMode = !newSettings.isDarkMode;
+      
+      return newSettings;
+    });
+  };
+  
 
   const handleLogoutOnClick = async (e) => {
     navigate('/')
