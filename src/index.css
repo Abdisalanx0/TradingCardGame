@@ -80,6 +80,7 @@ input::placeholder, :disabled {
 }
 
 .dark-mode {
+  --page-logo: url('public/icons/light-logo.png');
   background-color: rgb(43, 43, 43);
   color: whitesmoke;
 }

@@ -69,3 +69,11 @@
 #color-mode-button {
   margin-right: 5px;
 }
+#page-logo{
+ 
+    width: 170px; /* Adjust the width as needed */
+    height: auto; /* This will maintain the aspect ratio */
+    margin-right: 1200px; /* Adjust the margin as needed */
+  
+  
+}

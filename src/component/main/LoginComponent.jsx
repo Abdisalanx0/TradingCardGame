@@ -46,8 +46,7 @@ const LoginComponent = () => {
             // If registration is successful and a message is received.
             if (response.success && response.message) {
                 setServerMessage(response.message) // Sets the message to be displayed.
-                sessionStorage.setItem("username", username);
-               
+                
                 navigate('/') // Navigate to the login page after registration.
             } else {
                 // If registration fails, set an error message.
@@ -93,7 +92,7 @@ const LoginComponent = () => {
             // If login is successful and a message is received.
             if (response.success && response.message) {
                 setServerMessage(response.message) // Sets the message to be displayed.
-
+                sessionStorage.setItem("username", username);
                 // After a delay of 5 seconds, navigates to the dashboard.
                 setTimeout(function () {
                   setCurrentTab("marketplace") // Set the current tab to 'marketPlace'.

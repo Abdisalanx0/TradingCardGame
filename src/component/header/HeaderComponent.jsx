@@ -37,13 +37,13 @@ const HeaderComponent = () => {
 
   const handleLogoutOnClick = async (e) => {
     navigate('/')
-    sessionStorage.removeItem("username");
     location.reload()
+    
   }
 
   return (
     <header id='page-header'>
-      <h1 id='page-h1'>Trading Card Game</h1>
+      <img src="public\icons\logo.png" alt="Trading Card Game Logo" id="page-logo"></img>
 
       <nav id='navigation-container'>
         {/* marketplace tab */}
