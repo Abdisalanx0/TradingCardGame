@@ -13,7 +13,10 @@ const HeaderComponent = () => {
   const navigate = useNavigate()
 
   const handleNavigationButtonOnClick = (e) => {
-    if(e.target.value === 'Marketplace') {
+    if(e.target.value === 'Home') {
+      setCurrentTab('Home')
+    }
+    else if(e.target.value === 'Marketplace') {
       setCurrentTab('marketplace')
     }
     else if(e.target.value === 'Inventory') {
@@ -46,6 +49,9 @@ const HeaderComponent = () => {
       <h1 id='page-h1'>Trading Card Game</h1>
 
       <nav id='navigation-container'>
+        {/* home tab */}
+        <input className={ (currentTab === 'home' ? 'current-tab-button ' : '') + 'navigation-button' } type='button' value='Home' onClick={ handleNavigationButtonOnClick }></input>
+
         {/* marketplace tab */}
         <input className={ (currentTab === 'marketplace' ? 'current-tab-button ' : '') + 'navigation-button' } type='button' value='Marketplace' onClick={ handleNavigationButtonOnClick }></input>
 
@@ -68,7 +74,7 @@ const HeaderComponent = () => {
         </section>
 
         <details id='user-dropdown'>
-          <summary id='user-dropdown-summary'>Welcome, { username }</summary>
+          <summary id='user-dropdown-summary'>{ `Welcome, ${username}` }</summary>
 
           <input id='color-mode-button' type='button' value={ userSettings.isDarkMode ? 'Light Mode' : 'Dark Mode' } onClick={ handleColorModeButtonOnClick }></input>
 
