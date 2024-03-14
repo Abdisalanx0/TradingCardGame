@@ -9,7 +9,7 @@ const HeaderComponent = () => {
   const { username, userSettings, setUserSettings } = useContext(AuthContext)
   const { currentTab, setCurrentTab } = useContext(HeaderContext)
   const { cart } = useContext(CheckoutContext)
-
+  
   const navigate = useNavigate()
 
   const handleNavigationButtonOnClick = (e) => {
@@ -27,23 +27,31 @@ const HeaderComponent = () => {
 
   const handleColorModeButtonOnClick = (e) => {
     setUserSettings((oldSettings) => {
-      const newSettings = { ...oldSettings }
-
-      newSettings.isDarkMode = !newSettings.isDarkMode
-
-      return newSettings
-    })
-  }
+      const newSettings = { ...oldSettings };
+      const logo = document.getElementById('page-logo');
+      
+      if (newSettings.isDarkMode) {
+        logo.src = 'public/icons/logo.png'; 
+      } else {
+        logo.src = 'public/icons/light-logo.png'; 
+      }
+      
+      newSettings.isDarkMode = !newSettings.isDarkMode;
+      
+      return newSettings;
+    });
+  };
+  
 
   const handleLogoutOnClick = async (e) => {
     navigate('/')
-
     location.reload()
+    
   }
 
   return (
     <header id='page-header'>
-      <h1 id='page-h1'>Trading Card Game</h1>
+      <img src="public\icons\logo.png" alt="Trading Card Game Logo" id="page-logo"></img>
 
       <nav id='navigation-container'>
         {/* marketplace tab */}
@@ -68,7 +76,7 @@ const HeaderComponent = () => {
         </section>
 
         <details id='user-dropdown'>
-          <summary id='user-dropdown-summary'>Welcome, { username }</summary>
+          <summary id='user-dropdown-summary'>Welcome,{sessionStorage.getItem("username")}</summary>
 
           <input id='color-mode-button' type='button' value={ userSettings.isDarkMode ? 'Light Mode' : 'Dark Mode' } onClick={ handleColorModeButtonOnClick }></input>
 

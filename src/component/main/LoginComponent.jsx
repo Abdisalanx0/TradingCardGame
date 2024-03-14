@@ -9,7 +9,6 @@ const LoginComponent = () => {
   const { username, setUsername, password, setPassword} = useContext(AuthContext)
   const { setCurrentTab } = useContext(HeaderContext)
   const [serverMessage, setServerMessage] = useState("")
-
   const navigate = useNavigate()
 
   const handleUsernameOnChange = (e) => {
@@ -47,8 +46,7 @@ const LoginComponent = () => {
             // If registration is successful and a message is received.
             if (response.success && response.message) {
                 setServerMessage(response.message) // Sets the message to be displayed.
-
-                // Optionally, navigate to login page or directly log the user in.
+                
                 navigate('/') // Navigate to the login page after registration.
             } else {
                 // If registration fails, set an error message.
@@ -94,7 +92,7 @@ const LoginComponent = () => {
             // If login is successful and a message is received.
             if (response.success && response.message) {
                 setServerMessage(response.message) // Sets the message to be displayed.
-
+                sessionStorage.setItem("username", username);
                 // After a delay of 5 seconds, navigates to the dashboard.
                 setTimeout(function () {
                   setCurrentTab("marketplace") // Set the current tab to 'marketPlace'.

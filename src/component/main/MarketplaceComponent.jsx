@@ -70,6 +70,7 @@ const MarketplaceComponent = () => {
           <p className='listed-item-description-p' title={ item.description }>{ item.description }</p>
         </figure>
 
+
         <form className='listed-item-add-to-cart-form'>
           <label className='listed-item-add-to-cart-button-label'>
             <p className='listed-item-price'>${ item.price }</p>
@@ -77,6 +78,7 @@ const MarketplaceComponent = () => {
           </label>
         </form>
       </li> 
+
     )
   }
 
