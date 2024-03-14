@@ -79,6 +79,10 @@ input::placeholder, :disabled {
   border: none;
 }
 
+.hidden-container {
+  display: none;
+}
+
 .dark-mode {
   background-color: rgb(43, 43, 43);
   color: whitesmoke;
