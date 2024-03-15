@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import HeaderComponent from '../component/header/HeaderComponent'
 import HeaderContext from '../context/HeaderContext'
+import PopupComponent from '../component/main/PopupComponent'
 import MarketplaceComponent from '../component/main/MarketplaceComponent'
 import InventoryComponent from '../component/main/InventoryComponent'
 import CheckoutComponent from '../component/main/CheckoutComponent'
@@ -29,9 +30,11 @@ const Dashboard = () => {
       <HeaderComponent></HeaderComponent>
 
       <main id='dashboard-main'>
-        { currentComponent() }
+        <PopupComponent></PopupComponent>
 
         <MessageComponent></MessageComponent>
+
+        { currentComponent() }
       </main>
 
 

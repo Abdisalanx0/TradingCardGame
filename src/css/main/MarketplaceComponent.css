@@ -1,5 +1,6 @@
 /*https://heatherketten.wordpress.com/2018/03/27/css-fake-pokemon-cards/*/
 #mp-filter-and-sort-form {
+  width: 100%;
   height: 10vh;
   display: flex;
   align-items: center;
