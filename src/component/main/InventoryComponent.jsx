@@ -1,10 +1,10 @@
-import React, { useContext } from "react"
+import React, { useContext,useState } from "react"
 import InventoryContext from "../../context/InventoryContext"
 import '../../css/main/InventoryComponent.css'
 
 const InventoryComponent = () => {
   const { inventoryItems, setInventoryItems, setInventoryItemsSort, inventoryItemNameFilter, setInventoryItemNameFilter } = useContext(InventoryContext)
-
+  
   let isAtLeastOneCardVisible = false
 
   const generateInventoryItem = (item) => {
@@ -20,17 +20,23 @@ const InventoryComponent = () => {
 
     return (
       isVisible ? 
-        <li key={ item.id } id={ `${item.id}-inventory-item` } className={ `${item.rarity}-item inventory-item` }>
-          <figure className='inventory-item-figure'>
-            <p className='inventory-item-rarity-p'>{ item.rarity }</p>
+        <li key={ item.id } id={ `${item.id}-listed-item` } className={ `${item.rarity}-item listed-item` }>
+        <figure className='listed-item-figure'>
+          <p className='listed-item-rarity-p'>{ item.rarity }</p>
 
-            <img className='inventory-item-thumbnail' src={ item.thumbnail }></img>
+          <img className='listed-item-thumbnail' src={`/graphics/${item.image}`}></img>
 
-            <figcaption className='inventory-item-name-figcaption'>{ item.name }</figcaption>
+          <figcaption className='listed-item-name-figcaption'>{ item.name }</figcaption>
 
-            <p className='inventory-item-description-p' title={ item.description }>{ item.description }</p>
-          </figure>
-        </li> 
+          <p className='listed-item-description-p' title={ item.description }>{ item.description }</p>
+        </figure>
+
+
+        <form className='listed-item-add-to-cart-form'>
+          <label className='listed-item-add-to-cart-button-label'>          
+          </label>
+        </form>
+      </li> 
       : null
     )
   }
