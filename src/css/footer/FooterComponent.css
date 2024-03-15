@@ -4,5 +4,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-top: 1px solid;
+  border-top: 1px solid #cccccc;
+  background: transparent;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  color: #333;
+  margin-top: 10px;
+  padding: 0 20px;
 }
+
