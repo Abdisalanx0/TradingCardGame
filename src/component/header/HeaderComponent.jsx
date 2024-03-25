@@ -82,7 +82,8 @@ const HeaderComponent = () => {
         </section>
 
         <details id='user-dropdown'>
-          <summary id='user-dropdown-summary'>{ `Welcome, ${sessionStorage.getItem("username")}` }</summary>
+
+          <summary id='user-dropdown-summary'>Welcome, {sessionStorage.getItem("username")}</summary>
 
           <input id='color-mode-button' type='button' value={ userSettings.isDarkMode ? 'Light Mode' : 'Dark Mode' } onClick={ handleColorModeButtonOnClick }></input>
 
