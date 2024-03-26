@@ -1,23 +1,46 @@
-import React, { createContext, useEffect } from "react";
+
+import React, { createContext, useState, useRef, useEffect } from 'react'
 
 const EventsContext = createContext();
 
 export const EventsProvider = ({ children }) => {
+  const [popupContent, setPopupContent] = useState({ text: '', type: '' })
+  const [popupConfirmationCallback, setPopupConfirmationCallback] = useState(null)
+  const popup = useRef(null)
+  const popupOverlay = useRef(null)
+
   useEffect(() => {
-    window.addEventListener("mouseover", (e) => {
-      if (e.target.classList.contains("navigation-button")) {
-        e.target.classList.add("pointed-navigation-button");
+    const clickEventCallback = (e) => {
+      // if target is the popup overlay
+      if(!e.target === popupOverlay?.current) {
+        // close popup containers
+        popup.current.classList.add('hidden-container')
+        popupOverlay.current.classList.add('hidden-container')
       }
-    });
+    }
 
-    window.addEventListener("mouseout", (e) => {
-      if (e.target.classList.contains("navigation-button")) {
-        e.target.classList.remove("pointed-navigation-button");
+    const mouseOverEventCallback = (e) => {
+      if(e.target.classList.contains('navigation-button')) {
+        e.target.classList.add('pointed-navigation-button')
       }
-    });
-  }, []);
+    }
 
-  return <EventsContext.Provider value={{}}>{children}</EventsContext.Provider>;
-};
+    const mouseOutEventCallback = (e) => {
+      if(e.target.classList.contains('navigation-button')) {
+        e.target.classList.remove('pointed-navigation-button')
+      }
+    }
+
+    // add event callbacks to listeners
+    window.addEventListener('click', clickEventCallback)
+    window.addEventListener('mouseover', mouseOverEventCallback)
+    window.addEventListener('mouseout', mouseOutEventCallback)
+  }, [])
+
+  return (
+    <EventsContext.Provider value={ { popupContent, setPopupContent, popupConfirmationCallback, setPopupConfirmationCallback, popup, popupOverlay } }>{ children }</EventsContext.Provider>
+  )
+}
+
 
 export default EventsContext;
