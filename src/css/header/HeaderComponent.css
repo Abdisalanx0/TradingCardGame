@@ -6,7 +6,7 @@
   align-items: center;
   border-bottom: 1px solid #e0e0e0;
   background-color: transparent;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 #navigation-container {
@@ -25,11 +25,10 @@
   border: none;
 }
 
-.pointed-navigation-button, .current-tab-button {
+.pointed-navigation-button,
+.current-tab-button {
   box-shadow: inset 0 -5px;
 }
-
-
 
 #header-right-container {
   display: flex;
@@ -62,7 +61,8 @@
   margin-bottom: 5px;
 }
 
-#logout-button, #color-mode-button {
+#logout-button,
+#color-mode-button {
   background-color: transparent;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -80,5 +80,3 @@
   margin-right: auto;
   fill: #333;
 }
-
-

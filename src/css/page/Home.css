@@ -1,0 +1,170 @@
+.content-container {
+  background-image: url("/graphics/background.png");
+  width: 100%; /* Take full width of the viewport */
+  min-height: 100vh; /* Minimum height to fill the viewport */
+  margin: auto; /* Centering horizontally */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Center content horizontally in flex container */
+  background-color: #ffffff; /* Light background for contrast */
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.main-title {
+  color: #314e52; /* Darker, modern color for better readability */
+  font-size: 2.5rem; /* Slightly larger for impact */
+  margin-bottom: 0.5rem; /* Adjust spacing */
+}
+
+.secondary-text {
+  color: #627d8c; /* Soft, modern gray-blue for secondary text */
+  font-size: 1.2rem; /* Refined sizing for readability */
+  margin-top: 0.5rem; /* Adjust spacing */
+}
+
+.cta-button,
+.button {
+  background-color: #007bff; /* Warm, inviting button color */
+  color: #ffffff; /* Contrast text color */
+  font-size: 1rem; /* Accessible font size */
+  padding: 15px 30px; /* More padding for a larger, easier to click button */
+  border: none; /* Clean, modern look */
+  border-radius: 25px; /* Pill-shaped button for a more modern feel */
+  transition: background-color 0.3s ease; /* Smooth transition for interaction */
+  margin: 20px auto; /* Center and add space around the button */
+}
+
+.cta-button:hover,
+.cta-button:focus,
+.button:hover,
+.button:focus {
+  background-color: #0056b3; /* Darker shade on hover for interaction feedback */
+  outline: none; /* Maintain clean look on focus */
+}
+
+/* About CSS*/
+.container {
+  width: 100%;
+  background-color: whitesmoke;
+  background-position: center;
+  padding: 64px 16px;
+}
+
+.inner-container {
+  box-shadow: 0 10px 16px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-width: 1240px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 32px;
+}
+
+@media (min-width: 768px) {
+  .inner-container {
+    flex-direction: row;
+    padding: 0 32px;
+  }
+
+  .image {
+    margin-right: 32px;
+  }
+
+  .text-section {
+    margin-left: 32px;
+  }
+
+  .heading {
+    font-size: 36px; /* Approximation of 4xl */
+  }
+}
+
+.image {
+  width: 700px;
+  height: auto;
+}
+
+.text,
+.heading {
+  color: #2b3252;
+  font-weight: bold;
+}
+
+.heading {
+  font-size: 24px; /* Approximation of 2xl */
+  padding: 8px 0;
+}
+
+@media (max-width: 768px) {
+  .heading {
+    font-size: 28px; /* Approximation of 3xl */
+  }
+}
+
+/*Contact*/
+:root {
+  --bg-light: #f5f5fc;
+  --bg-dark: #35353c;
+  --bg-darker: #15151c;
+  --font-body: #55555c;
+  --shadow: #c5c5cc;
+}
+
+/* demo related */
+.demo_title h1,
+h6 {
+  color: var(--bg-darker);
+}
+
+#copyrights {
+  position: absolute;
+  bottom: 2%;
+  right: 2%;
+}
+
+#copyrights a {
+  text-decoration: none;
+  color: var(--bg-darker);
+}
+
+/* tpn card style */
+.tpn_card {
+  background: var(--bg-light);
+  padding: 23px;
+  border-radius: 27px;
+}
+
+.tpn_card img {
+  border-radius: 23px;
+  box-shadow: 1px 7px 13px var(--shadow);
+}
+
+.tpn_card h5 {
+  color: var(--bg-dark);
+}
+
+.tpn_card p {
+  color: var(--font-body);
+  font-weight: 400;
+  margin-bottom: 24px;
+}
+
+.tpn_card .tpn_btn {
+  padding: 13px 27px !important;
+  line-height: normal;
+  background: var(--bg-dark);
+  border-radius: 17px;
+  text-decoration: none;
+  color: #fff;
+  box-shadow: 1px 7px 13px var(--shadow);
+  transition: all 0.7s ease;
+}
+
+.tpn_card .tpn_btn:hover {
+  background: var(--bg-darker);
+  box-shadow: none;
+}

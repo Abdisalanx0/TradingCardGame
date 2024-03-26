@@ -1,43 +1,42 @@
-import React, { useContext } from 'react'
-import HeaderComponent from '../component/header/HeaderComponent'
-import HeaderContext from '../context/HeaderContext'
-import MarketplaceComponent from '../component/main/MarketplaceComponent'
-import InventoryComponent from '../component/main/InventoryComponent'
-import CheckoutComponent from '../component/main/CheckoutComponent'
-import FooterComponent from '../component/footer/FooterComponent'
-import MessageComponent from '../component/aside/MessageComponent'
-import '../css/page/Dashboard.css'
+import React, { useContext } from "react";
+import HeaderComponent from "../component/header/HeaderComponent";
+import HeaderContext from "../context/HeaderContext";
+import MarketplaceComponent from "../component/main/MarketplaceComponent";
+import InventoryComponent from "../component/main/InventoryComponent";
+import CheckoutComponent from "../component/main/CheckoutComponent";
+import FooterComponent from "../component/footer/FooterComponent";
+import MessageComponent from "../component/aside/MessageComponent";
+import "../css/page/Dashboard.css";
 
 const Dashboard = () => {
-  const { currentTab } = useContext(HeaderContext)
+  const { currentTab } = useContext(HeaderContext);
 
   const currentComponent = () => {
-    switch(currentTab) {
-      case 'marketplace':
-        return <MarketplaceComponent></MarketplaceComponent>
+    switch (currentTab) {
+      case "marketplace":
+        return <MarketplaceComponent></MarketplaceComponent>;
 
-      case 'inventory':
-        return <InventoryComponent></InventoryComponent>
+      case "inventory":
+        return <InventoryComponent></InventoryComponent>;
 
-      case 'checkout':
-        return <CheckoutComponent></CheckoutComponent>
+      case "checkout":
+        return <CheckoutComponent></CheckoutComponent>;
     }
-  }
+  };
 
   return (
     <>
       <HeaderComponent></HeaderComponent>
 
-      <main id='dashboard-main'>
-        { currentComponent() }
+      <main id="dashboard-main">
+        {currentComponent()}
 
         <MessageComponent></MessageComponent>
       </main>
 
-
       <FooterComponent></FooterComponent>
     </>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

@@ -1,27 +1,28 @@
 /* global site styling behaviors */
 
-@import url('https://fonts.googleapis.com/css2?family=Genos&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Genos&display=swap");
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
   text-wrap: wrap;
-  font-family: 'Genos', sans-serif;
+  font-family: "Genos", sans-serif;
   font-size: large;
   line-height: 1em;
   color: inherit;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   margin: 0;
   text-align: center;
+  scroll-behavior: smooth;
 }
 
 #root {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  @apply h-screen flex flex-col items-center justify-between;
 }
 
 h1 {
@@ -47,17 +48,25 @@ legend {
   font-size: larger;
 }
 
-input[type=button], input[type=submit], input[type=checkbox], input[type=radio], label:has(input[type=radio]), label:has(input[type=button]), summary {
+input[type="button"],
+input[type="submit"],
+input[type="checkbox"],
+input[type="radio"],
+label:has(input[type="radio"]),
+label:has(input[type="button"]),
+summary {
   cursor: pointer;
 }
 
-input, input::placeholder {
+input,
+input::placeholder {
   color: inherit;
   background-color: inherit;
   text-align: center;
 }
 
-input::placeholder, :disabled {
+input::placeholder,
+:disabled {
   opacity: 0.5;
 }
 
@@ -82,7 +91,6 @@ input::placeholder, :disabled {
 .dark-mode {
   background-color: rgb(43, 43, 43);
   color: whitesmoke;
-  
 }
 
 .light-mode {
@@ -90,26 +98,34 @@ input::placeholder, :disabled {
   color: rgb(43, 43, 43);
 }
 
-.Common-item {background-color: transparent; border-color: #CBCBCB;
-  .listed-item-rarity-p{
-    color:  #CBCBCB;
- } 
+.Common-item {
+  background-color: transparent;
+  border-color: #cbcbcb;
+  .listed-item-rarity-p {
+    color: #cbcbcb;
+  }
 }
 
-.Uncommon-item {background-color: transparent; border-color: lightgreen; 
-  .listed-item-rarity-p{
-    color:  lightgreen;
- }
+.Uncommon-item {
+  background-color: transparent;
+  border-color: lightgreen;
+  .listed-item-rarity-p {
+    color: lightgreen;
+  }
 }
 
-.Rare-item {background-color: transparent;border-color: #4178BE; 
-  .listed-item-rarity-p{
-    color: #4178BE;
- }
+.Rare-item {
+  background-color: transparent;
+  border-color: #4178be;
+  .listed-item-rarity-p {
+    color: #4178be;
+  }
 }
 
-.Super-Rare-item { background-color: transparent;border-color: #E6C200; 
-  .listed-item-rarity-p{
-   color: #E6C200;
- }
+.Super-Rare-item {
+  background-color: transparent;
+  border-color: #e6c200;
+  .listed-item-rarity-p {
+    color: #e6c200;
+  }
 }
