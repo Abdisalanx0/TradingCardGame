@@ -1,6 +1,7 @@
+
 import React, { createContext, useState, useRef, useEffect } from 'react'
 
-const EventsContext = createContext()
+const EventsContext = createContext();
 
 export const EventsProvider = ({ children }) => {
   const [popupContent, setPopupContent] = useState({ html: null, type: '' })
@@ -67,4 +68,5 @@ export const EventsProvider = ({ children }) => {
   )
 }
 
-export default EventsContext
+
+export default EventsContext;

@@ -13,15 +13,15 @@
 
 #checkout-button {
   margin-left: 10px;
-  padding: 10px; 
-  background-color: #007bff; 
-  color: white; 
-  border: none; 
-  border-radius: 5px; 
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
 }
 
 #checkout-button:hover {
-  background-color: #0056b3; 
+  background-color: #0056b3;
 }
 
 #cart-items-section {
@@ -32,27 +32,27 @@
 #cart-items-ul {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around; 
+  justify-content: space-around;
   list-style-type: none;
   padding: 0;
 }
 
 .cart-item {
-  width: 350px; 
-  height: 450px; 
+  width: 350px;
+  height: 450px;
   margin: 20px;
   border-width: 5px;
-  border-style: solid; 
-  border-radius: 10px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  border-style: solid;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   display: flex;
-  flex-direction: column; 
-  overflow: hidden; 
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .cart-item-figure {
   width: 100%;
-  height: 50%; 
+  height: 50%;
   margin: 0;
   background-color: transparent;
 }
@@ -60,52 +60,54 @@
 .cart-item-thumbnail {
   width: 100%;
   height: 100%;
-  object-fit: contain;  
+  object-fit: contain;
 }
 
-.cart-item-name-figcaption, .cart-item-description-p, .cart-item-rarity-p {
-  padding: 5px 10px; 
+.cart-item-name-figcaption,
+.cart-item-description-p,
+.cart-item-rarity-p {
+  padding: 5px 10px;
   background-color: transparent;
-  
 }
 
-.cart-item-rarity-p{
-    padding: 5px 10px;
-    background-color: transparent;
-    color: black;
-    font-weight: bold; /* Make the font bolder */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Add a subtle text shadow for depth */
-    border: 1px solid #e0e0e0; /* Add a subtle border for definition */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow for a slight 3D effect */
-    border-radius: 4px; /* Slightly rounded corners for a softer look */
-    margin: 8px; /* Add some margin around these elements for better spacing */
+.cart-item-rarity-p {
+  padding: 5px 10px;
+  background-color: transparent;
+  color: black;
+  font-weight: bold; /* Make the font bolder */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Add a subtle text shadow for depth */
+  border: 1px solid #e0e0e0; /* Add a subtle border for definition */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow for a slight 3D effect */
+  border-radius: 4px; /* Slightly rounded corners for a softer look */
+  margin: 8px; /* Add some margin around these elements for better spacing */
 }
 .cart-item-name-figcaption {
-  font-size: 1.2em; 
-  font-weight: bold; 
-  border-bottom: 1px solid #eeeeee; 
+  font-size: 1.2em;
+  font-weight: bold;
+  border-bottom: 1px solid #eeeeee;
 }
 
-.cart-item-description-p, .cart-item-rarity-p {
-  font-size: 0.9em; 
+.cart-item-description-p,
+.cart-item-rarity-p {
+  font-size: 0.9em;
 }
 
 .cart-item-remove-from-cart-form {
-  margin-top: auto; 
-  padding: 10px; 
+  margin-top: auto;
+  padding: 10px;
   background-color: transparent;
 }
 
 .cart-item-remove-from-cart-button {
   width: 100%;
-  padding: 10px 0; 
-  background-color: #007bff; 
-  color: white; 
-  border: none; 
-  border-radius: 5px; 
-  cursor: pointer; 
+  padding: 10px 0;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .cart-item-remove-from-cart-button:hover {
-  background-color: #0056b3; 
+  background-color: #0056b3;
 }

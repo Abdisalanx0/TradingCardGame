@@ -7,23 +7,26 @@ import InventoryComponent from '../component/main/InventoryComponent'
 import CheckoutComponent from '../component/main/CheckoutComponent'
 import FooterComponent from '../component/footer/FooterComponent'
 import MessageComponent from '../component/aside/MessageComponent'
+import Home from "/src/page/Home"
 import '../css/page/Dashboard.css'
 
 const Dashboard = () => {
-  const { currentTab } = useContext(HeaderContext)
+  const { currentTab } = useContext(HeaderContext);
 
   const currentComponent = () => {
-    switch(currentTab) {
-      case 'marketplace':
-        return <MarketplaceComponent></MarketplaceComponent>
+    switch (currentTab) {
+      case "Home":
+        return <Home></Home>;
+      case "marketplace":
+        return <MarketplaceComponent></MarketplaceComponent>;
 
-      case 'inventory':
-        return <InventoryComponent></InventoryComponent>
+      case "inventory":
+        return <InventoryComponent></InventoryComponent>;
 
-      case 'checkout':
-        return <CheckoutComponent></CheckoutComponent>
+      case "checkout":
+        return <CheckoutComponent></CheckoutComponent>;
     }
-  }
+  };
 
   return (
     <>
@@ -37,10 +40,9 @@ const Dashboard = () => {
         { currentComponent() }
       </main>
 
-
       <FooterComponent></FooterComponent>
     </>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

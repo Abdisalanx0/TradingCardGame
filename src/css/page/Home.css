@@ -1,0 +1,300 @@
+.content-container {
+  background-image: url("/graphics/background.png");
+  width: 100%; /* Take full width of the viewport */
+  min-height: 100vh; /* Minimum height to fill the viewport */
+  margin: auto; /* Centering horizontally */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Center content horizontally in flex container */
+  background-color: #ffffff; /* Light background for contrast */
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.main-title {
+  color: #314e52; /* Darker, modern color for better readability */
+  font-size: 2.5rem; /* Slightly larger for impact */
+  margin-bottom: 0.5rem; /* Adjust spacing */
+}
+
+.secondary-text {
+  color: #627d8c; /* Soft, modern gray-blue for secondary text */
+  font-size: 1.2rem; /* Refined sizing for readability */
+  margin-top: 0.5rem; /* Adjust spacing */
+}
+
+.cta-button,
+.button {
+  background-color: #007bff; /* Warm, inviting button color */
+  color: #ffffff; /* Contrast text color */
+  font-size: 1rem; /* Accessible font size */
+  padding: 15px 30px; /* More padding for a larger, easier to click button */
+  border: none; /* Clean, modern look */
+  border-radius: 25px; /* Pill-shaped button for a more modern feel */
+  transition: background-color 0.3s ease; /* Smooth transition for interaction */
+  margin: 20px auto; /* Center and add space around the button */
+}
+
+.cta-button:hover,
+.cta-button:focus,
+.button:hover,
+.button:focus {
+  background-color: #0056b3; /* Darker shade on hover for interaction feedback */
+  outline: none; /* Maintain clean look on focus */
+}
+
+/* About CSS*/
+.container {
+  width: 100%;
+  background-color: whitesmoke;
+  background-position: center;
+  padding: 64px 16px;
+}
+
+.inner-container {
+  box-shadow: 0 10px 16px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-width: 1240px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 32px;
+}
+
+@media (min-width: 768px) {
+  .inner-container {
+    flex-direction: row;
+    padding: 0 32px;
+  }
+
+  .image {
+    margin-right: 32px;
+  }
+
+  .text-section {
+    margin-left: 32px;
+  }
+
+  .heading {
+    font-size: 36px; /* Approximation of 4xl */
+  }
+}
+
+.image {
+  width: 700px;
+  height: auto;
+}
+
+.text,
+.heading {
+  color: #2b3252;
+  font-weight: bold;
+}
+
+.heading {
+  font-size: 24px; /* Approximation of 2xl */
+  padding: 8px 0;
+}
+
+@media (max-width: 768px) {
+  .heading {
+    font-size: 28px; /* Approximation of 3xl */
+  }
+}
+
+
+
+/*Contact Us*/
+.background {
+  display: flex;
+  min-height: 80vh;
+}
+
+.container {
+  flex: 0 1 700px;
+  margin: auto;
+  padding: 10px;
+}
+
+.screen {
+  position: relative;
+  background: #ffff;
+  border-radius: 15px;
+}
+
+.screen:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  bottom: 0;
+  border-radius: 15px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, .4);
+  z-index: -1;
+}
+
+.screen-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background: #4d4d4f;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.screen-header-left {
+  margin-right: auto;
+}
+
+
+.screen-body {
+  display: flex;
+}
+
+.screen-body-item {
+  flex: 1;
+  padding: 50px;
+}
+
+.screen-body-item.left {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-title {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: #314e52;
+  font-size: 26px;
+}
+
+.app-title:after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 25px;
+  height: 4px;
+  background: #314e52;
+}
+
+.app-contact {
+  margin-top: auto;
+  font-size: 8px;
+  color: #314e52;
+}
+
+.app-form-group {
+  margin-bottom: 15px;
+}
+
+.app-form-group.message {
+  margin-top: 40px;
+}
+
+.app-form-group.buttons {
+  margin-bottom: 0;
+  text-align: right;
+}
+
+.app-form-control {
+  width: 100%;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #666;
+  color: #314e52;
+  font-size: 14px;
+  text-transform: uppercase;
+  outline: none;
+  transition: border-color .2s;
+}
+
+.app-form-control::placeholder {
+  color: #314e52;
+}
+
+.app-form-control:focus {
+  border-bottom-color: #ddd;
+}
+
+.app-form-button {
+  background-color: #007bff; /* Warm, inviting button color */
+  color: #ffffff; /* Contrast text color */
+  font-size: 1rem; /* Accessible font size */
+  padding: 10px 20px; /* More padding for a larger, easier to click button */
+  border: none; /* Clean, modern look */
+  border-radius: 25px; /* Pill-shaped button for a more modern feel */
+  transition: background-color 0.3s ease; /* Smooth transition for interaction */
+  margin: 20px auto; /* Center and add space around the button */
+}
+
+
+
+.credits {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  color: #314e52;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.credits-link {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.dribbble {
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+}
+
+@media screen and (max-width: 520px) {
+  .screen-body {
+    flex-direction: column;
+  }
+
+  .screen-body-item.left {
+    margin-bottom: 30px;
+  }
+
+  .app-title {
+    flex-direction: row;
+  }
+
+  .app-title span {
+    margin-right: 12px;
+  }
+
+  .app-title:after {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .screen-body {
+    padding: 40px;
+  }
+
+  .screen-body-item {
+    padding: 0;
+  }
+}
+
+.contact-image{
+  width: 100%;
+}
