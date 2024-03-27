@@ -18,6 +18,16 @@ export const AuthProvider = ({ children }) => {
     }
   }, [userSettings]);
 
+  useEffect(() => {
+    const sessionUsername = sessionStorage.getItem("username")
+
+    if(sessionUsername) {
+      setUsername(sessionUsername)
+
+      setIsLoggedIn(true)
+    }
+  }, [])
+
   return (
     <AuthContext.Provider
       value={{

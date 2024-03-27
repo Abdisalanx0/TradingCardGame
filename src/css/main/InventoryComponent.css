@@ -1,4 +1,5 @@
 #inv-filter-and-sort-form {
+  width: 100%;
   height: 10vh;
   display: flex;
   justify-content: space-between;
@@ -23,78 +24,4 @@
   border-radius: 5px;
   padding: 5px;
   transition: border-color 0.2s;
-}
-
-#inventory-items-section {
-  height: 70vh;
-  overflow-y: scroll;
-}
-
-#inventory-items-ul {
-  height: max-content;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  list-style-type: none;
-  padding: 0;
-}
-
-.inventory-item {
-  width: 350px;
-  height: 450px;
-  margin: 20px;
-  border-width: 5px;
-  border-style: solid;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.inventory-item-figure {
-  width: 100%;
-  height: 50%;
-  margin: 0;
-  background-color: transparent;
-}
-
-.inventory-item-rarity-p {
-  border-bottom: 1px solid;
-}
-
-.inventory-item-thumbnail {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.inventory-item-name-figcaption,
-.inventory-item-description-p,
-.inventory-item-rarity-p {
-  padding: 5px 10px;
-  background-color: transparent;
-}
-
-.inventory-item-name-figcaption {
-  font-size: 1.2em;
-  font-weight: bold;
-  border-bottom: 1px solid #eeeeee;
-}
-
-.inventory-item-description-p,
-.inventory-item-rarity-p {
-  font-size: 0.9em;
-}
-
-.inventory-item-rarity-p {
-  padding: 5px 10px;
-  background-color: transparent;
-  color: black;
-  font-weight: bold; /* Make the font bolder */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Add a subtle text shadow for depth */
-  border: 1px solid #e0e0e0; /* Add a subtle border for definition */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow for a slight 3D effect */
-  border-radius: 4px; /* Slightly rounded corners for a softer look */
-  margin: 8px; /* Add some margin around these elements for better spacing */
 }
