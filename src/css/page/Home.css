@@ -105,66 +105,196 @@
   }
 }
 
-/*Contact*/
-:root {
-  --bg-light: #f5f5fc;
-  --bg-dark: #35353c;
-  --bg-darker: #15151c;
-  --font-body: #55555c;
-  --shadow: #c5c5cc;
+
+
+/*Contact Us*/
+.background {
+  display: flex;
+  min-height: 80vh;
 }
 
-/* demo related */
-.demo_title h1,
-h6 {
-  color: var(--bg-darker);
+.container {
+  flex: 0 1 700px;
+  margin: auto;
+  padding: 10px;
 }
 
-#copyrights {
+.screen {
+  position: relative;
+  background: #ffff;
+  border-radius: 15px;
+}
+
+.screen:after {
+  content: '';
+  display: block;
   position: absolute;
-  bottom: 2%;
-  right: 2%;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  bottom: 0;
+  border-radius: 15px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, .4);
+  z-index: -1;
 }
 
-#copyrights a {
-  text-decoration: none;
-  color: var(--bg-darker);
+.screen-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background: #4d4d4f;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
-/* tpn card style */
-.tpn_card {
-  background: var(--bg-light);
-  padding: 23px;
-  border-radius: 27px;
+.screen-header-left {
+  margin-right: auto;
 }
 
-.tpn_card img {
-  border-radius: 23px;
-  box-shadow: 1px 7px 13px var(--shadow);
+
+.screen-body {
+  display: flex;
 }
 
-.tpn_card h5 {
-  color: var(--bg-dark);
+.screen-body-item {
+  flex: 1;
+  padding: 50px;
 }
 
-.tpn_card p {
-  color: var(--font-body);
-  font-weight: 400;
-  margin-bottom: 24px;
+.screen-body-item.left {
+  display: flex;
+  flex-direction: column;
 }
 
-.tpn_card .tpn_btn {
-  padding: 13px 27px !important;
-  line-height: normal;
-  background: var(--bg-dark);
-  border-radius: 17px;
-  text-decoration: none;
+.app-title {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: #314e52;
+  font-size: 26px;
+}
+
+.app-title:after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 25px;
+  height: 4px;
+  background: #314e52;
+}
+
+.app-contact {
+  margin-top: auto;
+  font-size: 8px;
+  color: #314e52;
+}
+
+.app-form-group {
+  margin-bottom: 15px;
+}
+
+.app-form-group.message {
+  margin-top: 40px;
+}
+
+.app-form-group.buttons {
+  margin-bottom: 0;
+  text-align: right;
+}
+
+.app-form-control {
+  width: 100%;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #666;
+  color: #314e52;
+  font-size: 14px;
+  text-transform: uppercase;
+  outline: none;
+  transition: border-color .2s;
+}
+
+.app-form-control::placeholder {
+  color: #314e52;
+}
+
+.app-form-control:focus {
+  border-bottom-color: #ddd;
+}
+
+.app-form-button {
+  background-color: #007bff; /* Warm, inviting button color */
+  color: #ffffff; /* Contrast text color */
+  font-size: 1rem; /* Accessible font size */
+  padding: 10px 20px; /* More padding for a larger, easier to click button */
+  border: none; /* Clean, modern look */
+  border-radius: 25px; /* Pill-shaped button for a more modern feel */
+  transition: background-color 0.3s ease; /* Smooth transition for interaction */
+  margin: 20px auto; /* Center and add space around the button */
+}
+
+
+
+.credits {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  color: #314e52;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.credits-link {
+  display: flex;
+  align-items: center;
   color: #fff;
-  box-shadow: 1px 7px 13px var(--shadow);
-  transition: all 0.7s ease;
+  font-weight: bold;
+  text-decoration: none;
 }
 
-.tpn_card .tpn_btn:hover {
-  background: var(--bg-darker);
-  box-shadow: none;
+.dribbble {
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+}
+
+@media screen and (max-width: 520px) {
+  .screen-body {
+    flex-direction: column;
+  }
+
+  .screen-body-item.left {
+    margin-bottom: 30px;
+  }
+
+  .app-title {
+    flex-direction: row;
+  }
+
+  .app-title span {
+    margin-right: 12px;
+  }
+
+  .app-title:after {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .screen-body {
+    padding: 40px;
+  }
+
+  .screen-body-item {
+    padding: 0;
+  }
+}
+
+.contact-image{
+  width: 100%;
 }

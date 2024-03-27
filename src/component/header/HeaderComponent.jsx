@@ -13,12 +13,7 @@ const HeaderComponent = () => {
   const navigate = useNavigate();
 
   const handleNavigationButtonOnClick = (e) => {
-<<<<<<< HEAD
-    if (e.target.value === "Marketplace") {
-      setCurrentTab("marketplace");
-    } else if (e.target.value === "Inventory") {
-      setCurrentTab("inventory");
-=======
+    
     if(e.target.value === 'Home') {
       setCurrentTab('Home')
     }
@@ -27,7 +22,7 @@ const HeaderComponent = () => {
     }
     else if(e.target.value === 'Inventory') {
       setCurrentTab('inventory')
->>>>>>> 50ef637e9eb87f75fe8658f58737161f0fba15a1
+
     }
     // cart button onClick
     else if (e.target.value === "Checkout") {
@@ -61,14 +56,12 @@ const HeaderComponent = () => {
     <header id="page-header">
       <h1 id="page-logo">TCG</h1>
 
-<<<<<<< HEAD
-      <nav id="navigation-container">
-=======
+
       <nav id='navigation-container'>
         {/* home tab */}
         <input className={ (currentTab === 'home' ? 'current-tab-button ' : '') + 'navigation-button' } type='button' value='Home' onClick={ handleNavigationButtonOnClick }></input>
 
->>>>>>> 50ef637e9eb87f75fe8658f58737161f0fba15a1
+
         {/* marketplace tab */}
         <input
           className={
@@ -119,16 +112,10 @@ const HeaderComponent = () => {
           ></input>
         </section>
 
-<<<<<<< HEAD
-        <details id="user-dropdown">
-          <summary id="user-dropdown-summary">
-            Welcome, {sessionStorage.getItem("username")}
-          </summary>
-=======
         <details id='user-dropdown'>
 
           <summary id='user-dropdown-summary'>Welcome, {sessionStorage.getItem("username")}</summary>
->>>>>>> 50ef637e9eb87f75fe8658f58737161f0fba15a1
+
 
           <input
             id="color-mode-button"

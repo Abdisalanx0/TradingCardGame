@@ -18,13 +18,11 @@ const HomeNavigation = () => {
             <a href="#about">about</a>
           </li>
           <li class="list-item">
-            <a href="#">contact</a>
+            <a href="#contact">contact</a>
           </li>
-          <a>
-            <button href="/login" class="">
-              Log In
-            </button>
-          </a>
+          <a href="/login">
+        <button>LOGIN</button>
+      </a>
         </ul>
       </nav>
     </div>

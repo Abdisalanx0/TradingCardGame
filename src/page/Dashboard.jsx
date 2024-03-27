@@ -6,6 +6,7 @@ import InventoryComponent from "../component/main/InventoryComponent";
 import CheckoutComponent from "../component/main/CheckoutComponent";
 import FooterComponent from "../component/footer/FooterComponent";
 import MessageComponent from "../component/aside/MessageComponent";
+import Home from "/src/page/Home"
 import "../css/page/Dashboard.css";
 
 const Dashboard = () => {
@@ -13,6 +14,8 @@ const Dashboard = () => {
 
   const currentComponent = () => {
     switch (currentTab) {
+      case "Home":
+        return <Home></Home>;
       case "marketplace":
         return <MarketplaceComponent></MarketplaceComponent>;
 
