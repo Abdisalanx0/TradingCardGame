@@ -39,7 +39,8 @@
   margin-bottom: 1em; /* Adding some spacing */
 }
 
-#username-input, #password-input {
+#username-input,
+#password-input {
   margin: 0.5em 0;
   border-radius: 10px;
   border: 1px solid #ccc; /* A lighter border color */
@@ -50,12 +51,14 @@
   transition: border-color 0.3s; /* Smooth transition for focus */
 }
 
-#username-input:focus, #password-input:focus {
+#username-input:focus,
+#password-input:focus {
   outline: none; /* Removing the default focus outline */
   border-color: #007bff; /* Highlighting focused input */
 }
 
-#register-button, #login-button {
+#register-button,
+#login-button {
   width: 200px; /* Adjusted for better spacing */
   margin-top: 10px;
   height: auto;
@@ -68,7 +71,8 @@
   transition: background-color 0.3s; /* Smooth background transition */
 }
 
-#register-button:hover, #login-button:hover {
+#register-button:hover,
+#login-button:hover {
   background-color: #0056b3; /* Darker shade on hover for interactivity */
 }
 
