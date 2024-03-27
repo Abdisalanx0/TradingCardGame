@@ -1,13 +1,14 @@
-import React, { useContext } from "react";
-import HeaderComponent from "../component/header/HeaderComponent";
-import HeaderContext from "../context/HeaderContext";
-import MarketplaceComponent from "../component/main/MarketplaceComponent";
-import InventoryComponent from "../component/main/InventoryComponent";
-import CheckoutComponent from "../component/main/CheckoutComponent";
-import FooterComponent from "../component/footer/FooterComponent";
-import MessageComponent from "../component/aside/MessageComponent";
+import React, { useContext } from 'react'
+import HeaderComponent from '../component/header/HeaderComponent'
+import HeaderContext from '../context/HeaderContext'
+import PopupComponent from '../component/main/PopupComponent'
+import MarketplaceComponent from '../component/main/MarketplaceComponent'
+import InventoryComponent from '../component/main/InventoryComponent'
+import CheckoutComponent from '../component/main/CheckoutComponent'
+import FooterComponent from '../component/footer/FooterComponent'
+import MessageComponent from '../component/aside/MessageComponent'
 import Home from "/src/page/Home"
-import "../css/page/Dashboard.css";
+import '../css/page/Dashboard.css'
 
 const Dashboard = () => {
   const { currentTab } = useContext(HeaderContext);
@@ -31,10 +32,12 @@ const Dashboard = () => {
     <>
       <HeaderComponent></HeaderComponent>
 
-      <main id="dashboard-main">
-        {currentComponent()}
+      <main id='dashboard-main'>
+        <PopupComponent></PopupComponent>
 
         <MessageComponent></MessageComponent>
+
+        { currentComponent() }
       </main>
 
       <FooterComponent></FooterComponent>

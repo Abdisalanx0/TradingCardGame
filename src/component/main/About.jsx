@@ -2,12 +2,12 @@ import React from "react";
 
 const About = () => {
   return (
-    <div id="about" class="container">
-      <div class="inner-container">
-        <img class="image" src="/graphics/ash.png" alt="/" />
-        <div class="text-section">
-          <p class="text">ENTER THE WORLD OF TCG</p>
-          <h1 class="heading">
+    <div id="about" className="container">
+      <div className="inner-container">
+        <img className="image" src="/graphics/ash.png" alt="/" />
+        <div className="text-section">
+          <p className="text">ENTER THE WORLD OF TCG</p>
+          <h1 className="heading">
             TCG: A Universe of Collecting and Trading Cards
           </h1>
           <p>
@@ -18,7 +18,7 @@ const About = () => {
             joy of completing your collection and the thrill of acquiring that
             elusive card to become a master collector.
           </p>
-          <button class="button">Start Your Collection</button>
+          <button className="button">Start Your Collection</button>
         </div>
       </div>
     </div>

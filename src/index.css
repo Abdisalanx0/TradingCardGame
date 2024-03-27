@@ -92,6 +92,10 @@ input::placeholder,
   display: none;
 }
 
+.unhidden-container {
+  display: flex;
+}
+
 .dark-mode {
   background-color: rgb(43, 43, 43);
   color: whitesmoke;
@@ -100,36 +104,4 @@ input::placeholder,
 .light-mode {
   background-color: whitesmoke;
   color: rgb(43, 43, 43);
-}
-
-.Common-item {
-  background-color: transparent;
-  border-color: #cbcbcb;
-  .listed-item-rarity-p {
-    color: #cbcbcb;
-  }
-}
-
-.Uncommon-item {
-  background-color: transparent;
-  border-color: lightgreen;
-  .listed-item-rarity-p {
-    color: lightgreen;
-  }
-}
-
-.Rare-item {
-  background-color: transparent;
-  border-color: #4178be;
-  .listed-item-rarity-p {
-    color: #4178be;
-  }
-}
-
-.Super-Rare-item {
-  background-color: transparent;
-  border-color: #e6c200;
-  .listed-item-rarity-p {
-    color: #e6c200;
-  }
 }

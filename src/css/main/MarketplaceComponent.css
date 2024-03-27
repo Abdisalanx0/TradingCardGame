@@ -1,5 +1,6 @@
 /*https://heatherketten.wordpress.com/2018/03/27/css-fake-pokemon-cards/*/
 #mp-filter-and-sort-form {
+  width: 100%;
   height: 10vh;
   display: flex;
   align-items: center;
@@ -40,103 +41,4 @@
   width: 10%;
   display: flex;
   justify-content: center;
-}
-
-#listed-items-section {
-  height: 70vh;
-  overflow-y: scroll;
-  background-color: transparent;
-}
-
-#listed-items-ul {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  list-style-type: none;
-  padding: 0;
-}
-
-.listed-item {
-  width: 350px;
-  height: 450px;
-  margin: 20px;
-  border-width: 5px;
-  border-style: solid;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.listed-item-figure {
-  width: 100%;
-  height: 50%;
-  margin: 0;
-  background-color: transparent;
-}
-
-.listed-item-thumbnail {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.listed-item-name-figcaption,
-.listed-item-description-p,
-.listed-item-rarity-p {
-  padding: 5px 10px;
-  background-color: transparent;
-}
-
-.listed-item-rarity-p {
-  padding: 5px 10px;
-  background-color: transparent;
-  color: black;
-  font-weight: bold;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
-  margin: 8px;
-}
-
-.listed-item-name-figcaption {
-  font-size: 1.2em;
-  font-weight: bold;
-  border-bottom: 1px solid #eeeeee;
-}
-
-.listed-item-description-p,
-.listed-item-rarity-p {
-  font-size: 0.9em;
-}
-
-.listed-item-add-to-cart-form {
-  margin-top: auto;
-  padding: 10px;
-  background-color: transparent;
-}
-
-.listed-item-add-to-cart-button-label {
-  display: flex;
-  flex-direction: column;
-  background-color: #007bff;
-  color: white;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.listed-item-add-to-cart-button-label:hover {
-  background-color: #0056b3;
-}
-
-.listed-item-add-to-cart-button {
-  width: 100%;
-  background-color: inherit;
-  border: none;
-}
-
-.listed-item-price {
-  background-color: inherit;
 }
