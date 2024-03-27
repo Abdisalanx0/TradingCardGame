@@ -3,7 +3,7 @@ import React, { createContext, useState, useRef, useEffect } from 'react'
 const EventsContext = createContext()
 
 export const EventsProvider = ({ children }) => {
-  const [popupContent, setPopupContent] = useState({ text: '', type: '' })
+  const [popupContent, setPopupContent] = useState({ html: null, type: '' })
   const [popupConfirmationCallback, setPopupConfirmationCallback] = useState(null)
   const popup = useRef(null)
   const popupOverlay = useRef(null)
@@ -16,14 +16,30 @@ export const EventsProvider = ({ children }) => {
     popupOverlay.current.classList.add('hidden-container')
   
     // reset popup state
-    setPopupContent({ text: '', type: '' })
+    setPopupContent({ html: null, type: '' })
     setPopupConfirmationCallback(null)
+  }
+
+  const initiateTradePopupHtml = () => {
+    const handleSetTradeRecipientOnClick = (e) => {
+      e.preventDefault()
+    }
+
+    return (
+    <form id='initiate-trade-popup-form'>
+      {/* on enter key down submits form (i.e., invokes handleSetTradeRecipientOnClick) */}
+      <input id='initiate-trade-username-input' placeholder='enter recipient username'></input>
+      <label htmlFor='initiate-trade-username-input'></label>
+
+      <input id='initiate-trade-username-submit' type='submit' onClick={ handleSetTradeRecipientOnClick }></input>
+    </form>
+    )
   }
 
   useEffect(() => {
     const clickEventCallback = (e) => {
       // if target is the popup overlay
-      if(!e.target === popupOverlay?.current) {
+      if(e.target === popupOverlay?.current) {
         resetPopup()
       }
     }
@@ -47,7 +63,7 @@ export const EventsProvider = ({ children }) => {
   }, [])
 
   return (
-    <EventsContext.Provider value={ { popupContent, setPopupContent, popupConfirmationCallback, setPopupConfirmationCallback, popup, popupOverlay, resetPopup } }>{ children }</EventsContext.Provider>
+    <EventsContext.Provider value={ { popupContent, setPopupContent, popupConfirmationCallback, setPopupConfirmationCallback, popup, popupOverlay, resetPopup, initiateTradePopupHtml } }>{ children }</EventsContext.Provider>
   )
 }
 

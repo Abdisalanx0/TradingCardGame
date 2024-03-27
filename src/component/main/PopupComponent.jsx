@@ -3,7 +3,7 @@ import EventsContext from '../../context/EventsContext'
 import '../../css/main/PopupComponent.css'
 
 const PopupComponent = () => {
-  const { popupContent, popupConfirmationCallback, popup, popupOverlay, resetPopup } = useContext(EventsContext)
+  const { popupContent, popupConfirmationCallback, popup, popupOverlay, resetPopup, initiateTradePopupHtml } = useContext(EventsContext)
 
   const handleCancelOnClick = (e) => {
     resetPopup()
@@ -18,12 +18,13 @@ const PopupComponent = () => {
 
   return (
     <>
-      <div ref={ popupOverlay } id='popup-overlay' className=' hidden-container'></div>
+      <div ref={ popupOverlay } id='popup-overlay' className='unhidden-container'></div>
 
-      <article ref={ popup } id='popup-container' className='hidden-container'>
+      <article ref={ popup } id='popup-container' className='unhidden-container'>
         <h2>Confirmation</h2>
 
-        <p id='popup-text'>{ popupContent.text }</p>
+        { initiateTradePopupHtml() }
+        { popupContent.html }
         
         <form id='popup-form'>
           <fieldset>
