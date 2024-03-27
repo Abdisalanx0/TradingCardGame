@@ -1,20 +1,18 @@
 #login-main {
   min-width: min-content;
-  width: 20vw; /* Adjusted for a more appropriate size */
-  height: 60vh; /* Adjusted for a sleeker look */
+  width: 100vw; /* Adjusted for a more appropriate size */
+  height: 80vh; /* Adjusted for a sleeker look */
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f7f7f7; /* A light background color */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adding a subtle shadow */
-  border-radius: 15px; /* Slightly larger border radius for a softer look */
-  padding: 2em; /* Added padding for spacing */
 }
 
 #login-form {
-  width: 100%;
+   background-color: #f7f7f7; /* A light background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adding a subtle shadow */
+  border-radius: 15px; /* Slightly larger border radius for a softer look */
+  width: 15em;
   padding: 1em;
-  border: none; /* Removing the border */
   border-radius: 10px;
 }
 

@@ -13,11 +13,12 @@ const HeaderComponent = () => {
   const navigate = useNavigate();
 
   const handleNavigationButtonOnClick = (e) => {
-    
+
     if(e.target.value === 'Home') {
+
       setCurrentTab('marketplace')
-      
       navigate('/')
+
     }
     else if(e.target.value === 'Marketplace') {
       setCurrentTab('marketplace')
