@@ -4,10 +4,17 @@ import React, { createContext, useState, useRef, useEffect } from 'react'
 const EventsContext = createContext();
 
 export const EventsProvider = ({ children }) => {
-  const [popupContent, setPopupContent] = useState({ html: null, type: '' })
+  const [popupContent, setPopupContent] = useState({})
   const [popupConfirmationCallback, setPopupConfirmationCallback] = useState(null)
   const popup = useRef(null)
   const popupOverlay = useRef(null)
+
+  const openPopup = () => {
+    popup.current.classList.remove('hidden-container')
+    popupOverlay.current.classList.remove('hidden-container')
+    popup.current.classList.add('unhidden-container')
+    popupOverlay.current.classList.add('unhidden-container')
+  }
 
   const resetPopup = () => {
     // close popup containers
@@ -17,24 +24,8 @@ export const EventsProvider = ({ children }) => {
     popupOverlay.current.classList.add('hidden-container')
   
     // reset popup state
-    setPopupContent({ html: null, type: '' })
+    setPopupContent({})
     setPopupConfirmationCallback(null)
-  }
-
-  const initiateTradePopupHtml = () => {
-    const handleSetTradeRecipientOnClick = (e) => {
-      e.preventDefault()
-    }
-
-    return (
-    <form id='initiate-trade-popup-form'>
-      {/* on enter key down submits form (i.e., invokes handleSetTradeRecipientOnClick) */}
-      <input id='initiate-trade-username-input' placeholder='enter recipient username'></input>
-      <label htmlFor='initiate-trade-username-input'></label>
-
-      <input id='initiate-trade-username-submit' type='submit' onClick={ handleSetTradeRecipientOnClick }></input>
-    </form>
-    )
   }
 
   useEffect(() => {
@@ -64,7 +55,7 @@ export const EventsProvider = ({ children }) => {
   }, [])
 
   return (
-    <EventsContext.Provider value={ { popupContent, setPopupContent, popupConfirmationCallback, setPopupConfirmationCallback, popup, popupOverlay, resetPopup, initiateTradePopupHtml } }>{ children }</EventsContext.Provider>
+    <EventsContext.Provider value={ { popupContent, setPopupContent, popupConfirmationCallback, setPopupConfirmationCallback, popup, popupOverlay, openPopup, resetPopup } }>{ children }</EventsContext.Provider>
   )
 }
 

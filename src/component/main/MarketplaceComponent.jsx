@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import MarketplaceContext from "../../context/MarketplaceContext";
 import "../../css/main/MarketplaceComponent.css";
+import '../../css/main/Cards.css'
 import CheckoutContext from "../../context/CheckoutContext";
 
 const MarketplaceComponent = () => {
@@ -68,32 +69,32 @@ const MarketplaceComponent = () => {
     return (
       <li
         key={item.id}
-        id={`${item.id}-listed-item`}
-        className={`${item.rarity}-item listed-item`}
+        id={`${item.id}-listed-card`}
+        className={`${item.rarity}-card card`}
       >
-        <figure className="listed-item-figure">
-          <p className="listed-item-rarity-p">{item.rarity}</p>
+        <figure className="card-figure">
+          <p className="card-rarity-p">{item.rarity}</p>
 
           <img
-            className="listed-item-thumbnail"
+            className="card-thumbnail"
             src={`/graphics/${item.image}`}
           ></img>
 
-          <figcaption className="listed-item-name-figcaption">
+          <figcaption className="card-name-figcaption">
             {item.name}
           </figcaption>
 
-          <p className="listed-item-description-p" title={item.description}>
+          <p className="card-description-p" title={item.description}>
             {item.description}
           </p>
         </figure>
 
-        <form className="listed-item-add-to-cart-form">
-          <label className="listed-item-add-to-cart-button-label">
-            <p className="listed-item-price">${item.price}</p>
+        <form className="card-actions-form">
+          <label className="card-button-label">
+            <p className="card-price">${item.price}</p>
             <input
               id={`${item.id}-add-to-cart-button`}
-              className="listed-item-add-to-cart-button"
+              className="card-add-to-cart-button"
               type="button"
               value={
                 cart.items.some((cartItem) => cartItem.id === item.id)
@@ -315,10 +316,10 @@ const MarketplaceComponent = () => {
         </fieldset>
       </form>
 
-      <section id="listed-items-section">
+      <section id="cards-section">
         <h2>Listed Trading Cards</h2>
 
-        <ul id="listed-items-ul">
+        <ul id="cards-ul">
           {listedItems.items.map(generateListedItem)}
 
           {!listedItems.items.length ? <p>No items to show</p> : null}

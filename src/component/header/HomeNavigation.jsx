@@ -4,20 +4,20 @@ import "../../css/header/HomeHeaderComponent.css";
 const HomeNavigation = () => {
   return (
     <div>
-      <nav class="nav-bar">
-        <div class="icon-nav">
-          <i class="fas fa-moon"></i>
-          <span class="logo">TCG</span>
+      <nav className="nav-bar">
+        <div className="icon-nav">
+          <i className="fas fa-moon"></i>
+          <span className="logo">TCG</span>
         </div>
 
-        <ul class="list-nav-bar active">
-          <li class="list-item">
+        <ul className="list-nav-bar active">
+          <li className="list-item">
             <a href="#">home</a>
           </li>
-          <li class="list-item">
+          <li className="list-item">
             <a href="#about">about</a>
           </li>
-          <li class="list-item">
+          <li className="list-item">
             <a href="#contact">contact</a>
           </li>
           <a href="/login">

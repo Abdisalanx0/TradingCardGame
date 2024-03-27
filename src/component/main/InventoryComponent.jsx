@@ -1,8 +1,11 @@
 import React, { useContext, useState } from "react";
+import EventsContext from "../../context/EventsContext";
 import InventoryContext from "../../context/InventoryContext";
 import "../../css/main/InventoryComponent.css";
 
 const InventoryComponent = () => {
+  const { setPopupContent, setPopupConfirmationCallback, openPopup } = useContext(EventsContext)
+
   const {
     inventoryItems,
     setInventoryItems,
@@ -14,6 +17,43 @@ const InventoryComponent = () => {
   let isAtLeastOneCardVisible = false;
 
   const generateInventoryItem = (item) => {
+    const handleTradeCardOnClick = (e) => {
+      setPopupContent(() => {
+        const newContent = {}
+
+        newContent.html = 
+        <>
+          <p>Set a recipient and price.</p>
+          <form id='initiate-trade-popup-form'>
+
+            {/* on enter key down submits form because it is the first input in the form */}
+            <input id='initiate-trade-username-input' placeholder='enter recipient username' onKeyDown={ (e) => { e.key === 'Enter' ? e.preventDefault() : null } }></input>
+            <label htmlFor='initiate-trade-username-input'></label>
+    
+            <input id='initiate-trade-price-input' placeholder='enter trade price'></input>
+            <label htmlFor='initiate-trade-price-input'></label>
+          </form>
+        </>
+
+        return newContent
+      })
+
+      setPopupConfirmationCallback(() => {
+        const callback = () => {
+          // code to initiate tade request to designated user
+
+          const recipient = document.getElementById('initiate-trade-username-input').value
+          const price = document.getElementById('initiate-trade-price-input').value
+
+          console.log(`Trade request sent to ${recipient} for $${price}.`)
+        }
+
+        return callback
+      })
+
+      openPopup()
+    }
+
     let isVisible = true;
 
     if (
@@ -29,28 +69,30 @@ const InventoryComponent = () => {
     return isVisible ? (
       <li
         key={item.id}
-        id={`${item.id}-listed-item`}
-        className={`${item.rarity}-item listed-item`}
+        id={`${item.id}-card`}
+        className={`${item.rarity}-card card`}
       >
-        <figure className="listed-item-figure">
-          <p className="listed-item-rarity-p">{item.rarity}</p>
+        <figure className="card-figure">
+          <p className="card-rarity-p">{item.rarity}</p>
 
           <img
-            className="listed-item-thumbnail"
+            className="card-thumbnail"
             src={`/graphics/${item.image}`}
           ></img>
 
-          <figcaption className="listed-item-name-figcaption">
+          <figcaption className="card-name-figcaption">
             {item.name}
           </figcaption>
 
-          <p className="listed-item-description-p" title={item.description}>
+          <p className="card-description-p" title={item.description}>
             {item.description}
           </p>
         </figure>
 
-        <form className="listed-item-add-to-cart-form">
-          <label className="listed-item-add-to-cart-button-label"></label>
+        <form className="card-actions-form">
+          <label className='card-button-label'>
+            <input id={ `${item.id}-card-trade-button` } className='card-trade-button' type='button' value='Trade' onClick={ handleTradeCardOnClick }></input>
+          </label>
         </form>
       </li>
     ) : null;
@@ -124,11 +166,13 @@ const InventoryComponent = () => {
         </fieldset>
       </form>
 
-      <section id="inventory-items-section">
+      <section id="cards-section">
         <h2>Inventory</h2>
 
-        <ul id="inventory-items-ul">
+        <ul id="cards-ul">
           {inventoryItems.map(generateInventoryItem)}
+
+          {!inventoryItems.length ? <p>No items to show</p> : null}
         </ul>
       </section>
     </>

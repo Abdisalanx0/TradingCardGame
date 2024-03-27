@@ -15,7 +15,9 @@ const HeaderComponent = () => {
   const handleNavigationButtonOnClick = (e) => {
     
     if(e.target.value === 'Home') {
-      setCurrentTab('Home')
+      setCurrentTab('marketplace')
+      
+      navigate('/')
     }
     else if(e.target.value === 'Marketplace') {
       setCurrentTab('marketplace')
