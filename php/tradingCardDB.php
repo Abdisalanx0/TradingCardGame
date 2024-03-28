@@ -33,7 +33,8 @@
     $sql = "CREATE TABLE IF NOT EXISTS tcg_user (
       id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       username VARCHAR(255) NOT NULL,
-      password_hash VARCHAR(255) NOT NULL
+      password_hash VARCHAR(255) NOT NULL,
+      coin_balance INT(11) NOT NULL
     )";
     runQuery($sql, "Creating tcg_user table");
 
@@ -109,7 +110,12 @@
 
     // Table: tcg_user
     // $2y$10$vh4FwBnC9r3sO.MoOwdRveuPw6rdfvxFuoyF7teLOVVstUA89EY6O => 'password'
-    $sql = 'INSERT INTO tcg_user (username, password_hash) VALUES ("admin", "$2y$10$vh4FwBnC9r3sO.MoOwdRveuPw6rdfvxFuoyF7teLOVVstUA89EY6O")';
+    $sql = 'INSERT INTO tcg_user (username, password_hash, coin_balance) VALUES 
+      ("admin", "$2y$10$vh4FwBnC9r3sO.MoOwdRveuPw6rdfvxFuoyF7teLOVVstUA89EY6O", 100),
+      ("Chase", "$2y$10$vh4FwBnC9r3sO.MoOwdRveuPw6rdfvxFuoyF7teLOVVstUA89EY6O", 100),
+      ("Abdisalan", "$2y$10$vh4FwBnC9r3sO.MoOwdRveuPw6rdfvxFuoyF7teLOVVstUA89EY6O", 100),
+      ("Hamze", "$2y$10$vh4FwBnC9r3sO.MoOwdRveuPw6rdfvxFuoyF7teLOVVstUA89EY6O", 100)';
+    
     runQuery($sql, 'tcg_user insert');
 
     for($i = 0; $i < count($pokemonCards); $i++) {

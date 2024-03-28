@@ -6,7 +6,7 @@ import "../../css/header/HeaderComponent.css";
 import CheckoutContext from "../../context/CheckoutContext";
 
 const HeaderComponent = () => {
-  const { username, userSettings, setUserSettings } = useContext(AuthContext);
+  const { username, userSettings, setUserSettings, coinBalance } = useContext(AuthContext);
   const { currentTab, setCurrentTab } = useContext(HeaderContext);
   const { cart } = useContext(CheckoutContext);
 
@@ -113,6 +113,8 @@ const HeaderComponent = () => {
             onClick={handleNavigationButtonOnClick}
           ></input>
         </section>
+
+        <p>Balance: { coinBalance } CZ</p>
 
         <details id='user-dropdown'>
 

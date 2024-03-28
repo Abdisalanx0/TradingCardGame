@@ -91,7 +91,7 @@ const MarketplaceComponent = () => {
 
         <form className="card-actions-form">
           <label className="card-button-label">
-            <p className="card-price">${item.price}</p>
+            <p className="card-price">{item.price} CZ</p>
             <input
               id={`${item.id}-add-to-cart-button`}
               className="card-add-to-cart-button"
@@ -193,7 +193,7 @@ const MarketplaceComponent = () => {
               onClick={handlePriceFilterOnClick}
               defaultChecked={listedItemsPriceFilter === "0-50"}
             ></input>
-            $0-$50
+            0-50 CZ
           </label>
 
           <label>
@@ -204,7 +204,7 @@ const MarketplaceComponent = () => {
               onClick={handlePriceFilterOnClick}
               defaultChecked={listedItemsPriceFilter === "50-100"}
             ></input>
-            $50-$100
+            50-100 CZ
           </label>
 
           <label>
@@ -215,7 +215,7 @@ const MarketplaceComponent = () => {
               onClick={handlePriceFilterOnClick}
               defaultChecked={listedItemsPriceFilter === "100-1000"}
             ></input>
-            $100-$1000
+            100-1000 CZ
           </label>
 
           <label>

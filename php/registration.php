@@ -43,12 +43,12 @@ if ($res && $res->num_rows > 0) {
     $hashedPassword = password_hash($pass, PASSWORD_DEFAULT);
 
     // Prepares an SQL statement for inserting the new user.
-    $stmt = $conn->prepare("INSERT INTO tcg_user (username, password_hash) VALUES (?, ?)");
-    $stmt->bind_param("ss", $user, $hashedPassword); // Binds parameters to the SQL statement.
+    $stmt = $conn->prepare("INSERT INTO tcg_user (username, password_hash, coin_balance) VALUES (?, ?, ?)");
+    $stmt->bind_param("ssi", $user, $hashedPassword, 100); // Binds parameters to the SQL statement.
     
     // Executes the SQL statement and checks if the user was successfully registered.
     if ($stmt->execute()) {
-        echo json_encode(['success' => true, 'message' => 'User registered successfully!']);
+        echo json_encode(['success' => true, 'message' => 'User registered successfully!', 'coinBalance' => 100]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Registration failed, please try again.']);
     }
