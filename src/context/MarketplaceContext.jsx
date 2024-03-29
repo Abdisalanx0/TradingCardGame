@@ -18,10 +18,10 @@ export const MarketplaceProvider = ({ children }) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            listedItemsSort,
-            listedItemsPriceFilter,
-            listedItemsNameFilter,
-            listedItemsCurrentPage,
+            sort: listedItemsSort,
+            priceFilter: listedItemsPriceFilter,
+            nameFilter: listedItemsNameFilter,
+            currentPage: listedItemsCurrentPage,
           }),
         });
 
@@ -31,10 +31,11 @@ export const MarketplaceProvider = ({ children }) => {
           setListedItems(data);
 
           setListedItemsCurrentPage((oldCurrentPage) => {
-            if (oldCurrentPage > data.totalPages) {
-              return 1;
-            } else {
-              return oldCurrentPage;
+            if(oldCurrentPage > data.totalPages || oldCurrentPage === 0) {
+              return data.totalPages;
+            } 
+            else {
+              return oldCurrentPage
             }
           });
         }

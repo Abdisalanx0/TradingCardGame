@@ -33,8 +33,10 @@ export const InventoryProvider = ({ children }) => {
           // Check if the response is OK before attempting to parse it
           if (response.ok) {
             const responseData = await response.json(); // Await the parsing of the response body
-            console.log(responseData);
-            setInventoryItems(sortCardItems(responseData, inventoryItemsSort));
+            
+            if(Array.isArray(responseData)) {
+              setInventoryItems(sortCardItems(responseData, inventoryItemsSort));
+            }
           } else {
             // Handle HTTP error responses (e.g., 404, 500)
             console.log(

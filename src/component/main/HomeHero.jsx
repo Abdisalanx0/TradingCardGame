@@ -5,7 +5,7 @@ const HomeHero = () => {
     <div className="content-container">
       <h1 className="main-title">Collect All your favorite cards</h1>
       <p className="secondary-text">Create Your Favorite Line up</p>
-      <a href="/login">
+      <a href={ sessionStorage.getItem('username') ? "/dashboard" : "/login" }>
         <button className="cta-button">Start Collecting</button>
       </a>
     </div>

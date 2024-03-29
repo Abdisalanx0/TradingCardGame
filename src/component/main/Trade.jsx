@@ -1,21 +1,10 @@
-import React, { useContext } from "react";
-import MarketplaceContext from "../../context/MarketplaceContext";
-import '../../css/main/Cards.css'
-import CheckoutContext from "../../context/CheckoutContext";
+import React, { useContext } from 'react'
+import TradeContext from '../../context/TradeContext'
+import CheckoutContext from '../../context/CheckoutContext'
 
-const MarketplaceComponent = () => {
-  // Assuming MarketplaceContext provides functions to set and get listed items among other things
-  const {
-    listedItems,
-    setListedItemsSort,
-    listedItemsPriceFilter,
-    setListedItemsPriceFilter,
-    listedItemsNameFilter,
-    setListedItemsNameFilter,
-    listedItemsCurrentPage,
-    setListedItemsCurrentPage,
-  } = useContext(MarketplaceContext);
-  const { cart, setCart } = useContext(CheckoutContext);
+const Trade = () => {
+  const { tradeCards, setTradeCards, tradeCardsSort, setTradeCardsSort, tradeCardsPriceFilter, setTradeCardsPriceFilter, tradeCardsNameFilter, setTradeCardsNameFilter, tradeCardsCurrentPage, setTradeCardsCurrentPage } = useContext(TradeContext)
+  const { cart, setCart } = useContext(CheckoutContext)
 
   const handleAddToCartOnClick = (e) => {
     const delimiterIndex = e.target.id.indexOf("-add-to-cart-button");
@@ -29,7 +18,7 @@ const MarketplaceComponent = () => {
           totalPrice: oldCart.totalPrice,
         };
 
-        for (let item of listedItems.items) {
+        for (let item of tradeCards.items) {
           if (item.id === itemId) {
             newCart.items.push(item);
 
@@ -63,40 +52,36 @@ const MarketplaceComponent = () => {
       });
     }
   };
-
-  const generateListedItem = (item) => {
+  
+  const generateTradeCard = (card) => {
     return (
-      <li
-        key={item.id}
-        id={`${item.id}-listed-card`}
-        className={`${item.rarity}-card card`}
-      >
+      <li key={ card.id } id={ `${card.id}-trade-card` } className={ `${card.rarity}-card card` }>
         <figure className="card-figure">
-          <p className="card-rarity-p">{item.rarity}</p>
+          <p className="card-rarity-p">{card.rarity}</p>
 
           <img
             className="card-thumbnail"
-            src={`/graphics/${item.image}`}
+            src={`/graphics/${card.image}`}
           ></img>
 
           <figcaption className="card-name-figcaption">
-            {item.name}
+            {card.name}
           </figcaption>
 
-          <p className="card-description-p" title={item.description}>
-            {item.description}
+          <p className="card-description-p" title={card.description}>
+            {card.description}
           </p>
         </figure>
 
         <form className="card-actions-form">
           <label className="card-button-label">
-            <p className="card-price">{item.price} CZ</p>
+            <p className="card-price">{card.price} CZ</p>
             <input
-              id={`${item.id}-add-to-cart-button`}
+              id={`${card.id}-add-to-cart-button`}
               className="card-add-to-cart-button"
               type="button"
               value={
-                cart.items.some((cartItem) => cartItem.id === item.id)
+                cart.items.some((cartItem) => cartItem.id === card.id)
                   ? "Remove from Cart"
                   : "Add to Cart"
               }
@@ -105,23 +90,23 @@ const MarketplaceComponent = () => {
           </label>
         </form>
       </li>
-    );
-  };
+    )
+  }
 
   const handlePriceFilterOnClick = (e) => {
     if (e.target.id === "0-50-price-filter-radio") {
-      setListedItemsPriceFilter("0-50");
+      setTradeCardsPriceFilter("0-50");
     } else if (e.target.id === "50-100-price-filter-radio") {
-      setListedItemsPriceFilter("50-100");
+      setTradeCardsPriceFilter("50-100");
     } else if (e.target.id === "100-1000-price-filter-radio") {
-      setListedItemsPriceFilter("100-1000");
+      setTradeCardsPriceFilter("100-1000");
     } else if (e.target.id === "all-price-filter-radio") {
-      setListedItemsPriceFilter("");
+      setTradeCardsPriceFilter("");
     }
   };
 
   const handleNameFilterOnChange = (e) => {
-    setListedItemsNameFilter(e.target.value);
+    setTradeCardsNameFilter(e.target.value);
   };
 
   const handleNameFilterOnKeyDown = (e) => {
@@ -131,7 +116,7 @@ const MarketplaceComponent = () => {
   };
 
   const handleSortButtonOnClick = (e) => {
-    setListedItemsSort((oldSort) => {
+    setTradeCardsSort((oldSort) => {
       const delimiter = oldSort.indexOf(" ");
 
       let property = oldSort.substring(0, delimiter);
@@ -165,13 +150,13 @@ const MarketplaceComponent = () => {
   };
 
   const handlePageButtonOnClick = (e) => {
-    if (e.target.value === "Previous" && listedItemsCurrentPage > 1) {
-      setListedItemsCurrentPage(listedItemsCurrentPage - 1);
+    if (e.target.value === "Previous" && tradeCardsCurrentPage > 1) {
+      setTradeCardsCurrentPage(tradeCardsCurrentPage - 1);
     } else if (
       e.target.value === "Next" &&
-      listedItemsCurrentPage < listedItems.totalPages
+      tradeCardsCurrentPage < tradeCards.totalPages
     ) {
-      setListedItemsCurrentPage(listedItemsCurrentPage + 1);
+      setTradeCardsCurrentPage(tradeCardsCurrentPage + 1);
     }
   };
 
@@ -190,7 +175,7 @@ const MarketplaceComponent = () => {
               type="radio"
               name="price-filter-radio"
               onClick={handlePriceFilterOnClick}
-              defaultChecked={listedItemsPriceFilter === "0-50"}
+              defaultChecked={tradeCardsPriceFilter === "0-50"}
             ></input>
             0-50 CZ
           </label>
@@ -201,7 +186,7 @@ const MarketplaceComponent = () => {
               type="radio"
               name="price-filter-radio"
               onClick={handlePriceFilterOnClick}
-              defaultChecked={listedItemsPriceFilter === "50-100"}
+              defaultChecked={tradeCardsPriceFilter === "50-100"}
             ></input>
             50-100 CZ
           </label>
@@ -212,7 +197,7 @@ const MarketplaceComponent = () => {
               type="radio"
               name="price-filter-radio"
               onClick={handlePriceFilterOnClick}
-              defaultChecked={listedItemsPriceFilter === "100-1000"}
+              defaultChecked={tradeCardsPriceFilter === "100-1000"}
             ></input>
             100-1000 CZ
           </label>
@@ -223,7 +208,7 @@ const MarketplaceComponent = () => {
               type="radio"
               name="price-filter-radio"
               onClick={handlePriceFilterOnClick}
-              defaultChecked={listedItemsPriceFilter === ""}
+              defaultChecked={tradeCardsPriceFilter === ""}
             ></input>
             All Prices
           </label>
@@ -238,7 +223,7 @@ const MarketplaceComponent = () => {
           <input
             id="name-filter-input"
             placeholder="search by card name"
-            value={listedItemsNameFilter}
+            value={tradeCardsNameFilter}
             onChange={handleNameFilterOnChange}
             onKeyDown={handleNameFilterOnKeyDown}
           ></input>
@@ -290,7 +275,7 @@ const MarketplaceComponent = () => {
           </div>
 
           <p>
-            {listedItemsCurrentPage} of {listedItems.totalPages}
+            {tradeCardsCurrentPage} of {tradeCards.totalPages}
           </p>
 
           <div className="overlayed-button-container">
@@ -315,17 +300,17 @@ const MarketplaceComponent = () => {
         </fieldset>
       </form>
 
-      <section id="cards-section">
-        <h2>Listed Trading Cards</h2>
+      <section id='cards-section'>
+        <h2>Trade Requests</h2>
 
-        <ul id="cards-ul">
-          {listedItems.items.map(generateListedItem)}
+        <ul id='cards-ul'>
+          { tradeCards.items.map(generateTradeCard) }
 
-          {!listedItems.items.length ? <p>No items to show</p> : null}
+          { !tradeCards.items.length ? <p>No items to show</p> : null }
         </ul>
       </section>
     </>
-  );
-};
+  )
+}
 
-export default MarketplaceComponent;
+export default Trade
