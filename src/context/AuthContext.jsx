@@ -105,6 +105,14 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  const logout = () => {
+    navigate('/')
+
+    sessionStorage.removeItem('username')
+
+    location.reload()
+  }
+
   useEffect(() => {
     if (userSettings.isDarkMode) {
       document.getElementById("root").classList.add("dark-mode");
@@ -116,13 +124,29 @@ export const AuthProvider = ({ children }) => {
   }, [userSettings]);
 
   useEffect(() => {
-    const sessionUsername = sessionStorage.getItem("username")
+    const fetchUserInfo = async () => {
+      const sessionUsername = sessionStorage.getItem("username")
 
-    if(sessionUsername) {
-      setUsername(sessionUsername)
+      if(sessionUsername) {
+        const response = await fetch('http://localhost/php/userInfo.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username: sessionUsername })
+        })
 
-      setIsLoggedIn(true)
+        if(response.ok) {
+          const data = await response.json()
+
+          setUsername(sessionUsername)
+          setCoinBalance(data.coinBalance)
+          setIsLoggedIn(true)
+        }
+      }
     }
+
+    fetchUserInfo()
   }, [])
 
   return (
@@ -141,7 +165,8 @@ export const AuthProvider = ({ children }) => {
         serverMessage, 
         setServerMessage,
         register, 
-        login
+        login, 
+        logout
       }}
     >
       {children}

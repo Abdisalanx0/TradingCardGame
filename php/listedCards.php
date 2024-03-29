@@ -17,8 +17,6 @@
   $listedCards = runQuery($sql, 'Select listed cards');
 
   if($listedCards) {
-    $tradingCards = array();
-
     // for each listedCard
     while($listedCard = $listedCards -> fetch_assoc()) {
       // query for user_card row that corresponds to $listedCard
@@ -35,6 +33,9 @@
 
       $tradingCard[0]['price'] = floatval($listedCard['price']);
 
+      // wrapping with intval turns NULL into 0
+      $tradingCard[0]['recipient_user_id'] = intval($listedCard['recipient_user_id']);
+
       $tradingCards[] = $tradingCard[0];
     }
 
@@ -42,6 +43,17 @@
     $responseData['currentPage'] = 1;
 
     if($_SERVER['REQUEST_METHOD'] === 'GET') {
+      function filterByNoRecipient($card) {
+        if($card['recipient_user_id'] === 0) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+
+      $responseData['items'] = array_values(array_filter($responseData['items'], 'filterByNoRecipient'));
+
       // sort the array by name (ascending)
       $sortColumn = array_column($responseData['items'], 'name');
       array_multisort($sortColumn, SORT_ASC, $responseData['items']);
@@ -51,10 +63,49 @@
       $body = json_decode(file_get_contents('php://input'));
       
       // parse body properties
-      $sort = $body -> listedItemsSort;
-      $priceFilter = $body -> listedItemsPriceFilter;
-      $nameFilter = $body -> listedItemsNameFilter;
-      $currentPage = $body -> listedItemsCurrentPage;
+      $sort = $body -> sort;
+      $priceFilter = $body -> priceFilter;
+      $nameFilter = $body -> nameFilter;
+      $currentPage = $body -> currentPage;
+
+      // if requesting cards intended for a specific recipient
+      if(property_exists($body, 'recipientFilter') && $body -> recipientFilter !== NULL) {
+        $recipientFilter = $body -> recipientFilter;
+
+        $sql = 'SELECT id FROM tcg_user WHERE username = ?';
+
+        $bindParams = array($recipientFilter);
+
+        $recipientQuery = runSelectQuery($sql, $bindParams);
+
+        $recipientId = $recipientQuery[0]['id'];
+
+        function filterByRecipient($card) {
+          global $recipientId;
+
+          if($card['recipient_user_id'] === $recipientId) {
+            return true;
+          }
+          else {
+            return false;
+          }
+        }
+
+        $responseData['items'] = array_values(array_filter($responseData['items'], 'filterByRecipient'));
+      }
+      // else if requesting cards not for a specific recipient
+      else {
+        function filterByNoRecipient($card) {
+          if($card['recipient_user_id'] === 0) {
+            return true;
+          }
+          else {
+            return false;
+          }
+        }
+
+        $responseData['items'] = array_values(array_filter($responseData['items'], 'filterByNoRecipient'));
+      }
 
       // parse sort property and orientation
       $delimiter = strpos($sort, ' ');

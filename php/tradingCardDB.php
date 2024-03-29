@@ -76,9 +76,9 @@
       id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       price DECIMAL(11, 2),
       user_card_id INT(11) UNSIGNED,
-      trading_card_id INT(11) UNSIGNED,
-      FOREIGN KEY (trading_card_id) REFERENCES trading_card(id),
-      FOREIGN KEY (user_card_id) REFERENCES user_card(id)
+      recipient_user_id INT(11) UNSIGNED,
+      FOREIGN KEY (user_card_id) REFERENCES user_card(id),
+      FOREIGN KEY (recipient_user_id) REFERENCES tcg_user(id)
     )";
     runQuery($sql, "Creating listed_card table");
 
@@ -118,6 +118,16 @@
     
     runQuery($sql, 'tcg_user insert');
 
+    $sql = 'SELECT id FROM tcg_user';
+
+    $users = runQuery($sql, 'tcg_user select');
+
+    $usersArray = array();
+
+    while($user = $users -> fetch_assoc()) {
+      $usersArray[] = $user['id'];
+    }
+
     for($i = 0; $i < count($pokemonCards); $i++) {
       // Table: trading_card
       $sql = "INSERT INTO trading_card (name, description, rarity, image) VALUES (?, ?, ?, ?)";
@@ -136,12 +146,23 @@
   
       runInsertQuery($sql, $bindParams);
 
+      $randRecipientId = NULL;
+      $randRecipientIndex = rand(0, count($usersArray) + 4);
+
+      if($randRecipientIndex < count($usersArray)) {
+        $randRecipientId = $usersArray[$randRecipientIndex];
+
+        $sql = "INSERT INTO listed_card (price, user_card_id, recipient_user_id) VALUES (?, ?, $randRecipientId)";
+      }
+      else {
+        $sql = "INSERT INTO listed_card (price, user_card_id) VALUES (?, ?)";
+      }
+
       // Table: listed_card
-      $sql = "INSERT INTO listed_card (price, user_card_id) VALUES (?, ?)";
   
       // generate random price
       $randPrice = rand(1, 100);
-  
+
       $bindParams = array($randPrice, $insertId);
 
       runInsertQuery($sql, $bindParams);

@@ -2,12 +2,13 @@ import React, { useContext } from 'react'
 import HeaderComponent from '../component/header/HeaderComponent'
 import HeaderContext from '../context/HeaderContext'
 import PopupComponent from '../component/main/PopupComponent'
+import Home from "/src/page/Home"
 import MarketplaceComponent from '../component/main/MarketplaceComponent'
+import Trade from '../component/main/Trade'
 import InventoryComponent from '../component/main/InventoryComponent'
 import CheckoutComponent from '../component/main/CheckoutComponent'
 import FooterComponent from '../component/footer/FooterComponent'
 import MessageComponent from '../component/aside/MessageComponent'
-import Home from "/src/page/Home"
 import '../css/page/Dashboard.css'
 
 const Dashboard = () => {
@@ -17,13 +18,17 @@ const Dashboard = () => {
     switch (currentTab) {
       case "Home":
         return <Home></Home>;
-      case "marketplace":
+
+      case "Marketplace":
         return <MarketplaceComponent></MarketplaceComponent>;
 
-      case "inventory":
+      case "Trade":
+        return <Trade></Trade>
+
+      case "Inventory":
         return <InventoryComponent></InventoryComponent>;
 
-      case "checkout":
+      case "Checkout":
         return <CheckoutComponent></CheckoutComponent>;
     }
   };

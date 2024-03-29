@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import EventsContext from "../../context/EventsContext";
 import InventoryContext from "../../context/InventoryContext";
-import "../../css/main/InventoryComponent.css";
 
 const InventoryComponent = () => {
   const { setPopupContent, setPopupConfirmationCallback, openPopup } = useContext(EventsContext)
@@ -131,15 +130,15 @@ const InventoryComponent = () => {
 
   return (
     <>
-      <form id="inv-filter-and-sort-form">
+      <form id="filter-and-sort-form">
         <fieldset
-          id="inv-name-filter-fieldset"
-          className="inv-filter-and-sort-fieldset"
+          id="name-filter-fieldset"
+          className="filter-and-sort-fieldset"
         >
           <legend hidden>Name Filter</legend>
 
           <input
-            id="inv-name-filter-input"
+            id="name-filter-input"
             placeholder="search by card name"
             value={inventoryItemNameFilter}
             onChange={handleNameFilterOnChange}
@@ -147,8 +146,8 @@ const InventoryComponent = () => {
         </fieldset>
 
         <fieldset
-          id="inv-sort-fieldset"
-          className="inv-filter-and-sort-fieldset"
+          id="sort-fieldset"
+          className="filter-and-sort-fieldset"
         >
           <legend>Sort</legend>
 

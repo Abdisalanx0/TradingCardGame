@@ -6,7 +6,7 @@ import "../../css/header/HeaderComponent.css";
 import CheckoutContext from "../../context/CheckoutContext";
 
 const HeaderComponent = () => {
-  const { username, userSettings, setUserSettings, coinBalance } = useContext(AuthContext);
+  const { username, userSettings, setUserSettings, coinBalance, logout } = useContext(AuthContext);
   const { currentTab, setCurrentTab } = useContext(HeaderContext);
   const { cart } = useContext(CheckoutContext);
 
@@ -19,16 +19,8 @@ const HeaderComponent = () => {
       
       navigate('/')
     }
-    else if(e.target.value === 'Marketplace') {
-      setCurrentTab('marketplace')
-    }
-    else if(e.target.value === 'Inventory') {
-      setCurrentTab('inventory')
-
-    }
-    // cart button onClick
-    else if (e.target.value === "Checkout") {
-      setCurrentTab("checkout");
+    else {
+      setCurrentTab(e.target.value)
     }
   };
 
@@ -38,9 +30,9 @@ const HeaderComponent = () => {
       const logo = document.getElementById("page-logo");
 
       if (newSettings.isDarkMode) {
-        logo.src = "public/icons/logo.png";
+        logo.src = "icons/logo.png";
       } else {
-        logo.src = "public/icons/light-logo.png";
+        logo.src = "icons/light-logo.png";
       }
 
       newSettings.isDarkMode = !newSettings.isDarkMode;
@@ -50,24 +42,21 @@ const HeaderComponent = () => {
   };
 
   const handleLogoutOnClick = async (e) => {
-    navigate("/");
-    location.reload();
+    logout()
   };
 
   return (
     <header id="page-header">
       <h1 id="page-logo">TCG</h1>
 
-
       <nav id='navigation-container'>
         {/* home tab */}
-        <input className={ (currentTab === 'home' ? 'current-tab-button ' : '') + 'navigation-button' } type='button' value='Home' onClick={ handleNavigationButtonOnClick }></input>
-
+        <input className='navigation-button' type='button' value='Home' onClick={ handleNavigationButtonOnClick }></input>
 
         {/* marketplace tab */}
         <input
           className={
-            (currentTab === "marketplace" ? "current-tab-button " : "") +
+            (currentTab === "Marketplace" ? "current-tab-button " : "") +
             "navigation-button"
           }
           type="button"
@@ -75,10 +64,21 @@ const HeaderComponent = () => {
           onClick={handleNavigationButtonOnClick}
         ></input>
 
+        {/* trade tab */}
+        <input
+          className={
+            (currentTab === "Trade" ? "current-tab-button " : "") +
+            "navigation-button"
+          }
+          type="button"
+          value="Trade"
+          onClick={handleNavigationButtonOnClick}
+        ></input>
+
         {/* inventory tab */}
         <input
           className={
-            (currentTab === "inventory" ? "current-tab-button " : "") +
+            (currentTab === "Inventory" ? "current-tab-button " : "") +
             "navigation-button"
           }
           type="button"
@@ -117,9 +117,7 @@ const HeaderComponent = () => {
         <p>Balance: { coinBalance } CZ</p>
 
         <details id='user-dropdown'>
-
           <summary id='user-dropdown-summary'>Welcome, {sessionStorage.getItem("username")}</summary>
-
 
           <input
             id="color-mode-button"
