@@ -29,6 +29,7 @@ const CheckoutComponent = () => {
     });
   };
 
+  
   const generateCartItem = (item) => {
     return (
       <li
@@ -68,6 +69,32 @@ const CheckoutComponent = () => {
     );
   };
 
+const onClickPurchase = async () => {
+  const data = {
+    username: sessionStorage.getItem("username"),
+    cart: cart,
+  };
+
+  try {
+    const response = await fetch("http://localhost/php/cardPurchase.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {//maybe we clear the cart
+      const jsonResponse = await response.json();
+      console.log(jsonResponse); 
+    } else {
+      throw new Error("Failed to send data");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
   return (
     <>
       <form id="checkout-form">
@@ -77,7 +104,7 @@ const CheckoutComponent = () => {
 
             <p>Cart Total: ${cart.totalPrice}</p>
 
-            <input id="checkout-button" type="button" value="Checkout"></input>
+            <input onClick={onClickPurchase} id="checkout-button" type="button" value="Checkout"></input>
           </fieldset>
         ) : null}
       </form>

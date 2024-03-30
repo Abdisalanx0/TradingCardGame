@@ -1,5 +1,5 @@
 .content-container {
-  background-image: url("/graphics/background.png");
+  background-image: url("/graphics/Homebackground.png");
   width: 100%; /* Take full width of the viewport */
   min-height: 100vh; /* Minimum height to fill the viewport */
   margin: auto; /* Centering horizontally */
@@ -109,6 +109,7 @@
 
 /*Contact Us*/
 .background {
+  
   display: flex;
   min-height: 80vh;
 }
@@ -234,33 +235,6 @@
   border-radius: 25px; /* Pill-shaped button for a more modern feel */
   transition: background-color 0.3s ease; /* Smooth transition for interaction */
   margin: 20px auto; /* Center and add space around the button */
-}
-
-
-
-.credits {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  color: #314e52;
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 16px;
-  font-weight: normal;
-}
-
-.credits-link {
-  display: flex;
-  align-items: center;
-  color: #fff;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.dribbble {
-  width: 20px;
-  height: 20px;
-  margin: 0 5px;
 }
 
 @media screen and (max-width: 520px) {
