@@ -28,7 +28,7 @@ $user = $dData['username'];
 $pass = $dData['password'];
 
 // Prepares an SQL statement to retrieve the user by username.
-$stmt = $conn->prepare("SELECT password_hash FROM tcg_user WHERE username = ?");
+$stmt = $conn->prepare("SELECT password_hash, coin_balance FROM tcg_user WHERE username = ?");
 $stmt->bind_param("s", $user); // Binds the username parameter to the SQL statement.
 $stmt->execute(); // Executes the SQL statement.
 $res = $stmt->get_result(); // Gets the result of the query.
@@ -36,10 +36,11 @@ $res = $stmt->get_result(); // Gets the result of the query.
 if ($res && $res->num_rows > 0) {
     $row = $res->fetch_assoc();
     $hashedPassword = $row['password_hash'];
+    $coinBalance = $row['coin_balance'];
     
     // Verifies the password against the hashed password in the database.
     if (password_verify($pass, $hashedPassword)) {
-        echo json_encode(['success' => true, 'message' => 'Login Successful! Redirecting...']);
+        echo json_encode(['success' => true, 'message' => 'Login Successful! Redirecting...', 'coinBalance' => $coinBalance]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
     }

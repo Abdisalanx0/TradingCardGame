@@ -4,6 +4,7 @@ import { MessageProvider } from "./MessageContext";
 import { CardProvider } from "./CardContext";
 import { HeaderProvider } from "./HeaderContext";
 import { MarketplaceProvider } from "./MarketplaceContext";
+import { TradeProvider } from "./TradeContext";
 import { InventoryProvider } from "./InventoryContext";
 import { CheckoutProvider } from "./CheckoutContext";
 
@@ -15,9 +16,11 @@ const ContextProvider = ({ children }) => {
           <CardProvider>
             <HeaderProvider>
               <MarketplaceProvider>
-                <InventoryProvider>
-                  <CheckoutProvider>{children}</CheckoutProvider>
-                </InventoryProvider>
+                <TradeProvider>
+                  <InventoryProvider>
+                    <CheckoutProvider>{children}</CheckoutProvider>
+                  </InventoryProvider>
+                </TradeProvider>
               </MarketplaceProvider>
             </HeaderProvider>
           </CardProvider>
