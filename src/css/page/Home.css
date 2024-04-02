@@ -1,5 +1,5 @@
 .content-container {
-  background-image: url("/graphics/Homebackground.png");
+  background-image: url("/graphics/background.png");
   width: 100%; /* Take full width of the viewport */
   min-height: 100vh; /* Minimum height to fill the viewport */
   margin: auto; /* Centering horizontally */
