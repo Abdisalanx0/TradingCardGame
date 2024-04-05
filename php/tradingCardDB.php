@@ -51,10 +51,10 @@
     // Create Table: user_card
     $sql = "CREATE TABLE IF NOT EXISTS user_card (
       id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-      num_owned INT(11),
-      user_id INT(11) UNSIGNED,
+      new_user INT(11) UNSIGNED,
       card_id INT(11) UNSIGNED,
-      FOREIGN KEY (user_id) REFERENCES tcg_user(id),
+      is_listed BOOLEAN NOT NULL DEFAULT FALSE,
+      FOREIGN KEY (new_user) REFERENCES tcg_user(id),
       FOREIGN KEY (card_id) REFERENCES trading_card(id)
     )";
     runQuery($sql, "Creating user_card table");
@@ -136,13 +136,13 @@
       $insertId = runInsertQuery($sql, $bindParams);
       
       // table: user_card
-      $sql = 'INSERT INTO user_card (num_owned, user_id, card_id) VALUES (?, ?, ?)';
+      $sql = 'INSERT INTO user_card (new_user, card_id, is_listed) VALUES (?, ?, ?)';
   
       // generate random number owned
       $numOwned = rand(1, 5);
 
       // assign card to user with id of 1 (i.e., 'admin,' as inserted above)
-      $bindParams = array($numOwned, 1, $insertId);
+      $bindParams = array(1, $insertId,0);
   
       runInsertQuery($sql, $bindParams);
 
