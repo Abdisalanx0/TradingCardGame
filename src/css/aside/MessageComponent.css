@@ -1,7 +1,7 @@
 #message-box {
   width: 25em;
   position: absolute;
-  bottom: 0;
+  bottom: 10vh;
   right: 0;
   background-color: inherit;
   margin-right: 20px;
@@ -54,7 +54,8 @@
   margin: 0;
 }
 
-#message-box-user-search-input, #message-box-add-user-button {
+#message-box-user-search-input,
+#message-box-add-user-button {
   height: 1em;
   margin: 0.5em 0;
   padding: 0;

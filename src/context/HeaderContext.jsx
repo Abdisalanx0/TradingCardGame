@@ -1,13 +1,15 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useState } from "react";
 
-const HeaderContext = createContext()
+const HeaderContext = createContext();
 
 export const HeaderProvider = ({ children }) => {
-  const [currentTab, setCurrentTab] = useState('marketplace')
+  const [currentTab, setCurrentTab] = useState("Marketplace");
 
   return (
-    <HeaderContext.Provider value={ { currentTab, setCurrentTab } }>{ children }</HeaderContext.Provider>
-  )
-}
+    <HeaderContext.Provider value={{ currentTab, setCurrentTab }}>
+      {children}
+    </HeaderContext.Provider>
+  );
+};
 
-export default HeaderContext
+export default HeaderContext;

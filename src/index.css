@@ -1,27 +1,28 @@
 /* global site styling behaviors */
 
-@import url('https://fonts.googleapis.com/css2?family=Genos&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Genos&display=swap");
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
   text-wrap: wrap;
-  font-family: 'Genos', sans-serif;
+  font-family: "Genos", sans-serif;
   font-size: large;
   line-height: 1em;
   color: inherit;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   margin: 0;
   text-align: center;
+  scroll-behavior: smooth;
 }
 
 #root {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  @apply h-screen flex flex-col items-center justify-between;
 }
 
 h1 {
@@ -47,22 +48,52 @@ legend {
   font-size: larger;
 }
 
-input[type=button], input[type=submit], input[type=checkbox], label:has(input[type=radio]), label:has(input[type=button]), summary {
+input[type="button"],
+input[type="submit"],
+input[type="checkbox"],
+input[type="radio"],
+label:has(input[type="radio"]),
+label:has(input[type="button"]),
+summary {
   cursor: pointer;
 }
 
-input, input::placeholder {
+input,
+input::placeholder {
   color: inherit;
   background-color: inherit;
   text-align: center;
 }
 
-input::placeholder, :disabled {
+input::placeholder,
+:disabled {
   opacity: 0.5;
 }
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+.overlayed-button-container {
+  position: relative;
+}
+
+.overlayed-button {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: none;
+}
+
+.hidden-container {
+  display: none;
+}
+
+.unhidden-container {
+  display: flex;
 }
 
 .dark-mode {

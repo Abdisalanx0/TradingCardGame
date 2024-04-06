@@ -1,0 +1,56 @@
+#initiate-trade-username-input {
+  width: 11em;
+  margin-right: 5px;
+}
+
+#initiate-trade-username-input, #initiate-trade-username-submit {
+  height: 1.5em;
+}
+
+#popup-overlay {
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#popup-container {
+  width: 25em;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
+  position: absolute;
+  background-color: inherit;
+  padding: 1em;
+  border-radius: 10px;
+  box-shadow:
+  2px 0 3px,
+  -2px 0 3px,
+  0 2px 3px,
+  0 -2px 3px;
+}
+
+#popup-container > * {
+  margin: .25em;
+}
+
+#popup-text {
+  color: rgb(255, 120, 120);
+}
+
+#popup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#popup-form > * {
+  margin-top: 1em;
+}
+
+.popup-button {
+  width: 5em;
+  border: 1px solid;
+}

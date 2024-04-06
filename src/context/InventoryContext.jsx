@@ -1,42 +1,71 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import CardContext from './CardContext'
+import React, { createContext, useContext, useEffect, useState } from "react";
+import CardContext from "./CardContext";
+import AuthContext from "./AuthContext";
 
-const InventoryContext = createContext()
+const InventoryContext = createContext();
 
 export const InventoryProvider = ({ children }) => {
-  const [inventoryItems, setInventoryItems] = useState([])
-  const [inventoryItemsSort, setInventoryItemsSort] = useState('name asc')
-  const [inventoryItemNameFilter, setInventoryItemNameFilter] = useState('')
-
-  const { sortCardItems } = useContext(CardContext)
-
+  const [inventoryItems, setInventoryItems] = useState([]);
+  const [inventoryItemsSort, setInventoryItemsSort] = useState("name asc");
+  const [inventoryItemNameFilter, setInventoryItemNameFilter] = useState("");
+  const { sortCardItems } = useContext(CardContext);
+  const { isLoggedIn } = useContext(AuthContext);
   useEffect(() => {
-    setInventoryItems(sortCardItems(inventoryItems, inventoryItemsSort))
-  }, [inventoryItemsSort])
+    if (isLoggedIn) {
+      const fetchInventoryItems = async () => {
+        try {
+          const headers = {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          };
+          const data = { username: sessionStorage.getItem("username") }; // Directly use the username
 
-  // initial render
-  useEffect(() => {
-    const handleFetchInventoryItems = async () => {
-      try {
-        const response = await fetch('./src/context/inventoryCards.json')
-  
-        if(response.ok) {
-          const data = await response.json()
+          // Await the fetch call to ensure it completes before processing the response
+          const response = await fetch(
+            "http://localhost/php/userInventory.php",
+            {
+              method: "POST",
+              headers,
+              body: JSON.stringify(data), // Correctly formatted payload
+            }
+          );
 
-          setInventoryItems(sortCardItems(data, inventoryItemsSort))
+          // Check if the response is OK before attempting to parse it
+          if (response.ok) {
+            const responseData = await response.json(); // Await the parsing of the response body
+            
+            if(Array.isArray(responseData)) {
+              setInventoryItems(sortCardItems(responseData, inventoryItemsSort));
+            }
+          } else {
+            // Handle HTTP error responses (e.g., 404, 500)
+            console.log(
+              "Failed to fetch inventory items. HTTP status: ",
+              response.status
+            );
+          }
+        } catch (err) {
+          console.error("Error fetching inventory items: ", err.message);
         }
-      }
-      catch(err) {
-        console.log(err.message)
-      }
+      };
+
+      fetchInventoryItems();
     }
-
-    handleFetchInventoryItems()
-  }, [])
-
+  }, [isLoggedIn]);
   return (
-    <InventoryContext.Provider value={ { inventoryItems, setInventoryItems, inventoryItemsSort, setInventoryItemsSort, inventoryItemNameFilter, setInventoryItemNameFilter } }>{ children }</InventoryContext.Provider>
-  )
-}
+    <InventoryContext.Provider
+      value={{
+        inventoryItems,
+        setInventoryItems,
+        inventoryItemsSort,
+        setInventoryItemsSort,
+        inventoryItemNameFilter,
+        setInventoryItemNameFilter,
+      }}
+    >
+      {children}
+    </InventoryContext.Provider>
+  );
+};
 
-export default InventoryContext
+export default InventoryContext;
