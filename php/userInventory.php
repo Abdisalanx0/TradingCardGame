@@ -10,8 +10,8 @@ $eData = file_get_contents("php://input");
 $dData = json_decode($eData, true);
 
 // Correctly using $dData to access 'username'
-$username = $dData['username'] ?? ''; // Correct variable name
-//$username = "Abdi";
+$username = $dData['username'];
+//$username = "Abdisalan";
 // Check if username is provided
 if(empty($username)) {
     echo json_encode(['success' => false, 'message' => 'Username not provided']);
@@ -36,7 +36,7 @@ if ($userId) {
     $userId = $userId[0]['id']; // Extract the user ID from the result array
 
     // Fetch cards associated with the user ID
-    $sql = "SELECT * FROM trading_card tc JOIN user_card uc ON tc.id = uc.card_id WHERE uc.user_id = ?";
+    $sql = "SELECT * FROM trading_card tc JOIN user_card uc ON tc.id = uc.card_id WHERE uc.new_user = ?";
     $bindParams = array($userId);
     $cards = runSelectQuery($sql, $bindParams);
 

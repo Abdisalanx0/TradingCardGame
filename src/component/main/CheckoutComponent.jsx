@@ -5,9 +5,45 @@ import "../../css/main/CheckoutComponent.css";
 const CheckoutComponent = () => {
   const { cart, setCart } = useContext(CheckoutContext);
 
-  const handleCheckoutOnClick = (e) => {
+  const handleCheckoutOnClick = async () => {
+    const username = sessionStorage.getItem("username");
 
-  }
+    // Assuming `cart` from `CheckoutContext` already contains the items array you need
+    const cardIds = cart.items.map((item) => item.id);
+    const tPrice = cart.totalPrice;
+    console.log(cardIds);
+    const data = {
+      username, // Or userId, depending on how you're identifying the user on the backend
+      cardIds,
+      tPrice,
+    };
+
+    try {
+      console.log(tPrice);
+      const response = await fetch("http://localhost/php/cardPurchase.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        console.log(jsonResponse);
+        // Clear the cart if successful
+        setCart({ items: [], count: 0, totalPrice: 0 }); // Reset the cart in context
+        sessionStorage.removeItem("cart"); // If you're also syncing the cart to sessionStorage, clear it here
+        alert(jsonResponse.message);
+      } else {
+        throw new Error("Failed to send data");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error processing your purchase.");
+    }
+  };
+
 
   const handleRemoveFromCartOnClick = (e) => {
     const delimiterIndex = e.target.id.indexOf("-remove-from-cart-button");
@@ -33,6 +69,7 @@ const CheckoutComponent = () => {
     });
   };
 
+  
   const generateCartItem = (item) => {
     return (
       <li
@@ -71,7 +108,6 @@ const CheckoutComponent = () => {
       </li>
     );
   };
-
   return (
     <>
       <form id="checkout-form">
@@ -80,6 +116,7 @@ const CheckoutComponent = () => {
             <legend hidden>Checkout Confirmation</legend>
 
             <p>Cart Total: {cart.totalPrice} CZ</p>
+
 
             <input id="checkout-button" type="button" value="Checkout" onClick={ handleCheckoutOnClick }></input>
           </fieldset>
