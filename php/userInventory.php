@@ -10,8 +10,8 @@ $eData = file_get_contents("php://input");
 $dData = json_decode($eData, true);
 
 // Correctly using $dData to access 'username'
-$username = "Abdisalan"; // Correct variable name
-//$username = "Abdi";
+$username = $dData['username'];
+//$username = "Abdisalan";
 // Check if username is provided
 if(empty($username)) {
     echo json_encode(['success' => false, 'message' => 'Username not provided']);

@@ -1,33 +1,30 @@
 <?php
 include 'corsOptions.php';
 include 'dbConnection.php';
-include 'sqlHelpers.php'; 
+include 'sqlHelpers.php';
 
 $eData = file_get_contents("php://input");
 $dData = json_decode($eData, true);
 
-$username = $dData['username'] ?? null;
+$username = $dData['username'];
 $cardIds = $dData['cardIds'] ?? [];
-// Basic validation
+
 if (empty($username) || empty($cardIds)) {
     echo json_encode(['success' => false, 'message' => 'Username or Card IDs not provided']);
     exit;
 }
 
-// Establish a connection to the MySQL database.
 $conn = new mysqli(SERVER_NAME, DBF_USER_NAME, DBF_PASSWORD, DATABASE_NAME);
 
-// Checks and outputs if there's a connection error.
 if ($conn->connect_error) {
     echo json_encode(['success' => false, 'message' => 'Database connection error: ' . $conn->connect_error]);
-    exit();
+    exit;
 }
 
-// First, get the user ID for the given username
 $sql = "SELECT id FROM tcg_user WHERE username = ?";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
-    echo json_encode(['success' => false, 'message' => 'Failed to prepare the statement for fetching user ID']);
+    echo json_encode(['success' => false, 'message' => "Prepare failed: " . $conn->error]);
     exit;
 }
 
@@ -42,20 +39,31 @@ $userRow = $result->fetch_assoc();
 $newUserId = $userRow['id'];
 $stmt->close();
 
-// Now, update the card ownership using the fetched user ID
-$sql = "UPDATE user_card SET new_user = ? WHERE card_id IN (" . implode(',', array_fill(0, count($cardIds), '?')) . ")";
-$types = 'i' . str_repeat('i', count($cardIds)); // Types string
-$params = array_merge([$newUserId], $cardIds); // Parameters array
-
+$placeholders = implode(',', array_fill(0, count($cardIds), '?'));//converts to strings
+$sql = "UPDATE user_card SET new_user = ? WHERE card_id IN ($placeholders)";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
-    echo json_encode(['success' => false, 'message' => 'Failed to prepare the SQL statement for updating card ownership']);
+    echo json_encode(['success' => false, 'message' => "Prepare failed: " . $conn->error]);
     exit;
 }
 
+$params = array_merge([$newUserId], $cardIds);
+$types = 'i' . str_repeat('i', count($cardIds));
 $stmt->bind_param($types, ...$params);
 
 if ($stmt->execute()) {
+    $sql = "DELETE FROM listed_card WHERE user_card_id IN ($placeholders)";
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        echo json_encode(['success' => false, 'message' => "Prepare failed: " . $conn->error]);
+        exit;
+    }
+
+    $stmt->bind_param(str_repeat('i', count($cardIds)), ...$cardIds);
+    if (!$stmt->execute()) {
+        echo json_encode(['success' => false, 'message' => 'Failed to delete card from listed_card']);
+        exit;
+    }
     echo json_encode(['success' => true, 'message' => 'Card ownership updated successfully']);
 } else {
     echo json_encode(['success' => false, 'message' => 'Failed to update card ownership']);
