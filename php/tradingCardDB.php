@@ -111,10 +111,10 @@
     // Table: tcg_user
     // $2y$10$vh4FwBnC9r3sO.MoOwdRveuPw6rdfvxFuoyF7teLOVVstUA89EY6O => 'password'
     $sql = 'INSERT INTO tcg_user (username, password_hash, coin_balance) VALUES 
-      ("admin", "$2y$10$vh4FwBnC9r3sO.MoOwdRveuPw6rdfvxFuoyF7teLOVVstUA89EY6O", 100),
-      ("Chase", "$2y$10$vh4FwBnC9r3sO.MoOwdRveuPw6rdfvxFuoyF7teLOVVstUA89EY6O", 100),
-      ("Abdisalan", "$2y$10$vh4FwBnC9r3sO.MoOwdRveuPw6rdfvxFuoyF7teLOVVstUA89EY6O", 100),
-      ("Hamze", "$2y$10$vh4FwBnC9r3sO.MoOwdRveuPw6rdfvxFuoyF7teLOVVstUA89EY6O", 100)';
+      ("admin", "$2y$10$vh4FwBnC9r3sO.MoOwdRveuPw6rdfvxFuoyF7teLOVVstUA89EY6O", 100000000),
+      ("Chase", "$2y$10$vh4FwBnC9r3sO.MoOwdRveuPw6rdfvxFuoyF7teLOVVstUA89EY6O", 1000),
+      ("Abdisalan", "$2y$10$vh4FwBnC9r3sO.MoOwdRveuPw6rdfvxFuoyF7teLOVVstUA89EY6O", 1000),
+      ("Hamze", "$2y$10$vh4FwBnC9r3sO.MoOwdRveuPw6rdfvxFuoyF7teLOVVstUA89EY6O", 1000)';
     
     runQuery($sql, 'tcg_user insert');
 

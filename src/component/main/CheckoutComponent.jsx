@@ -10,13 +10,16 @@ const CheckoutComponent = () => {
 
     // Assuming `cart` from `CheckoutContext` already contains the items array you need
     const cardIds = cart.items.map((item) => item.id);
+    const tPrice = cart.totalPrice;
     console.log(cardIds);
     const data = {
       username, // Or userId, depending on how you're identifying the user on the backend
       cardIds,
+      tPrice,
     };
 
     try {
+      console.log(tPrice);
       const response = await fetch("http://localhost/php/cardPurchase.php", {
         method: "POST",
         headers: {
@@ -31,7 +34,7 @@ const CheckoutComponent = () => {
         // Clear the cart if successful
         setCart({ items: [], count: 0, totalPrice: 0 }); // Reset the cart in context
         sessionStorage.removeItem("cart"); // If you're also syncing the cart to sessionStorage, clear it here
-        alert("Purchase successful!");
+        alert(jsonResponse.message);
       } else {
         throw new Error("Failed to send data");
       }
