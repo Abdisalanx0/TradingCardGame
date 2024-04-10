@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import TradeContext from '../../context/TradeContext'
 
 const Trade = () => {
-  const { tradeCards, setTradeCardsSort, tradeCardsPriceFilter, setTradeCardsPriceFilter, tradeCardsNameFilter, setTradeCardsNameFilter, tradeCardsTab, setTradeCardsTab } = useContext(TradeContext)
+  const { tradeCards, setTradeCardsSort, tradeCardsPriceFilter, setTradeCardsPriceFilter, tradeCardsNameFilter, setTradeCardsNameFilter, tradeCardsTab, setTradeCardsTab, newRequest, fetchTargetUserInventoryCards } = useContext(TradeContext)
 
   const handleRequestActionOnClick = (e) => {
     if(e.target.value === 'Accept Trade') {
@@ -179,6 +179,16 @@ const Trade = () => {
     setTradeCardsTab(e.target.value)
   }
 
+  const handleTargetUserSearchOnClick = (e) => {
+    e.preventDefault()
+
+    const targetInput = document.getElementById('request-target-username-input')
+
+    console.log(targetInput.value)
+
+    fetchTargetUserInventoryCards(targetInput.value)
+  }
+
   return (
     <>
       <form id="filter-and-sort-form">
@@ -280,6 +290,7 @@ const Trade = () => {
         <nav id='trade-cards-navigation-container'>
           <input className={ (tradeCardsTab === 'Received Requests' ? 'current-trade-cards-tab-button ' : '') + 'trade-cards-tab-button' } type='button' value='Received Requests' onClick={ handleTradeTabOnClick }></input>
           <input className={ (tradeCardsTab === 'Sent Requests' ? 'current-trade-cards-tab-button ' : '') + 'trade-cards-tab-button' } type='button' value='Sent Requests' onClick={ handleTradeTabOnClick }></input>
+          <input className={ (tradeCardsTab === 'Create Request' ? 'current-trade-cards-tab-button ' : '') + 'trade-cards-tab-button' } type='button' value='Create Request' onClick={ handleTradeTabOnClick }></input>
         </nav>
 
         <ul id='requests-ul'>
@@ -289,11 +300,22 @@ const Trade = () => {
               { tradeCards.receivedTrades.map(generateTradeRequest) }
 
               { !tradeCards.receivedTrades.length ? <li>No requests to show</li> : null }
-            </> : 
+            </> : tradeCardsTab === 'Sent Requests' ? 
             <>
               { tradeCards.initiatedTrades.map(generateTradeRequest) }
               
               { !tradeCards.initiatedTrades.length ? <li>No requests to show</li> : null }
+            </> :
+            <>
+              { 
+                newRequest.step === '' ?
+                <>
+                  <form>
+                    <input id='request-target-username-input' placeholder='search for user'></input>
+                    <input type='submit' onClick={ handleTargetUserSearchOnClick }></input>
+                  </form>
+                </> : <></>
+              }
             </>
           }
         </ul>
