@@ -1,98 +1,97 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import AuthContext from './AuthContext'
+import FetchUrl from './FetchUrl'
+import CardContext from './CardContext'
 
 const TradeContext = createContext()
 
 export const TradeProvider = ({ children }) => {
-  const [tradeCards, setTradeCards] = useState({ items: [] })
+  const [tradeCards, setTradeCards] = useState({ initiatedTrades: [], receivedTrades: [] })
   const [tradeCardsSort, setTradeCardsSort] = useState("name asc");
   const [tradeCardsPriceFilter, setTradeCardsPriceFilter] = useState("");
   const [tradeCardsNameFilter, setTradeCardsNameFilter] = useState("");
-  const [tradeCardsCurrentPage, setTradeCardsCurrentPage] = useState(1);
-  const { isLoggedIn } = useContext(AuthContext)
+  const [tradeCardsTab, setTradeCardsTab] = useState("Received Requests");
+  // step: '' (unstarted), chooseOfferings, chooseRequests, submit
+  const [newRequest, setNewRequest] = useState({ offeredCards: [], requestedCards: [], price: 0, step: '', targetUsername: '', targetUserCards: [] })
 
-  useEffect(() => {
-    const fetchSortedTradeCards = async () => {
+  const { username, isLoggedIn } = useContext(AuthContext);
+  const { sortCards } = useContext(CardContext)
+
+  const fetchTradeCards = async () => {
+    if(isLoggedIn) {
       try {
-        const response = await fetch("http://localhost/php/listedCards.php", {
-          method: "POST",
+        const response = await fetch(`${FetchUrl}/tradeRequestCards.php`, {
+          method: 'POST', 
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             sort: tradeCardsSort,
             priceFilter: tradeCardsPriceFilter,
             nameFilter: tradeCardsNameFilter,
-            currentPage: tradeCardsCurrentPage,
-            recipientFilter: sessionStorage.getItem('username')
-          }),
-        });
+            username
+          })
+        })
 
-        if (response.ok) {
-          const data = await response.json();
+        if(response.ok) {
+          const data = await response.json()
 
-          setTradeCards(data);
-
-          setTradeCardsCurrentPage((oldCurrentPage) => {
-            if(oldCurrentPage > data.totalPages || oldCurrentPage === 0) {
-              return data.totalPages;
-            } 
-            else {
-              return oldCurrentPage
-            }
-          });
+          setTradeCards(data)
         }
-      } catch (err) {
-        console.log(err.message);
       }
-    };
+      catch(err) {
+        console.log({ message: err.message })
+      }
+    }
+  }
 
-    fetchSortedTradeCards();
-  }, [
-    tradeCardsSort,
-    tradeCardsPriceFilter,
-    tradeCardsNameFilter,
-    tradeCardsCurrentPage,
-  ])
-
-  useEffect(() => {
-    const fetchTradeCards = async () => {
-      const response = await fetch('http://localhost/php/listedCards.php', {
+  const fetchTargetUserInventoryCards = async (targetUsername) => {
+    try {
+      const response = await fetch(`${FetchUrl}/userInventory.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ 
-          sort: tradeCardsSort,
-          priceFilter: tradeCardsPriceFilter,
-          nameFilter: tradeCardsNameFilter,
-          currentPage: tradeCardsCurrentPage,
-          recipientFilter: sessionStorage.getItem('username') 
-        })
+        body: JSON.stringify({ username: targetUsername })
       })
 
       if(response.ok) {
         const data = await response.json()
 
-        setTradeCards(data);
+        const nonListedCards = []
 
-        setTradeCardsCurrentPage((oldCurrentPage) => {
-          if (oldCurrentPage > data.totalPages) {
-            return data.totalPages;
-          } else {
-            return oldCurrentPage;
+        for(let card of data) {
+          if(!card.is_listed) {
+            nonListedCards.push(card)
           }
-        });
+        }
+
+        setNewRequest((oldRequest) => {
+          const request = { ...oldRequest }
+
+          request.targetUsername = targetUsername
+          request.targetUserCards = sortCards(nonListedCards, 'name asc')
+
+          return request
+        })
       }
     }
-    
-    if(isLoggedIn) {
-      fetchTradeCards()
+    catch(err) {
+      console.log({ message: err.message })
     }
-  }, [isLoggedIn])
+  }
+
+  useEffect(() => {
+    fetchTradeCards()
+  }, [
+    tradeCardsSort,
+    tradeCardsPriceFilter,
+    tradeCardsNameFilter,
+    isLoggedIn
+  ])
 
   return (
-    <TradeContext.Provider value={ { tradeCards, setTradeCards, tradeCardsSort, setTradeCardsSort, tradeCardsPriceFilter, setTradeCardsPriceFilter, tradeCardsNameFilter, setTradeCardsNameFilter, tradeCardsCurrentPage, setTradeCardsCurrentPage } }>{ children }</TradeContext.Provider>
+    <TradeContext.Provider value={ { tradeCards, setTradeCards, tradeCardsSort, setTradeCardsSort, tradeCardsPriceFilter, setTradeCardsPriceFilter, tradeCardsNameFilter, setTradeCardsNameFilter, tradeCardsTab, setTradeCardsTab, fetchTradeCards, newRequest, setNewRequest, fetchTargetUserInventoryCards } }>{ children }</TradeContext.Provider>
   )
 }
 

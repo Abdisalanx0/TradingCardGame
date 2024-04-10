@@ -1,102 +1,70 @@
 import React, { useContext } from "react";
 import MarketplaceContext from "../../context/MarketplaceContext";
-import '../../css/main/Cards.css'
 import CheckoutContext from "../../context/CheckoutContext";
 
-const MarketplaceComponent = () => {
-  // Assuming MarketplaceContext provides functions to set and get listed items among other things
+const Marketplace = () => {
   const {
-    listedItems,
-    setListedItemsSort,
-    listedItemsPriceFilter,
-    setListedItemsPriceFilter,
-    listedItemsNameFilter,
-    setListedItemsNameFilter,
-    listedItemsCurrentPage,
-    setListedItemsCurrentPage,
+    marketplaceCards,
+    setMarketplaceCardsSort,
+    marketplaceCardsPriceFilter,
+    setMarketplaceCardsPriceFilter,
+    marketplaceCardsNameFilter,
+    setMarketplaceCardsNameFilter,
+    marketplaceCardsCurrentPage,
+    setMarketplaceCardsCurrentPage,
   } = useContext(MarketplaceContext);
-  const { cart, setCart } = useContext(CheckoutContext);
+  const { cart, addCardToCart, removeCardFromCart } = useContext(CheckoutContext);
 
   const handleAddToCartOnClick = (e) => {
     const delimiterIndex = e.target.id.indexOf("-add-to-cart-button");
-    const itemId = Number(e.target.id.substring(0, delimiterIndex));
+    const cardId = Number(e.target.id.substring(0, delimiterIndex));
 
     if (e.target.value === "Add to Cart") {
-      setCart((oldCart) => {
-        const newCart = {
-          items: [...oldCart.items],
-          count: oldCart.count,
-          totalPrice: oldCart.totalPrice,
-        };
+      for (let card of marketplaceCards.cards) {
+        if (card.id === cardId) {
+          addCardToCart(card)
 
-        for (let item of listedItems.items) {
-          if (item.id === itemId) {
-            newCart.items.push(item);
-
-            newCart.count++;
-            newCart.totalPrice += item.price;
-
-            break;
-          }
+          break;
         }
-
-        return newCart;
-      });
+      }
     } else if (e.target.value === "Remove from Cart") {
-      setCart((oldCart) => {
-        const newCart = {
-          items: [],
-          count: oldCart.count,
-          totalPrice: oldCart.totalPrice,
-        };
-
-        for (let i = 0; i < oldCart.items.length; i++) {
-          if (oldCart.items[i].id === itemId) {
-            newCart.count--;
-            newCart.totalPrice -= oldCart.items[i].price;
-          } else {
-            newCart.items.push(oldCart.items[i]);
-          }
-        }
-
-        return newCart;
-      });
+      removeCardFromCart(cardId)
     }
   };
 
-  const generateListedItem = (item) => {
+  const generateMarketplaceCards = (card) => {
     return (
       <li
-        key={item.id}
-        id={`${item.id}-listed-card`}
-        className={`${item.rarity}-card card`}
+        key={card.id}
+        id={`${card.id}-marketplace-card`}
+        className='card'
       >
         <figure className="card-figure">
-          <p className="card-rarity-p">{item.rarity}</p>
+          <p className="card-set-p">{card.card_set}</p>
 
           <img
             className="card-thumbnail"
-            src={`/graphics/${item.image}`}
+            src={`/graphics/${card.image}`}
           ></img>
 
           <figcaption className="card-name-figcaption">
-            {item.name}
+            {card.name}
           </figcaption>
 
-          <p className="card-description-p" title={item.description}>
-            {item.description}
+          <p className="card-description-p" title={card.description}>
+            {card.description}
           </p>
         </figure>
 
         <form className="card-actions-form">
           <label className="card-button-label">
-            <p className="card-price">{item.price} CZ</p>
+            <p className="card-price">{card.price} CZ</p>
             <input
-              id={`${item.id}-add-to-cart-button`}
+              id={`${card.id}-add-to-cart-button`}
               className="card-add-to-cart-button"
               type="button"
               value={
-                cart.items.some((cartItem) => cartItem.id === item.id)
+                cart.cards.some((cartCard) => cartCard.id === card.id)
                   ? "Remove from Cart"
                   : "Add to Cart"
               }
@@ -110,18 +78,18 @@ const MarketplaceComponent = () => {
 
   const handlePriceFilterOnClick = (e) => {
     if (e.target.id === "0-50-price-filter-radio") {
-      setListedItemsPriceFilter("0-50");
+      setMarketplaceCardsPriceFilter("0-50");
     } else if (e.target.id === "50-100-price-filter-radio") {
-      setListedItemsPriceFilter("50-100");
+      setMarketplaceCardsPriceFilter("50-100");
     } else if (e.target.id === "100-1000-price-filter-radio") {
-      setListedItemsPriceFilter("100-1000");
+      setMarketplaceCardsPriceFilter("100-1000");
     } else if (e.target.id === "all-price-filter-radio") {
-      setListedItemsPriceFilter("");
+      setMarketplaceCardsPriceFilter("");
     }
   };
 
   const handleNameFilterOnChange = (e) => {
-    setListedItemsNameFilter(e.target.value);
+    setMarketplaceCardsNameFilter(e.target.value);
   };
 
   const handleNameFilterOnKeyDown = (e) => {
@@ -131,7 +99,7 @@ const MarketplaceComponent = () => {
   };
 
   const handleSortButtonOnClick = (e) => {
-    setListedItemsSort((oldSort) => {
+    setMarketplaceCardsSort((oldSort) => {
       const delimiter = oldSort.indexOf(" ");
 
       let property = oldSort.substring(0, delimiter);
@@ -151,11 +119,11 @@ const MarketplaceComponent = () => {
           property = "price";
           orientation = "asc";
         }
-      } else if (e.target.value === "Rarity") {
-        if (property === "rarity" && orientation === "asc") {
+      } else if (e.target.value === "Set") {
+        if (property === "card_set" && orientation === "asc") {
           orientation = "des";
         } else {
-          property = "rarity";
+          property = "card_set";
           orientation = "asc";
         }
       }
@@ -165,13 +133,13 @@ const MarketplaceComponent = () => {
   };
 
   const handlePageButtonOnClick = (e) => {
-    if (e.target.value === "Previous" && listedItemsCurrentPage > 1) {
-      setListedItemsCurrentPage(listedItemsCurrentPage - 1);
+    if (e.target.value === "Previous" && marketplaceCardsCurrentPage > 1) {
+      setMarketplaceCardsCurrentPage(marketplaceCardsCurrentPage - 1);
     } else if (
       e.target.value === "Next" &&
-      listedItemsCurrentPage < listedItems.totalPages
+      marketplaceCardsCurrentPage < marketplaceCards.totalPages
     ) {
-      setListedItemsCurrentPage(listedItemsCurrentPage + 1);
+      setMarketplaceCardsCurrentPage(marketplaceCardsCurrentPage + 1);
     }
   };
 
@@ -190,7 +158,7 @@ const MarketplaceComponent = () => {
               type="radio"
               name="price-filter-radio"
               onClick={handlePriceFilterOnClick}
-              defaultChecked={listedItemsPriceFilter === "0-50"}
+              defaultChecked={marketplaceCardsPriceFilter === "0-50"}
             ></input>
             0-50 CZ
           </label>
@@ -201,7 +169,7 @@ const MarketplaceComponent = () => {
               type="radio"
               name="price-filter-radio"
               onClick={handlePriceFilterOnClick}
-              defaultChecked={listedItemsPriceFilter === "50-100"}
+              defaultChecked={marketplaceCardsPriceFilter === "50-100"}
             ></input>
             50-100 CZ
           </label>
@@ -212,7 +180,7 @@ const MarketplaceComponent = () => {
               type="radio"
               name="price-filter-radio"
               onClick={handlePriceFilterOnClick}
-              defaultChecked={listedItemsPriceFilter === "100-1000"}
+              defaultChecked={marketplaceCardsPriceFilter === "100-1000"}
             ></input>
             100-1000 CZ
           </label>
@@ -223,7 +191,7 @@ const MarketplaceComponent = () => {
               type="radio"
               name="price-filter-radio"
               onClick={handlePriceFilterOnClick}
-              defaultChecked={listedItemsPriceFilter === ""}
+              defaultChecked={marketplaceCardsPriceFilter === ""}
             ></input>
             All Prices
           </label>
@@ -238,7 +206,7 @@ const MarketplaceComponent = () => {
           <input
             id="name-filter-input"
             placeholder="search by card name"
-            value={listedItemsNameFilter}
+            value={marketplaceCardsNameFilter}
             onChange={handleNameFilterOnChange}
             onKeyDown={handleNameFilterOnKeyDown}
           ></input>
@@ -248,20 +216,23 @@ const MarketplaceComponent = () => {
           <legend>Sort</legend>
 
           <input
+            className="sort-button"
             type="button"
             value="Name"
             onClick={handleSortButtonOnClick}
           ></input>
 
           <input
+            className="sort-button"
             type="button"
             value="Price"
             onClick={handleSortButtonOnClick}
           ></input>
 
           <input
+            className="sort-button"
             type="button"
-            value="Rarity"
+            value="Set"
             onClick={handleSortButtonOnClick}
           ></input>
         </fieldset>
@@ -290,7 +261,7 @@ const MarketplaceComponent = () => {
           </div>
 
           <p>
-            {listedItemsCurrentPage} of {listedItems.totalPages}
+            {marketplaceCardsCurrentPage} of {marketplaceCards.totalPages}
           </p>
 
           <div className="overlayed-button-container">
@@ -319,13 +290,13 @@ const MarketplaceComponent = () => {
         <h2>Listed Trading Cards</h2>
 
         <ul id="cards-ul">
-          {listedItems.items.map(generateListedItem)}
+          {marketplaceCards.cards.map(generateMarketplaceCards)}
 
-          {!listedItems.items.length ? <p>No items to show</p> : null}
+          {!marketplaceCards.cards.length ? <p>No cards to show</p> : null}
         </ul>
       </section>
     </>
   );
 };
 
-export default MarketplaceComponent;
+export default Marketplace;

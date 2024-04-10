@@ -1,5 +1,5 @@
 import React from "react"
-import "../../css/page/Home.css"
+
 const Contact = () => {
   return (
     <div id="contact" className="background">
