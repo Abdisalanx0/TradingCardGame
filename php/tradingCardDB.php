@@ -165,7 +165,7 @@
       }
     }
 
-    $tradeRequests = array();
+    $tradeRequests = array( 'usedUserCardIndexes' => array() );
 
     $sql = 'SELECT * FROM user_card WHERE user_id = 1';
     $adminCards = runQuery($sql);
@@ -226,17 +226,15 @@
 
         $cardQuery = runSelectQuery($sql, $bindParams);
 
-        // if the card is not already listed
-        if(!$cardQuery[0]['is_listed']) {
+        // if the card is not used in a trade request
+        if(!isset($tradeRequests['usedUserCardIndexes'][$randomRequestedCardIndex])) {
           // insert it into trade_request_card
           $sql = 'INSERT INTO trade_request_card (request_id, user_card_id) VALUES (?, ?)';
           $bindParams = array($tradeRequests[$usersArray[$randTargetUserIndex]], $otherUserCards[$randomRequestedCardIndex]['id']);
   
           runInsertQuery($sql, $bindParams);
-  
-          // update user_card is_listed
-          $sql = 'UPDATE user_card SET is_listed = ? WHERE id = ?';
-          $bindParams = array(1, $otherUserCards[$randomRequestedCardIndex]['id']);
+
+          $tradeRequests['usedUserCardIndexes'][$randomRequestedCardIndex] = true;
         }
       }
     }
