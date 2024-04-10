@@ -50,9 +50,14 @@ const HeaderComponent = () => {
     <header id="page-header">
       <h1 id="page-logo">TCG</h1>
 
-      <nav id='navigation-container'>
+      <nav id="navigation-container">
         {/* home tab */}
-        <input className='navigation-button' type='button' value='Home' onClick={ handleNavigationButtonOnClick }></input>
+        <input
+          className="navigation-button"
+          type="button"
+          value="Home"
+          onClick={handleNavigationButtonOnClick}
+        ></input>
 
         {/* marketplace tab */}
         <input
@@ -86,6 +91,16 @@ const HeaderComponent = () => {
           value="Inventory"
           onClick={handleNavigationButtonOnClick}
         ></input>
+        {/* Message tab */}
+        <input
+          className={
+            (currentTab === "Message" ? "current-tab-button " : "") +
+            "navigation-button"
+          }
+          type="button"
+          value="Message"
+          onClick={handleNavigationButtonOnClick}
+        ></input>
       </nav>
 
       <section id="header-right-container">
@@ -115,10 +130,12 @@ const HeaderComponent = () => {
           ></input>
         </section>
 
-        <p>Balance: { coinBalance } CZ</p>
+        <p>Balance: {coinBalance} CZ</p>
 
-        <details id='user-dropdown'>
-          <summary id='user-dropdown-summary'>Welcome, {sessionStorage.getItem("username")}</summary>
+        <details id="user-dropdown">
+          <summary id="user-dropdown-summary">
+            Welcome, {sessionStorage.getItem("username")}
+          </summary>
 
           <input
             id="color-mode-button"
