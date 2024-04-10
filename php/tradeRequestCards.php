@@ -91,10 +91,11 @@
     for($i = 0; $i < count($receivedTradeRequests); $i++) {
       // $receivedTradeRequests[$i]['id']
       // $receivedTradeRequests[$i]['initiator_user_id']
+      // $receivedTradeRequests[$i]['target_user_id']
       // $receivedTradeRequests[$i]['price']
 
       $sql = 'SELECT username FROM tcg_user WHERE id = ?';
-      $bindParams = array($initiatedTradeRequests[$i]['initiator_user_id']);
+      $bindParams = array($receivedTradeRequests[$i]['initiator_user_id']);
 
       $userQuery = runSelectQuery($sql, $bindParams);
       $initiatorUsername = $userQuery[0]['username'];

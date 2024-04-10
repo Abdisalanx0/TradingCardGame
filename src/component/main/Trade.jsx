@@ -12,7 +12,7 @@ const Trade = () => {
 
     }
     else if(e.target.value === 'Cancel Trade') {
-      
+
     }
   }
 
@@ -47,7 +47,7 @@ const Trade = () => {
         <details>
           <summary>
             { 
-              tradeCardsTab === 'Received Trades' ? 
+              tradeCardsTab === 'Received Requests' ? 
               <p>From { request.initiatorUsername }</p> :
               <p>To { request.targetUsername }</p>
             }
@@ -86,7 +86,7 @@ const Trade = () => {
                       id={`${request.id}-request-button`}
                       className="card-request-button"
                       type="button"
-                      value="Accept Trade"
+                      value="Reject Trade"
                       onClick={handleRequestActionOnClick}
                     ></input>
                   </label>
@@ -96,7 +96,7 @@ const Trade = () => {
                       id={`${request.id}-request-button`}
                       className="card-request-button"
                       type="button"
-                      value="Reject Trade"
+                      value="Accept Trade"
                       onClick={handleRequestActionOnClick}
                     ></input>
                   </label>
