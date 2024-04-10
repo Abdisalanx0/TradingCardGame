@@ -1,8 +1,7 @@
 import React, { useContext } from 'react'
 import EventsContext from '../../context/EventsContext'
-import '../../css/main/PopupComponent.css'
 
-const PopupComponent = () => {
+const Popup = () => {
   const { popupContent, popupConfirmationCallback, popup, popupOverlay, resetPopup } = useContext(EventsContext)
 
   const handleCancelOnClick = (e) => {
@@ -39,4 +38,4 @@ const PopupComponent = () => {
   )
 }
 
-export default PopupComponent
+export default Popup

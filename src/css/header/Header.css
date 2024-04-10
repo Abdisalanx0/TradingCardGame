@@ -18,14 +18,12 @@
 }
 
 .navigation-button {
-  width: 6em;
   font-size: x-large;
   margin: 0 5px;
   padding-bottom: 5px;
   border: none;
 }
 
-.pointed-navigation-button,
 .current-tab-button {
   box-shadow: inset 0 -5px;
 }

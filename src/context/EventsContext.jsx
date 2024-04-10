@@ -36,22 +36,8 @@ export const EventsProvider = ({ children }) => {
       }
     }
 
-    const mouseOverEventCallback = (e) => {
-      if(e.target.classList.contains('navigation-button')) {
-        e.target.classList.add('pointed-navigation-button')
-      }
-    }
-
-    const mouseOutEventCallback = (e) => {
-      if(e.target.classList.contains('navigation-button')) {
-        e.target.classList.remove('pointed-navigation-button')
-      }
-    }
-
-    // add event callbacks to listeners
+    // add event callback to listener
     window.addEventListener('click', clickEventCallback)
-    window.addEventListener('mouseover', mouseOverEventCallback)
-    window.addEventListener('mouseout', mouseOutEventCallback)
   }, [])
 
   return (

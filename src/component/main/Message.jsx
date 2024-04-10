@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import MessageContext from "../../context/MessageContext";
-import "../../css/aside/MessageComponent.css";
 
-const MessageComponent = () => {
+const Message = () => {
   const {
     messages,
     setMessages,
@@ -199,4 +198,4 @@ const MessageComponent = () => {
   );
 };
 
-export default MessageComponent;
+export default Message;

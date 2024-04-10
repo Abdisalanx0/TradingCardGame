@@ -1,98 +1,56 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import AuthContext from './AuthContext'
+import FetchUrl from './FetchUrl'
 
 const TradeContext = createContext()
 
 export const TradeProvider = ({ children }) => {
-  const [tradeCards, setTradeCards] = useState({ items: [] })
+  const [tradeCards, setTradeCards] = useState({ initiatedTrades: [], receivedTrades: [] })
   const [tradeCardsSort, setTradeCardsSort] = useState("name asc");
   const [tradeCardsPriceFilter, setTradeCardsPriceFilter] = useState("");
   const [tradeCardsNameFilter, setTradeCardsNameFilter] = useState("");
-  const [tradeCardsCurrentPage, setTradeCardsCurrentPage] = useState(1);
-  const { isLoggedIn } = useContext(AuthContext)
+  const [tradeCardsTab, setTradeCardsTab] = useState("Received Requests");
+  const { username, isLoggedIn } = useContext(AuthContext);
 
-  useEffect(() => {
-    const fetchSortedTradeCards = async () => {
+  const fetchTradeCards = async () => {
+    if(isLoggedIn) {
       try {
-        const response = await fetch("http://localhost/php/listedCards.php", {
-          method: "POST",
+        const response = await fetch(`${FetchUrl}/tradeRequestCards.php`, {
+          method: 'POST', 
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             sort: tradeCardsSort,
             priceFilter: tradeCardsPriceFilter,
             nameFilter: tradeCardsNameFilter,
-            currentPage: tradeCardsCurrentPage,
-            recipientFilter: sessionStorage.getItem('username')
-          }),
-        });
+            username
+          })
+        })
 
-        if (response.ok) {
-          const data = await response.json();
+        if(response.ok) {
+          const data = await response.json()
 
-          setTradeCards(data);
-
-          setTradeCardsCurrentPage((oldCurrentPage) => {
-            if(oldCurrentPage > data.totalPages || oldCurrentPage === 0) {
-              return data.totalPages;
-            } 
-            else {
-              return oldCurrentPage
-            }
-          });
+          setTradeCards(data)
         }
-      } catch (err) {
-        console.log(err.message);
       }
-    };
+      catch(err) {
+        console.log({ message: err.message })
+      }
+    }
+  }
 
-    fetchSortedTradeCards();
+  useEffect(() => {
+    fetchTradeCards()
   }, [
     tradeCardsSort,
     tradeCardsPriceFilter,
     tradeCardsNameFilter,
-    tradeCardsCurrentPage,
+    isLoggedIn
   ])
 
-  useEffect(() => {
-    const fetchTradeCards = async () => {
-      const response = await fetch('http://localhost/php/listedCards.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-          sort: tradeCardsSort,
-          priceFilter: tradeCardsPriceFilter,
-          nameFilter: tradeCardsNameFilter,
-          currentPage: tradeCardsCurrentPage,
-          recipientFilter: sessionStorage.getItem('username') 
-        })
-      })
-
-      if(response.ok) {
-        const data = await response.json()
-
-        setTradeCards(data);
-
-        setTradeCardsCurrentPage((oldCurrentPage) => {
-          if (oldCurrentPage > data.totalPages) {
-            return data.totalPages;
-          } else {
-            return oldCurrentPage;
-          }
-        });
-      }
-    }
-    
-    if(isLoggedIn) {
-      fetchTradeCards()
-    }
-  }, [isLoggedIn])
-
   return (
-    <TradeContext.Provider value={ { tradeCards, setTradeCards, tradeCardsSort, setTradeCardsSort, tradeCardsPriceFilter, setTradeCardsPriceFilter, tradeCardsNameFilter, setTradeCardsNameFilter, tradeCardsCurrentPage, setTradeCardsCurrentPage } }>{ children }</TradeContext.Provider>
+    <TradeContext.Provider value={ { tradeCards, setTradeCards, tradeCardsSort, setTradeCardsSort, tradeCardsPriceFilter, setTradeCardsPriceFilter, tradeCardsNameFilter, setTradeCardsNameFilter, tradeCardsTab, setTradeCardsTab, fetchTradeCards } }>{ children }</TradeContext.Provider>
   )
 }
 

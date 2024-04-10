@@ -3,7 +3,7 @@ import HomeNavigation from "../component/header/HomeNavigation";
 import HomeHero from "../component/main/HomeHero";
 import About from "../component/main/About";
 import Contact from "../component/main/Contact";
-import FooterComponent from "../component/footer/FooterComponent";
+import Footer from "../component/footer/Footer";
 const Home = () => {
   return (
     <>
@@ -11,7 +11,7 @@ const Home = () => {
       <HomeHero />
       <About />
       <Contact />
-      <FooterComponent/>
+      <Footer/>
     </>
   );
 };

@@ -2,20 +2,20 @@ import React, { useContext, useState } from "react";
 import EventsContext from "../../context/EventsContext";
 import InventoryContext from "../../context/InventoryContext";
 
-const InventoryComponent = () => {
+const Inventory = () => {
   const { setPopupContent, setPopupConfirmationCallback, openPopup } = useContext(EventsContext)
 
   const {
-    inventoryItems,
-    setInventoryItems,
-    setInventoryItemsSort,
-    inventoryItemNameFilter,
-    setInventoryItemNameFilter,
+    inventoryCards,
+    setInventoryCards,
+    setInventoryCardsSort,
+    inventoryCardNameFilter,
+    setInventoryCardNameFilter,
   } = useContext(InventoryContext);
 
   let isAtLeastOneCardVisible = false;
 
-  const generateInventoryItem = (item) => {
+  const generateInventoryCard = (card) => {
     const handleTradeCardOnClick = (e) => {
       setPopupContent(() => {
         const newContent = {}
@@ -56,7 +56,7 @@ const InventoryComponent = () => {
     let isVisible = true;
 
     if (
-      !item.name.toLowerCase().includes(inventoryItemNameFilter.toLowerCase())
+      !card.name.toLowerCase().includes(inventoryCardNameFilter.toLowerCase())
     ) {
       isVisible = false;
     }
@@ -67,30 +67,30 @@ const InventoryComponent = () => {
 
     return isVisible ? (
       <li
-        key={item.id}
-        id={`${item.id}-card`}
-        className={`${item.rarity}-card card`}
+        key={card.id}
+        id={`${card.id}-card`}
+        className='card'
       >
         <figure className="card-figure">
-          <p className="card-rarity-p">{item.rarity}</p>
+          <p className="card-set-p">{card.card_set}</p>
 
           <img
             className="card-thumbnail"
-            src={`/graphics/${item.image}`}
+            src={`/graphics/${card.image}`}
           ></img>
 
           <figcaption className="card-name-figcaption">
-            {item.name}
+            {card.name}
           </figcaption>
 
-          <p className="card-description-p" title={item.description}>
-            {item.description}
+          <p className="card-description-p" title={card.description}>
+            {card.description}
           </p>
         </figure>
 
         <form className="card-actions-form">
           <label className='card-button-label'>
-            <input id={ `${item.id}-card-trade-button` } className='card-trade-button' type='button' value='Trade' onClick={ handleTradeCardOnClick }></input>
+            <input id={ `${card.id}-card-trade-button` } className='card-trade-button' type='button' value='Trade' onClick={ handleTradeCardOnClick }></input>
           </label>
         </form>
       </li>
@@ -98,11 +98,11 @@ const InventoryComponent = () => {
   };
 
   const handleNameFilterOnChange = (e) => {
-    setInventoryItemNameFilter(e.target.value);
+    setInventoryCardNameFilter(e.target.value);
   };
 
   const handleSortButtonOnClick = (e) => {
-    setInventoryItemsSort((oldSort) => {
+    setInventoryCardsSort((oldSort) => {
       const delimiter = oldSort.indexOf(" ");
 
       let property = oldSort.substring(0, delimiter);
@@ -115,11 +115,11 @@ const InventoryComponent = () => {
           property = "name";
           orientation = "asc";
         }
-      } else if (e.target.value === "Rarity") {
-        if (property === "rarity" && orientation === "asc") {
+      } else if (e.target.value === "Set") {
+        if (property === "card_set" && orientation === "asc") {
           orientation = "des";
         } else {
-          property = "rarity";
+          property = "card_set";
           orientation = "asc";
         }
       }
@@ -140,7 +140,7 @@ const InventoryComponent = () => {
           <input
             id="name-filter-input"
             placeholder="search by card name"
-            value={inventoryItemNameFilter}
+            value={inventoryCardNameFilter}
             onChange={handleNameFilterOnChange}
           ></input>
         </fieldset>
@@ -152,14 +152,16 @@ const InventoryComponent = () => {
           <legend>Sort</legend>
 
           <input
+            className="sort-button"
             type="button"
             value="Name"
             onClick={handleSortButtonOnClick}
           ></input>
 
           <input
+            className="sort-button"
             type="button"
-            value="Rarity"
+            value="Set"
             onClick={handleSortButtonOnClick}
           ></input>
         </fieldset>
@@ -169,13 +171,13 @@ const InventoryComponent = () => {
         <h2>Inventory</h2>
 
         <ul id="cards-ul">
-          {inventoryItems.map(generateInventoryItem)}
+          {inventoryCards.map(generateInventoryCard)}
 
-          {!inventoryItems.length ? <p>No items to show</p> : null}
+          {!inventoryCards.length ? <p>No cards to show</p> : null}
         </ul>
       </section>
     </>
   );
 };
 
-export default InventoryComponent;
+export default Inventory;

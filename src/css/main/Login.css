@@ -1,29 +1,27 @@
 #login-main {
   min-width: min-content;
   width: 100vw; /* Adjusted for a more appropriate size */
-  height: 80vh; /* Adjusted for a sleeker look */
+  height: 80vh; 
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 #login-form {
-   background-color: #f7f7f7; /* A light background color */
+  background-color: #f7f7f7; /* A light background color */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adding a subtle shadow */
   border-radius: 15px; /* Slightly larger border radius for a softer look */
-  width: 15em;
+  width: 18em;
   padding: 1em;
   border-radius: 10px;
 }
 
-#login-inputs-fieldset,
-#login-submission-fieldset {
+#login-inputs-fieldset {
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin: 10px 0;
-  padding: 10px 0;
-  border: none; /* Modern forms often do not have borders around fieldsets */
+  /* margin: 10px 0; */
+  /* padding: 10px 0; */
 }
 
 #login-inputs-fieldset {
@@ -32,14 +30,16 @@
 
 #server-message {
   height: 3em;
+  margin: 10px 0;
+  padding-top: 10px;
+  border-top: 2px solid #eee;
   color: #ff9191; /* Keeping the color for error messages */
   text-align: center; /* Centering the server message */
-  margin-bottom: 1em; /* Adding some spacing */
 }
 
 #username-input,
 #password-input {
-  margin: 0.5em 0;
+  margin-bottom: 10px;
   border-radius: 10px;
   border: 1px solid #ccc; /* A lighter border color */
   padding: 0.75em; /* More padding for a larger touch area */
@@ -57,7 +57,7 @@
 
 #register-button,
 #login-button {
-  width: 200px; /* Adjusted for better spacing */
+  width: 7em;
   margin-top: 10px;
   height: auto;
   background-color: #007bff; /* A more vibrant button color */
@@ -76,6 +76,7 @@
 
 /* Flex container for buttons to ensure even spacing and centering */
 #login-submission-fieldset {
+  display: flex;
   justify-content: space-around;
   align-items: center;
 }

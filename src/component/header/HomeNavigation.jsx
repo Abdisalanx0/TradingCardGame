@@ -1,5 +1,4 @@
 import React from "react";
-import "../../css/header/HomeHeaderComponent.css";
 
 const HomeNavigation = () => {
   return (
