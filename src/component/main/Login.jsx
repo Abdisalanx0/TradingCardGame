@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
-import "../../css/main/LoginComponent.css";
 
-const LoginComponent = () => {
+const Login = () => {
   const { username, setUsername, password, setPassword, serverMessage, setServerMessage, register, login } = useContext(AuthContext);
 
   const handleUsernameOnChange = (e) => {
@@ -59,7 +58,7 @@ const LoginComponent = () => {
 
         {/* submission fieldset */}
         <fieldset id="login-submission-fieldset">
-          <legend>Submit</legend>
+          <legend hidden>Submit</legend>
 
           {/* button inputs do not require labels */}
 
@@ -84,4 +83,4 @@ const LoginComponent = () => {
   );
 };
 
-export default LoginComponent;
+export default Login;

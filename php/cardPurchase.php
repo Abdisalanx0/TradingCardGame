@@ -64,7 +64,7 @@ if (!$stmt->execute()) {
 }
 
 $placeholders = implode(',', array_fill(0, count($cardIds), '?'));//converts to strings
-$sql = "UPDATE user_card SET new_user = ? WHERE card_id IN ($placeholders)";
+$sql = "UPDATE user_card SET user_id = ? WHERE card_id IN ($placeholders)";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     echo json_encode(['success' => false, 'message' => "Prepare failed: " . $conn->error]);

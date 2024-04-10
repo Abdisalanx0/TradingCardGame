@@ -1,17 +1,15 @@
 import React, { useContext } from "react";
 import CheckoutContext from "../../context/CheckoutContext";
-import "../../css/main/CheckoutComponent.css";
 
-const CheckoutComponent = () => {
+const Checkout = () => {
   const { cart, setCart } = useContext(CheckoutContext);
 
   const handleCheckoutOnClick = async () => {
     const username = sessionStorage.getItem("username");
 
-    // Assuming `cart` from `CheckoutContext` already contains the items array you need
-    const cardIds = cart.items.map((item) => item.id);
+    const cardIds = cart.cards.map((card) => card.id);
     const tPrice = cart.totalPrice;
-    console.log(cardIds);
+
     const data = {
       username, // Or userId, depending on how you're identifying the user on the backend
       cardIds,
@@ -19,7 +17,6 @@ const CheckoutComponent = () => {
     };
 
     try {
-      console.log(tPrice);
       const response = await fetch("http://localhost/php/cardPurchase.php", {
         method: "POST",
         headers: {
@@ -30,9 +27,9 @@ const CheckoutComponent = () => {
 
       if (response.ok) {
         const jsonResponse = await response.json();
-        console.log(jsonResponse);
+
         // Clear the cart if successful
-        setCart({ items: [], count: 0, totalPrice: 0 }); // Reset the cart in context
+        setCart({ cards: [], count: 0, totalPrice: 0 }); // Reset the cart in context
         sessionStorage.removeItem("cart"); // If you're also syncing the cart to sessionStorage, clear it here
         alert(jsonResponse.message);
       } else {
@@ -47,21 +44,21 @@ const CheckoutComponent = () => {
 
   const handleRemoveFromCartOnClick = (e) => {
     const delimiterIndex = e.target.id.indexOf("-remove-from-cart-button");
-    const itemId = Number(e.target.id.substring(0, delimiterIndex));
+    const cardId = Number(e.target.id.substring(0, delimiterIndex));
 
     setCart((oldCart) => {
       const newCart = {
-        items: [],
+        cards: [],
         count: oldCart.count,
         totalPrice: oldCart.totalPrice,
       };
 
-      for (let i = 0; i < oldCart.items.length; i++) {
-        if (oldCart.items[i].id === itemId) {
+      for (let i = 0; i < oldCart.cards.length; i++) {
+        if (oldCart.cards[i].id === cardId) {
           newCart.count--;
-          newCart.totalPrice -= oldCart.items[i].price;
+          newCart.totalPrice -= oldCart.cards[i].price;
         } else {
-          newCart.items.push(oldCart.items[i]);
+          newCart.cards.push(oldCart.cards[i]);
         }
       }
 
@@ -70,34 +67,34 @@ const CheckoutComponent = () => {
   };
 
   
-  const generateCartItem = (item) => {
+  const generateCartCard = (card) => {
     return (
       <li
-        key={item.id}
-        id={`${item.id}-card`}
-        className={`${item.rarity}-card card`}
+        key={card.id}
+        id={`${card.id}-card`}
+        className={`${card.rarity}-card card`}
       >
         <figure className="card-figure">
-          <p className="card-rarity-p">{item.rarity}</p>
+          <p className="card-rarity-p">{card.rarity}</p>
 
           <img
             className="card-thumbnail"
-            src={`/graphics/${item.image}`}
+            src={`/graphics/${card.image}`}
           ></img>
 
           <figcaption className="card-name-figcaption">
-            {item.name}
+            {card.name}
           </figcaption>
 
-          <p className="card-description-p" title={item.description}>
-            {item.description}
+          <p className="card-description-p" title={card.description}>
+            {card.description}
           </p>
         </figure>
 
         <form className="card-actions-form">
           <label className="card-button-label">
             <input
-              id={`${item.id}-remove-from-cart-button`}
+              id={`${card.id}-remove-from-cart-button`}
               className="card-remove-from-cart-button"
               type="button"
               value="Remove from Cart"
@@ -127,13 +124,13 @@ const CheckoutComponent = () => {
         <h2>Checkout</h2>
 
         <ul id="cards-ul">
-          {cart.items.map(generateCartItem)}
+          {cart.cards.map(generateCartCard)}
 
-          {!cart.count ? <p>No items to show</p> : null}
+          {!cart.count ? <p>No cards to show</p> : null}
         </ul>
       </section>
     </>
   );
 };
 
-export default CheckoutComponent;
+export default Checkout;

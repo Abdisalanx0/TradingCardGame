@@ -2,10 +2,9 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 import HeaderContext from "../../context/HeaderContext";
-import "../../css/header/HeaderComponent.css";
 import CheckoutContext from "../../context/CheckoutContext";
 
-const HeaderComponent = () => {
+const Header = () => {
   const { username, userSettings, setUserSettings, coinBalance, logout } = useContext(AuthContext);
   const { currentTab, setCurrentTab } = useContext(HeaderContext);
   const { cart } = useContext(CheckoutContext);
@@ -139,4 +138,4 @@ const HeaderComponent = () => {
   );
 };
 
-export default HeaderComponent;
+export default Header;

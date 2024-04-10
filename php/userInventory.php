@@ -36,7 +36,7 @@ if ($userId) {
     $userId = $userId[0]['id']; // Extract the user ID from the result array
 
     // Fetch cards associated with the user ID
-    $sql = "SELECT * FROM trading_card tc JOIN user_card uc ON tc.id = uc.card_id WHERE uc.new_user = ?";
+    $sql = "SELECT * FROM trading_card tc JOIN user_card uc ON tc.id = uc.card_id WHERE uc.user_id = ?";
     $bindParams = array($userId);
     $cards = runSelectQuery($sql, $bindParams);
 

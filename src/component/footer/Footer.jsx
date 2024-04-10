@@ -1,7 +1,6 @@
 import React from "react";
-import "../../css/footer/FooterComponent.css";
 
-const FooterComponent = () => {
+const Footer = () => {
   return (
     <footer id="page-footer">
       <p>Created by Abdisalan Mohamed, Chase Shertzer, & Hamze Jama</p>
@@ -9,4 +8,4 @@ const FooterComponent = () => {
   );
 };
 
-export default FooterComponent;
+export default Footer;

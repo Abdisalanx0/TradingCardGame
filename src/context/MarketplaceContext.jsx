@@ -1,88 +1,78 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import AuthContext from "./AuthContext";
+import FetchUrl from "./FetchUrl";
 
 const MarketplaceContext = createContext();
 
 export const MarketplaceProvider = ({ children }) => {
-  const [listedItems, setListedItems] = useState({ items: [] });
-  const [listedItemsSort, setListedItemsSort] = useState("name asc");
-  const [listedItemsPriceFilter, setListedItemsPriceFilter] = useState("");
-  const [listedItemsNameFilter, setListedItemsNameFilter] = useState("");
-  const [listedItemsCurrentPage, setListedItemsCurrentPage] = useState(1);
+  const [marketplaceCards, setMarketplaceCards] = useState({ cards: [] });
+  const [marketplaceCardsSort, setMarketplaceCardsSort] = useState("name asc");
+  const [marketplaceCardsPriceFilter, setMarketplaceCardsPriceFilter] = useState("");
+  const [marketplaceCardsNameFilter, setMarketplaceCardsNameFilter] = useState("");
+  const [marketplaceCardsCurrentPage, setMarketplaceCardsCurrentPage] = useState(1);
 
-  useEffect(() => {
-    const fetchSortedListedCardItems = async () => {
+  const { isLoggedIn } = useContext(AuthContext)
+
+  const fetchMarketplaceCards = async () => {
+    if(isLoggedIn) {
       try {
-        const response = await fetch("http://localhost/php/listedCards.php", {
+        const response = await fetch(`${FetchUrl}/marketplaceCards.php`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            sort: listedItemsSort,
-            priceFilter: listedItemsPriceFilter,
-            nameFilter: listedItemsNameFilter,
-            currentPage: listedItemsCurrentPage,
+            sort: marketplaceCardsSort,
+            priceFilter: marketplaceCardsPriceFilter,
+            nameFilter: marketplaceCardsNameFilter,
+            currentPage: marketplaceCardsCurrentPage
           }),
         });
-
+  
         if (response.ok) {
           const data = await response.json();
-
-          setListedItems(data);
-
-          setListedItemsCurrentPage((oldCurrentPage) => {
+  
+          setMarketplaceCards(data);
+  
+          setMarketplaceCardsCurrentPage((oldCurrentPage) => {
             if(oldCurrentPage > data.totalPages || oldCurrentPage === 0) {
               return data.totalPages;
             } 
             else {
-              return oldCurrentPage
+              return oldCurrentPage;
             }
           });
         }
       } catch (err) {
         console.log(err.message);
       }
-    };
-
-    fetchSortedListedCardItems();
-  }, [
-    listedItemsSort,
-    listedItemsPriceFilter,
-    listedItemsNameFilter,
-    listedItemsCurrentPage,
-  ]);
+    }
+  }
 
   useEffect(() => {
-    const fetchListedCardItems = async () => {
-      try {
-        const response = await fetch("http://localhost/php/listedCards.php");
-
-        if (response.ok) {
-          const data = await response.json();
-
-          setListedItems(data);
-        }
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
-
-    fetchListedCardItems();
-  }, []);
+    fetchMarketplaceCards()
+  }, [
+    marketplaceCardsSort,
+    marketplaceCardsPriceFilter,
+    marketplaceCardsNameFilter,
+    marketplaceCardsCurrentPage,
+    isLoggedIn
+  ]);
 
   return (
     <MarketplaceContext.Provider
       value={{
-        listedItems,
-        setListedItems,
-        listedItemsSort,
-        setListedItemsSort,
-        listedItemsPriceFilter,
-        setListedItemsPriceFilter,
-        listedItemsNameFilter,
-        setListedItemsNameFilter,
-        listedItemsCurrentPage,
-        setListedItemsCurrentPage,
+        marketplaceCards,
+        setMarketplaceCards,
+        marketplaceCardsSort,
+        setMarketplaceCardsSort,
+        marketplaceCardsPriceFilter,
+        setMarketplaceCardsPriceFilter,
+        marketplaceCardsNameFilter,
+        setMarketplaceCardsNameFilter,
+        marketplaceCardsCurrentPage,
+        setMarketplaceCardsCurrentPage,
+        fetchMarketplaceCards
       }}
     >
       {children}

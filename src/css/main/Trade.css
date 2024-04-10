@@ -1,0 +1,79 @@
+#trade-cards-navigation-container {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.trade-cards-tab-button {
+  width: 9em;
+  font-size: x-large;
+  margin: 10px 5px;
+  padding-bottom: 5px;
+  border: none;
+}
+
+.current-trade-cards-tab-button {
+  box-shadow: inset 0 -5px;
+}
+
+#requests-section {
+  width: 100%;
+  height: 70vh;
+  overflow-y: scroll;
+  background-color: transparent;
+}
+
+#requests-ul {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  padding: 0;
+}
+
+.trade-request {
+  display: flex;
+  margin: 10px;
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+.trade-request details {
+  width: 100%;
+  display: flex;
+}
+
+.trade-request summary {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  padding: 5px;
+}
+
+.request-cards-section {
+  display: flex;
+}
+
+.offered-cards-section, .requested-cards-section {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid;
+}
+
+.offered-cards-section {
+  border-right: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.requested-cards-section {
+  border-left: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.offered-cards-section h3, .requested-cards-section h3 {
+  width: 100%;
+}
+
+.offered-cards-ul, .requested-cards-ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0;
+}

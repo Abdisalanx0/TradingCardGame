@@ -7,20 +7,17 @@
   */
 
   // run a non-parameterized query
-  function runQuery($sql, $queryDescription) {
+  function runQuery($sql) {
     global $conn;
 
     // store query result, and if query succeeded
     if($result = $conn -> query($sql)) {
-      // echo $queryDescription . " succeeded. <br />";
 
       // return query result
       return $result;
     }
     // else if query failed
     else {
-      // echo $queryDescription . " failed: " . $conn -> error . ". <br />"; 
-
       // return false
       return FALSE;
     }
@@ -122,7 +119,7 @@
       $tempSql = substr($sql, 0, $endIndex);
 
       // run the simple query
-      $tempResult = runQuery($tempSql, '');
+      $tempResult = runQuery($tempSql);
 
       // for each field returned from the simple query
       while($field = $tempResult -> fetch_field()) {

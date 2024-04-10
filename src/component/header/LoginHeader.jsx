@@ -1,7 +1,6 @@
 import React from "react";
-import "../../css/header/LoginHeaderComponent.css";
 
-const LoginHeaderComponent = () => {
+const LoginHeader = () => {
   return (
     <header id="login-page-header">
       <h1 id="login-page-h1">TCG</h1>
@@ -9,4 +8,4 @@ const LoginHeaderComponent = () => {
   );
 };
 
-export default LoginHeaderComponent;
+export default LoginHeader;

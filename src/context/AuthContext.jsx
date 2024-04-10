@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import FetchUrl from "./FetchUrl";
 
 const AuthContext = createContext();
 
@@ -16,7 +17,7 @@ export const AuthProvider = ({ children }) => {
   const register = () => {
     // Checks if both username and password are not empty.
     if (username !== "" && password !== "") {
-      const url = "http://localhost/php/registration.php"; // URL to send the registration request.
+      const url = `${FetchUrl}/registration.php`; // URL to send the registration request.
 
       // Headers for the fetch request.
       const headers = {
@@ -60,7 +61,7 @@ export const AuthProvider = ({ children }) => {
   const login = () => {
     // Checks if both username and password are not empty.
     if (username !== "" && password !== "") {
-      const url = "http://localhost/php/login.php"; // URL to send the login request.
+      const url = `${FetchUrl}/login.php`; // URL to send the login request.
 
       // Headers for the fetch request.
       const headers = {
@@ -128,7 +129,7 @@ export const AuthProvider = ({ children }) => {
       const sessionUsername = sessionStorage.getItem("username")
 
       if(sessionUsername) {
-        const response = await fetch('http://localhost/php/userInfo.php', {
+        const response = await fetch(`${FetchUrl}/userInfo.php`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -142,6 +143,8 @@ export const AuthProvider = ({ children }) => {
           setUsername(sessionUsername)
           setCoinBalance(data.coinBalance)
           setIsLoggedIn(true)
+
+          navigate('/dashboard')
         }
       }
     }

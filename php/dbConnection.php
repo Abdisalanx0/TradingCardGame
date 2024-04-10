@@ -7,11 +7,11 @@
       include 'dbConnection.php';  
   */
 
-  // // chase
-  // define("SERVER_NAME", "localhost");
-  // define("DBF_USER_NAME", "root");
-  // define("DBF_PASSWORD", "mysql");
-  // define("DATABASE_NAME", "tcg");
+  // chase
+  define("SERVER_NAME", "localhost");
+  define("DBF_USER_NAME", "root");
+  define("DBF_PASSWORD", "mysql");
+  define("DATABASE_NAME", "tcg");
 
   // hamze
   // define("SERVER_NAME", "localhost");
@@ -20,8 +20,8 @@
   // define("DATABASE_NAME", "tradingCardDB");
 
   // abdisalan
-  define("SERVER_NAME", "localhost");
-  define("DBF_USER_NAME", "root");
-  define("DBF_PASSWORD", "1384");
-  define("DATABASE_NAME", "tradingCardDB");
+  // define("SERVER_NAME", "localhost");
+  // define("DBF_USER_NAME", "root");
+  // define("DBF_PASSWORD", "1384");
+  // define("DATABASE_NAME", "tradingCardDB");
 ?>

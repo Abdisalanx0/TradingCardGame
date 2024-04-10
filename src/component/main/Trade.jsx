@@ -1,63 +1,27 @@
 import React, { useContext } from 'react'
 import TradeContext from '../../context/TradeContext'
-import CheckoutContext from '../../context/CheckoutContext'
 
 const Trade = () => {
-  const { tradeCards, setTradeCards, tradeCardsSort, setTradeCardsSort, tradeCardsPriceFilter, setTradeCardsPriceFilter, tradeCardsNameFilter, setTradeCardsNameFilter, tradeCardsCurrentPage, setTradeCardsCurrentPage } = useContext(TradeContext)
-  const { cart, setCart } = useContext(CheckoutContext)
+  const { tradeCards, setTradeCardsSort, tradeCardsPriceFilter, setTradeCardsPriceFilter, tradeCardsNameFilter, setTradeCardsNameFilter, tradeCardsTab, setTradeCardsTab, newRequest, fetchTargetUserInventoryCards } = useContext(TradeContext)
 
-  const handleAddToCartOnClick = (e) => {
-    const delimiterIndex = e.target.id.indexOf("-add-to-cart-button");
-    const itemId = Number(e.target.id.substring(0, delimiterIndex));
+  const handleRequestActionOnClick = (e) => {
+    if(e.target.value === 'Accept Trade') {
 
-    if (e.target.value === "Add to Cart") {
-      setCart((oldCart) => {
-        const newCart = {
-          items: [...oldCart.items],
-          count: oldCart.count,
-          totalPrice: oldCart.totalPrice,
-        };
-
-        for (let item of tradeCards.items) {
-          if (item.id === itemId) {
-            newCart.items.push(item);
-
-            newCart.count++;
-            newCart.totalPrice += item.price;
-
-            break;
-          }
-        }
-
-        return newCart;
-      });
-    } else if (e.target.value === "Remove from Cart") {
-      setCart((oldCart) => {
-        const newCart = {
-          items: [],
-          count: oldCart.count,
-          totalPrice: oldCart.totalPrice,
-        };
-
-        for (let i = 0; i < oldCart.items.length; i++) {
-          if (oldCart.items[i].id === itemId) {
-            newCart.count--;
-            newCart.totalPrice -= oldCart.items[i].price;
-          } else {
-            newCart.items.push(oldCart.items[i]);
-          }
-        }
-
-        return newCart;
-      });
     }
-  };
-  
+    else if(e.target.value === 'Reject Trade') {
+
+    }
+    else if(e.target.value === 'Cancel Trade') {
+
+    }
+  }
+
+  // generated offeredCards and requestedCards
   const generateTradeCard = (card) => {
     return (
-      <li key={ card.id } id={ `${card.id}-trade-card` } className={ `${card.rarity}-card card` }>
+      <li key={ card.id } id={ `${card.id}-trade-card` } className='mini-card'>
         <figure className="card-figure">
-          <p className="card-rarity-p">{card.rarity}</p>
+          <p className="card-set-p">{card.card_set}</p>
 
           <img
             className="card-thumbnail"
@@ -72,23 +36,85 @@ const Trade = () => {
             {card.description}
           </p>
         </figure>
+      </li>
+    )
+  }
 
-        <form className="card-actions-form">
-          <label className="card-button-label">
-            <p className="card-price">{card.price} CZ</p>
-            <input
-              id={`${card.id}-add-to-cart-button`}
-              className="card-add-to-cart-button"
-              type="button"
-              value={
-                cart.items.some((cartItem) => cartItem.id === card.id)
-                  ? "Remove from Cart"
-                  : "Add to Cart"
+  // generated sent requests and offered requests
+  const generateTradeRequest = (request) => {
+    return (
+      <li key={ request.id } id={ `${request.id}-trade-request` } className='trade-request'>
+        <details>
+          <summary>
+            { 
+              tradeCardsTab === 'Received Requests' ? 
+              <p>From { request.initiatorUsername }</p> :
+              <p>To { request.targetUsername }</p>
+            }
+
+            <p>Price: { request.price } CZ</p>
+          </summary>
+
+          <section className='request-cards-section'>
+            <section className='offered-cards-section'>
+              <h3>Offered Cards</h3>
+
+              <ul className='offered-cards-ul'>
+                { request.offeredCards.map(generateTradeCard) }
+                
+                { !request.offeredCards.length ? <li>No cards to show</li> : null }
+              </ul>
+            </section>
+
+            <section className='requested-cards-section'>
+              <h3>Requested Cards</h3>
+
+              <ul className='requested-cards-ul'>
+                { request.requestedCards.map(generateTradeCard) }
+
+                { !request.requestedCards.length ? <li>No cards to show</li> : null }
+              </ul>
+            </section>
+          </section>
+
+          <form className="request-actions-form">
+              { 
+                tradeCardsTab === 'Received Requests' ?
+                <>
+                  <label className="request-button-label">
+                    <input
+                      id={`${request.id}-request-button`}
+                      className="card-request-button"
+                      type="button"
+                      value="Reject Trade"
+                      onClick={handleRequestActionOnClick}
+                    ></input>
+                  </label>
+
+                  <label className="request-button-label">
+                    <input
+                      id={`${request.id}-request-button`}
+                      className="card-request-button"
+                      type="button"
+                      value="Accept Trade"
+                      onClick={handleRequestActionOnClick}
+                    ></input>
+                  </label>
+                </> :
+                <>
+                  <label className="request-button-label">
+                    <input
+                      id={`${request.id}-request-button`}
+                      className="card-request-button"
+                      type="button"
+                      value="Cancel Trade"
+                      onClick={handleRequestActionOnClick}
+                    ></input>
+                  </label>
+                </>
               }
-              onClick={handleAddToCartOnClick}
-            ></input>
-          </label>
-        </form>
+          </form>
+        </details>
       </li>
     )
   }
@@ -136,11 +162,11 @@ const Trade = () => {
           property = "price";
           orientation = "asc";
         }
-      } else if (e.target.value === "Rarity") {
-        if (property === "rarity" && orientation === "asc") {
+      } else if (e.target.value === "Set") {
+        if (property === "card_set" && orientation === "asc") {
           orientation = "des";
         } else {
-          property = "rarity";
+          property = "card_set";
           orientation = "asc";
         }
       }
@@ -149,16 +175,19 @@ const Trade = () => {
     });
   };
 
-  const handlePageButtonOnClick = (e) => {
-    if (e.target.value === "Previous" && tradeCardsCurrentPage > 1) {
-      setTradeCardsCurrentPage(tradeCardsCurrentPage - 1);
-    } else if (
-      e.target.value === "Next" &&
-      tradeCardsCurrentPage < tradeCards.totalPages
-    ) {
-      setTradeCardsCurrentPage(tradeCardsCurrentPage + 1);
-    }
-  };
+  const handleTradeTabOnClick = (e) => {
+    setTradeCardsTab(e.target.value)
+  }
+
+  const handleTargetUserSearchOnClick = (e) => {
+    e.preventDefault()
+
+    const targetInput = document.getElementById('request-target-username-input')
+
+    console.log(targetInput.value)
+
+    fetchTargetUserInventoryCards(targetInput.value)
+  }
 
   return (
     <>
@@ -233,80 +262,62 @@ const Trade = () => {
           <legend>Sort</legend>
 
           <input
+            className="sort-button"
             type="button"
             value="Name"
             onClick={handleSortButtonOnClick}
           ></input>
 
           <input
+            className="sort-button"
             type="button"
             value="Price"
             onClick={handleSortButtonOnClick}
           ></input>
 
           <input
+            className="sort-button"
             type="button"
-            value="Rarity"
+            value="Set"
             onClick={handleSortButtonOnClick}
           ></input>
         </fieldset>
-
-        <fieldset id="page-selection-fieldset">
-          <legend>Page</legend>
-
-          <div className="overlayed-button-container">
-            {/* src: /icons/arrow-back.svg */}
-            <svg
-              fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-              height="24"
-              viewBox="0 -960 960 960"
-              width="24"
-            >
-              <path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z" />
-            </svg>
-
-            <input
-              className="pagination-button overlayed-button"
-              type="button"
-              value="Previous"
-              onClick={handlePageButtonOnClick}
-            ></input>
-          </div>
-
-          <p>
-            {tradeCardsCurrentPage} of {tradeCards.totalPages}
-          </p>
-
-          <div className="overlayed-button-container">
-            {/* src: /icons/arrow-forward.svg */}
-            <svg
-              fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-              height="24"
-              viewBox="0 -960 960 960"
-              width="24"
-            >
-              <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z" />
-            </svg>
-
-            <input
-              className="pagination-button overlayed-button"
-              type="button"
-              value="Next"
-              onClick={handlePageButtonOnClick}
-            ></input>
-          </div>
-        </fieldset>
       </form>
 
-      <section id='cards-section'>
-        <h2>Trade Requests</h2>
+      <section id='requests-section'>
+        <h2 hidden>Trade Requests</h2>
 
-        <ul id='cards-ul'>
-          { tradeCards.items.map(generateTradeCard) }
+        <nav id='trade-cards-navigation-container'>
+          <input className={ (tradeCardsTab === 'Received Requests' ? 'current-trade-cards-tab-button ' : '') + 'trade-cards-tab-button' } type='button' value='Received Requests' onClick={ handleTradeTabOnClick }></input>
+          <input className={ (tradeCardsTab === 'Sent Requests' ? 'current-trade-cards-tab-button ' : '') + 'trade-cards-tab-button' } type='button' value='Sent Requests' onClick={ handleTradeTabOnClick }></input>
+          <input className={ (tradeCardsTab === 'Create Request' ? 'current-trade-cards-tab-button ' : '') + 'trade-cards-tab-button' } type='button' value='Create Request' onClick={ handleTradeTabOnClick }></input>
+        </nav>
 
-          { !tradeCards.items.length ? <p>No items to show</p> : null }
+        <ul id='requests-ul'>
+          { 
+            tradeCardsTab === 'Received Requests' ?
+            <>
+              { tradeCards.receivedTrades.map(generateTradeRequest) }
+
+              { !tradeCards.receivedTrades.length ? <li>No requests to show</li> : null }
+            </> : tradeCardsTab === 'Sent Requests' ? 
+            <>
+              { tradeCards.initiatedTrades.map(generateTradeRequest) }
+              
+              { !tradeCards.initiatedTrades.length ? <li>No requests to show</li> : null }
+            </> :
+            <>
+              { 
+                newRequest.step === '' ?
+                <>
+                  <form>
+                    <input id='request-target-username-input' placeholder='search for user'></input>
+                    <input type='submit' onClick={ handleTargetUserSearchOnClick }></input>
+                  </form>
+                </> : <></>
+              }
+            </>
+          }
         </ul>
       </section>
     </>
