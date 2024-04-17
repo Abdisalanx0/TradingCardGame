@@ -16,11 +16,11 @@ const ContextProvider = ({ children }) => {
           <CardProvider>
             <HeaderProvider>
               <MarketplaceProvider>
-                <TradeProvider>
-                  <InventoryProvider>
+                <InventoryProvider>
+                  <TradeProvider>
                     <CheckoutProvider>{children}</CheckoutProvider>
-                  </InventoryProvider>
-                </TradeProvider>
+                  </TradeProvider>
+                </InventoryProvider>
               </MarketplaceProvider>
             </HeaderProvider>
           </CardProvider>

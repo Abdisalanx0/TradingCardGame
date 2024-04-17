@@ -10,8 +10,9 @@ $username = $dData['username'];
 $cardIds = $dData['cardIds'] ?? [];
 $totalPrice = $dData['tPrice']; 
 
-if (empty($username) || empty($cardIds) || empty($totalPrice)) {
-    echo json_encode(['success' => false, 'message' => 'Username, Card IDs, or total price not provided']);
+// check for empty price raises error when price is 0
+if (empty($username) || empty($cardIds)) {
+    echo json_encode(['success' => false, 'message' => 'Username or Card IDs not provided']);
     exit;
 }
 
@@ -64,7 +65,7 @@ if (!$stmt->execute()) {
 }
 
 $placeholders = implode(',', array_fill(0, count($cardIds), '?'));//converts to strings
-$sql = "UPDATE user_card SET user_id = ? WHERE card_id IN ($placeholders)";
+$sql = "UPDATE user_card SET listed = 0, user_id = ? WHERE id IN ($placeholders)";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     echo json_encode(['success' => false, 'message' => "Prepare failed: " . $conn->error]);
@@ -76,7 +77,7 @@ $types = 'i' . str_repeat('i', count($cardIds));
 $stmt->bind_param($types, ...$params);
 
 if ($stmt->execute()) {
-    $sql = "DELETE FROM listed_card WHERE user_card_id IN ($placeholders)";
+    $sql = "DELETE FROM marketplace_card WHERE user_card_id IN ($placeholders)";
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
         echo json_encode(['success' => false, 'message' => "Prepare failed: " . $conn->error]);
@@ -85,7 +86,7 @@ if ($stmt->execute()) {
 
     $stmt->bind_param(str_repeat('i', count($cardIds)), ...$cardIds);
     if (!$stmt->execute()) {
-        echo json_encode(['success' => false, 'message' => 'Failed to delete card from listed_card']);
+        echo json_encode(['success' => false, 'message' => 'Failed to delete card from marketplace_card']);
         exit;
     }
     echo json_encode(['success' => true, 'message' => 'Card purchased successfully']);

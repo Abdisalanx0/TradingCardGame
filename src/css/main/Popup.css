@@ -36,7 +36,8 @@
   margin: .25em;
 }
 
-#popup-text {
+#popup-content-section {
+  margin: 10px;
   color: rgb(255, 120, 120);
 }
 
@@ -46,11 +47,18 @@
   align-items: center;
 }
 
-#popup-form > * {
-  margin-top: 1em;
-}
-
 .popup-button {
   width: 5em;
-  border: 1px solid;
+  background-color: #007bff;
+  color: white;
+  margin: 5px;
+  margin-top: auto;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+#list-card-price-input {
+  margin: 5px;
+  border-radius: 5px;
 }

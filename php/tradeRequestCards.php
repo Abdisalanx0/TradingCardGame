@@ -38,7 +38,8 @@
       // $initiatedTradeRequests[$i]['id']
       // $initiatedTradeRequests[$i]['initiator_user_id']
       // $initiatedTradeRequests[$i]['target_user_id']
-      // $initiatedTradeRequests[$i]['price']
+      // $initiatedTradeRequests[$i]['offered_price']
+      // $initiatedTradeRequests[$i]['requested_price']
 
       $sql = 'SELECT username FROM tcg_user WHERE id = ?';
       $bindParams = array($initiatedTradeRequests[$i]['target_user_id']);
@@ -49,7 +50,8 @@
       $initiatedTrade = array( 
         'id' => $initiatedTradeRequests[$i]['id'], 
         'targetUsername' => $targetUsername, 
-        'price' => $initiatedTradeRequests[$i]['price'], 
+        'offeredPrice' => $initiatedTradeRequests[$i]['offered_price'],
+        'requestedPrice' => $initiatedTradeRequests[$i]['requested_price'], 
         'offeredCards' => array(),
         'requestedCards' => array()
       );
@@ -92,7 +94,8 @@
       // $receivedTradeRequests[$i]['id']
       // $receivedTradeRequests[$i]['initiator_user_id']
       // $receivedTradeRequests[$i]['target_user_id']
-      // $receivedTradeRequests[$i]['price']
+      // $receivedTradeRequests[$i]['offered_price']
+      // $receivedTradeRequests[$i]['requested_price']
 
       $sql = 'SELECT username FROM tcg_user WHERE id = ?';
       $bindParams = array($receivedTradeRequests[$i]['initiator_user_id']);
@@ -103,7 +106,8 @@
       $receivedTrade = array( 
         'id' => $receivedTradeRequests[$i]['id'], 
         'initiatorUsername' => $initiatorUsername,
-        'price' => $receivedTradeRequests[$i]['price'], 
+        'offeredPrice' => $receivedTradeRequests[$i]['offered_price'],
+        'requestedPrice' => $receivedTradeRequests[$i]['requested_price'], 
         'offeredCards' => array(),
         'requestedCards' => array()
       );
@@ -140,24 +144,6 @@
       // sort
       sortCards($responseData['initiatedTrades'][$i]['offeredCards'], $sort);
       sortCards($responseData['initiatedTrades'][$i]['requestedCards'], $sort);
-
-      // price filter
-      switch($priceFilter) {
-        case '':
-          break;
-        case '0-50':
-          filterByPrice($responseData['initiatedTrades'][$i], 0, 50);
-    
-          break;
-        case '50-100':
-          filterByPrice($responseData['initiatedTrades'][$i], 50, 100);
-    
-          break;
-        case '100-1000':
-          filterByPrice($responseData['initiatedTrades'][$i], 100, 1000);
-    
-          break;
-      }
 
       // name filter
       filterByName($responseData['initiatedTrades'][$i]['offeredCards'], $nameFilter);

@@ -1,19 +1,64 @@
 import React, { useContext } from 'react'
 import TradeContext from '../../context/TradeContext'
+import CardContext from '../../context/CardContext'
+import AuthContext from '../../context/AuthContext'
+import EventsContext from '../../context/EventsContext'
 
 const Trade = () => {
-  const { tradeCards, setTradeCardsSort, tradeCardsPriceFilter, setTradeCardsPriceFilter, tradeCardsNameFilter, setTradeCardsNameFilter, tradeCardsTab, setTradeCardsTab, newRequest, fetchTargetUserInventoryCards } = useContext(TradeContext)
+  const { 
+    tradeCards, 
+    setTradeCardsSort, 
+    tradeCardsPriceFilter, 
+    setTradeCardsPriceFilter, 
+    tradeCardsNameFilter, 
+    setTradeCardsNameFilter,
+    tradeCardsTab, 
+    setTradeCardsTab, 
+    newRequest, 
+    setNewRequest,
+    addCardToRequestedCards,
+    addCardToOfferedCards,
+    removeCardFromRequestedCards,
+    removeCardFromOfferedCards,
+    fetchTradeableCards,
+    createRequest,
+    acceptRequest,
+    removeRequest
+  } = useContext(TradeContext)
+
+  const { sortCards } = useContext(CardContext)
+  const { username } = useContext(AuthContext)
+  const { setPopupContent, setPopupConfirmationCallback, openPopup } = useContext(EventsContext)
 
   const handleRequestActionOnClick = (e) => {
-    if(e.target.value === 'Accept Trade') {
+    const requestId = e.target.id.substring(0, e.target.id.indexOf('-'))
 
+    let callback = () => {}
+
+    if(e.target.value === 'Accept Trade') {
+      callback = () => {
+        acceptRequest(requestId)
+      }
+
+      setPopupContent({ html: <p>Request will be accepted.</p> })
     }
     else if(e.target.value === 'Reject Trade') {
+      callback = () => {
+        removeRequest(requestId)
+      }
 
+      setPopupContent({ html: <p>Request will be rejected.</p> })
     }
     else if(e.target.value === 'Cancel Trade') {
+      callback = () => {
+        removeRequest(requestId)
+      }
 
+      setPopupContent({ html: <p>Request will be canceled.</p> })
     }
+
+    setPopupConfirmationCallback(() => callback)
+    openPopup()
   }
 
   // generated offeredCards and requestedCards
@@ -52,7 +97,8 @@ const Trade = () => {
               <p>To { request.targetUsername }</p>
             }
 
-            <p>Price: { request.price } CZ</p>
+            <p>Offered Price: { request.offeredPrice } CZ</p>
+            <p>Requested Price: { request.requestedPrice } CZ</p>
           </summary>
 
           <section className='request-cards-section'>
@@ -83,7 +129,7 @@ const Trade = () => {
                 <>
                   <label className="request-button-label">
                     <input
-                      id={`${request.id}-request-button`}
+                      id={`${request.id}-reject-request-button`}
                       className="card-request-button"
                       type="button"
                       value="Reject Trade"
@@ -93,7 +139,7 @@ const Trade = () => {
 
                   <label className="request-button-label">
                     <input
-                      id={`${request.id}-request-button`}
+                      id={`${request.id}-accept-request-button`}
                       className="card-request-button"
                       type="button"
                       value="Accept Trade"
@@ -104,7 +150,7 @@ const Trade = () => {
                 <>
                   <label className="request-button-label">
                     <input
-                      id={`${request.id}-request-button`}
+                      id={`${request.id}-cancel-request-button`}
                       className="card-request-button"
                       type="button"
                       value="Cancel Trade"
@@ -118,18 +164,6 @@ const Trade = () => {
       </li>
     )
   }
-
-  const handlePriceFilterOnClick = (e) => {
-    if (e.target.id === "0-50-price-filter-radio") {
-      setTradeCardsPriceFilter("0-50");
-    } else if (e.target.id === "50-100-price-filter-radio") {
-      setTradeCardsPriceFilter("50-100");
-    } else if (e.target.id === "100-1000-price-filter-radio") {
-      setTradeCardsPriceFilter("100-1000");
-    } else if (e.target.id === "all-price-filter-radio") {
-      setTradeCardsPriceFilter("");
-    }
-  };
 
   const handleNameFilterOnChange = (e) => {
     setTradeCardsNameFilter(e.target.value);
@@ -155,13 +189,6 @@ const Trade = () => {
           property = "name";
           orientation = "asc";
         }
-      } else if (e.target.value === "Price") {
-        if (property === "price" && orientation === "asc") {
-          orientation = "des";
-        } else {
-          property = "price";
-          orientation = "asc";
-        }
       } else if (e.target.value === "Set") {
         if (property === "card_set" && orientation === "asc") {
           orientation = "des";
@@ -179,119 +206,175 @@ const Trade = () => {
     setTradeCardsTab(e.target.value)
   }
 
-  const handleTargetUserSearchOnClick = (e) => {
+  const handleTargetUserSearchOnClick = async (e) => {
     e.preventDefault()
 
     const targetInput = document.getElementById('request-target-username-input')
 
-    console.log(targetInput.value)
+    if(targetInput.value !== username) {
+      const cards = await fetchTradeableCards(targetInput.value)
 
-    fetchTargetUserInventoryCards(targetInput.value)
+      setNewRequest((oldRequest) => {
+        const request = { ...oldRequest }
+
+        request.targetUsername = targetInput.value
+        request.targetUserCards = sortCards(cards, 'name asc')
+
+        return request
+      })
+    }
+  }
+
+  const handleTargetUserSearchInputOnKeyDown = (e) => {
+    if(e.key === 'Enter') {
+      e.preventDefault()
+
+      handleTargetUserSearchOnClick(e)
+    }
+  }
+
+  const handleAddToRequestedCardsOnClick = (e) => {
+    const delimiterIndex = e.target.id.indexOf("-add-to-requested-cards-button");
+    const cardId = Number(e.target.id.substring(0, delimiterIndex));
+
+    if (e.target.value === "Add") {
+      for (let card of newRequest.targetUserCards) {
+        if (card.id === cardId) {
+          addCardToRequestedCards(card)
+
+          break;
+        }
+      }
+    } else if (e.target.value === "Remove") {
+      removeCardFromRequestedCards(cardId)
+    }
+  }
+
+  const handleAddToOfferedCardsOnClick = (e) => {
+    const delimiterIndex = e.target.id.indexOf("-add-to-offered-cards-button");
+    const cardId = Number(e.target.id.substring(0, delimiterIndex));
+
+    if (e.target.value === "Add") {
+      for (let card of newRequest.userCards) {
+        if (card.id === cardId) {
+          addCardToOfferedCards(card)
+
+          break;
+        }
+      }
+    } else if (e.target.value === "Remove") {
+      removeCardFromOfferedCards(cardId)
+    }
+  }
+
+  const generateTargetUserCards = (card) => {
+    return (
+      <li key={ card.id } id={ `${card.id}-trade-card` } className='mini-card'>
+        <figure className="card-figure">
+          <p className="card-set-p">{card.card_set}</p>
+
+          <img
+            className="card-thumbnail"
+            src={`/graphics/${card.image}`}
+          ></img>
+
+          <figcaption className="card-name-figcaption">
+            {card.name}
+          </figcaption>
+
+          <p className="card-description-p" title={card.description}>
+            {card.description}
+          </p>
+        </figure>
+
+        <label className='card-button-label'>
+          <input 
+            id={ `${card.id}-add-to-requested-cards-button` }
+            className='card-add-to-request-button'
+            type='button'
+            value={
+              newRequest.requestedCards.some((selectedCard) => selectedCard.id === card.id)
+              ? "Remove"
+              : "Add"
+            }
+            onClick={ handleAddToRequestedCardsOnClick }
+          ></input>
+        </label>
+      </li>
+    )
+  }
+
+  const generateInventoryCards = (card) => {
+    if(card.listed === 0) {
+      return (
+        <li key={ card.id } id={ `${card.id}-trade-card` } className='mini-card'>
+          <figure className="card-figure">
+            <p className="card-set-p">{card.card_set}</p>
+  
+            <img
+              className="card-thumbnail"
+              src={`/graphics/${card.image}`}
+            ></img>
+  
+            <figcaption className="card-name-figcaption">
+              {card.name}
+            </figcaption>
+  
+            <p className="card-description-p" title={card.description}>
+              {card.description}
+            </p>
+          </figure>
+  
+          <label className='card-button-label'>
+            <input 
+              id={ `${card.id}-add-to-offered-cards-button` }
+              className='card-add-to-request-button'
+              type='button'
+              value={
+                newRequest.offeredCards.some((selectedCard) => selectedCard.id === card.id)
+                ? "Remove"
+                : "Add"
+              }
+              onClick={ handleAddToOfferedCardsOnClick }
+            ></input>
+          </label>
+        </li>
+      )
+    }
+  }
+
+  const handleNewRequestSubmitOnClick = (e) => {
+    e.preventDefault()
+
+    const requestPriceInput = document.getElementById('request-price-input')
+
+    const callback = () => {
+      createRequest(requestPriceInput.value)
+    }
+
+    setPopupContent({ html: <p>Trade Request will be created.</p> })
+    setPopupConfirmationCallback(() => callback)
+    openPopup()
+  }
+
+  const handlePriceTypeButtonOnClick = (e) => {
+    setNewRequest((oldRequest) => {
+      const request = { ...oldRequest, priceType: e.target.value === 'Offer Coins:' ? 'requested' : 'offered' }
+
+      return request
+    })
   }
 
   return (
     <>
-      <form id="filter-and-sort-form">
-        <fieldset
-          id="price-filter-fieldset"
-          className="filter-and-sort-fieldset"
-        >
-          <legend>Price Filter</legend>
-
-          <label>
-            <input
-              id="0-50-price-filter-radio"
-              type="radio"
-              name="price-filter-radio"
-              onClick={handlePriceFilterOnClick}
-              defaultChecked={tradeCardsPriceFilter === "0-50"}
-            ></input>
-            0-50 CZ
-          </label>
-
-          <label>
-            <input
-              id="50-100-price-filter-radio"
-              type="radio"
-              name="price-filter-radio"
-              onClick={handlePriceFilterOnClick}
-              defaultChecked={tradeCardsPriceFilter === "50-100"}
-            ></input>
-            50-100 CZ
-          </label>
-
-          <label>
-            <input
-              id="100-1000-price-filter-radio"
-              type="radio"
-              name="price-filter-radio"
-              onClick={handlePriceFilterOnClick}
-              defaultChecked={tradeCardsPriceFilter === "100-1000"}
-            ></input>
-            100-1000 CZ
-          </label>
-
-          <label>
-            <input
-              id="all-price-filter-radio"
-              type="radio"
-              name="price-filter-radio"
-              onClick={handlePriceFilterOnClick}
-              defaultChecked={tradeCardsPriceFilter === ""}
-            ></input>
-            All Prices
-          </label>
-        </fieldset>
-
-        <fieldset
-          id="name-filter-fieldset"
-          className="filter-and-sort-fieldset"
-        >
-          <legend hidden>Name Filter</legend>
-
-          <input
-            id="name-filter-input"
-            placeholder="search by card name"
-            value={tradeCardsNameFilter}
-            onChange={handleNameFilterOnChange}
-            onKeyDown={handleNameFilterOnKeyDown}
-          ></input>
-        </fieldset>
-
-        <fieldset id="sort-fieldset" className="filter-and-sort-fieldset">
-          <legend>Sort</legend>
-
-          <input
-            className="sort-button"
-            type="button"
-            value="Name"
-            onClick={handleSortButtonOnClick}
-          ></input>
-
-          <input
-            className="sort-button"
-            type="button"
-            value="Price"
-            onClick={handleSortButtonOnClick}
-          ></input>
-
-          <input
-            className="sort-button"
-            type="button"
-            value="Set"
-            onClick={handleSortButtonOnClick}
-          ></input>
-        </fieldset>
-      </form>
+      <nav id='trade-cards-navigation-container'>
+        <input className={ (tradeCardsTab === 'Received Requests' ? 'current-trade-cards-tab-button ' : '') + 'trade-cards-tab-button' } type='button' value='Received Requests' onClick={ handleTradeTabOnClick }></input>
+        <input className={ (tradeCardsTab === 'Sent Requests' ? 'current-trade-cards-tab-button ' : '') + 'trade-cards-tab-button' } type='button' value='Sent Requests' onClick={ handleTradeTabOnClick }></input>
+        <input className={ (tradeCardsTab === 'Create Request' ? 'current-trade-cards-tab-button ' : '') + 'trade-cards-tab-button' } type='button' value='Create Request' onClick={ handleTradeTabOnClick }></input>
+      </nav>
 
       <section id='requests-section'>
         <h2 hidden>Trade Requests</h2>
-
-        <nav id='trade-cards-navigation-container'>
-          <input className={ (tradeCardsTab === 'Received Requests' ? 'current-trade-cards-tab-button ' : '') + 'trade-cards-tab-button' } type='button' value='Received Requests' onClick={ handleTradeTabOnClick }></input>
-          <input className={ (tradeCardsTab === 'Sent Requests' ? 'current-trade-cards-tab-button ' : '') + 'trade-cards-tab-button' } type='button' value='Sent Requests' onClick={ handleTradeTabOnClick }></input>
-          <input className={ (tradeCardsTab === 'Create Request' ? 'current-trade-cards-tab-button ' : '') + 'trade-cards-tab-button' } type='button' value='Create Request' onClick={ handleTradeTabOnClick }></input>
-        </nav>
 
         <ul id='requests-ul'>
           { 
@@ -306,17 +389,51 @@ const Trade = () => {
               
               { !tradeCards.initiatedTrades.length ? <li>No requests to show</li> : null }
             </> :
-            <>
-              { 
-                newRequest.step === '' ?
-                <>
-                  <form>
-                    <input id='request-target-username-input' placeholder='search for user'></input>
-                    <input type='submit' onClick={ handleTargetUserSearchOnClick }></input>
-                  </form>
-                </> : <></>
-              }
-            </>
+            <li>
+              <form>
+                <fieldset id='new-request-target-user-search-fieldset'>
+                  <legend>Search for User</legend>
+
+                  <input id='request-target-username-input' placeholder='enter username' onKeyDown={ handleTargetUserSearchInputOnKeyDown }></input>
+                  <label hidden htmlFor='request-target-username-input'>Enter Username</label>
+
+                  <input id='request-target-username-submit-button' type='button' value='Search' onClick={ handleTargetUserSearchOnClick }></input>
+                </fieldset>
+
+                <fieldset id='new-request-select-requested-cards-fieldset'>
+                  <legend>Select Requested Cards</legend>
+
+                  <ul id='new-request-target-user-cards-ul'>
+                    { newRequest.targetUserCards.map(generateTargetUserCards) }
+
+                    { !newRequest.targetUserCards.length ? <p>No cards to show</p> : null }
+                  </ul>
+                </fieldset>
+
+                <fieldset id='new-request-select-offered-cards-fieldset'>
+                  <legend>Select Offered Cards</legend>
+
+                  <ul id='new-request-inventory-cards-ul'>
+                    { newRequest.userCards.map(generateInventoryCards) }
+
+                    { !newRequest.userCards.length ? <p>No cards to show</p> : null }
+                  </ul>
+                </fieldset>
+
+                <fieldset id='new-request-add-price-fieldset'>
+                  <legend>Add Price</legend>
+
+                  <input id='request-price-type-button' type='button' value={ newRequest.priceType === 'offered' ? 'Offer Coins:': 'Request Coins:' } onClick={ handlePriceTypeButtonOnClick }></input>
+
+                  <input id='request-price-input' type='number' min='0' placeholder='amount'></input>
+                  <label hidden htmlFor='request-price-input'>Enter Price</label>
+                </fieldset>
+
+                <fieldset id='new-request-submit-fieldset'>
+                  <input id='new-request-submit-button' type='submit' onClick={ handleNewRequestSubmitOnClick }></input>
+                </fieldset>
+              </form>
+            </li>
           }
         </ul>
       </section>

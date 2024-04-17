@@ -23,8 +23,9 @@
     // echo json_encode($result);
 
     $coinBalance = $result[0]['coin_balance'];
+    $userId = $result[0]['id'];
 
-    $responseData = array('coinBalance' => $coinBalance);
+    $responseData = array('coinBalance' => $coinBalance, 'userId' => $userId);
 
     echo json_encode($responseData);
   }
