@@ -189,4 +189,42 @@
       return $result;
     }
   }
+
+  // intended for UPDATE or DELETE queries
+  function runParameterizedQuery($sql, $bindParams) {
+    global $conn;
+
+    if($stmt = $conn -> prepare($sql)) {
+      $bindParamTypes = '';
+
+      // determine $bindParams data types
+      foreach($bindParams as $bindParam) {
+        $type = gettype($bindParam);
+
+        switch($type) {
+          case 'integer':
+            $bindParamTypes .= 'i';
+
+            break;
+          case 'double':
+            $bindParamTypes .= 'd';
+
+            break;
+          case 'string':
+            $bindParamTypes .= 's';
+
+            break;
+        }
+      }
+
+      // bind parameters
+      $stmt -> bind_param($bindParamTypes, ...$bindParams);
+
+      $stmt -> execute();
+
+      $stmt -> close();
+
+      return true;
+    }
+  }
 ?>

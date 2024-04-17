@@ -1,5 +1,9 @@
 #trade-cards-navigation-container {
+  width: 100%;
+  height: 10vh;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
 }
 
 .trade-cards-tab-button {
@@ -26,6 +30,68 @@
   flex-direction: column;
   list-style-type: none;
   padding: 0;
+}
+
+#new-request-target-user-search-fieldset, #new-request-select-requested-cards-fieldset, #new-request-select-offered-cards-fieldset, #new-request-add-price-fieldset, #new-request-submit-fieldset {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+#new-request-target-user-search-fieldset, #new-request-select-requested-cards-fieldset, #new-request-select-offered-cards-fieldset, #new-request-add-price-fieldset {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  margin-bottom: 10px;
+}
+
+#request-target-username-input {
+  margin: 5px;
+  border-radius: 5px;
+}
+
+#request-target-username-submit-button, #new-request-submit-button {
+  background-color: #007bff;
+  color: white;
+  margin: 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+}
+
+#request-target-username-submit-button:hover, #new-request-submit-button:hover {
+  background-color: #0056b3;
+}
+
+#new-request-target-user-cards-ul, #new-request-inventory-cards-ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0;
+}
+
+#new-request-add-price-fieldset {
+  align-items: center;
+}
+
+#new-request-add-price-fieldset > * {
+  width: 10em;
+  height: 1.5em;
+  margin: 0;
+}
+
+#request-price-type-button {
+  background-color: #4ba2ff;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+}
+
+#request-price-type-button:hover {
+  background-color: #007bff;
+}
+
+#request-price-input {
+  margin: 5px;
+  border-radius: 5px;
 }
 
 .trade-request {

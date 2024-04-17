@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState(null);
   const [password, setPassword] = useState("");
   const [userSettings, setUserSettings] = useState({ isDarkMode: false });
   const [coinBalance, setCoinBalance] = useState(0);
@@ -83,13 +84,13 @@ export const AuthProvider = ({ children }) => {
           // If login is successful and a message is received.
           if (response.success && response.message) {
             setServerMessage(response.message); // Sets the message to be displayed.
-            setIsLoggedIn(true);
+
             sessionStorage.setItem("username", username);
-            setCoinBalance(response.coinBalance)
-            // After a delay of 5 seconds, navigates to the dashboard.
+
+            // After a delay of 2 seconds, set user info and navigate to the dashboard.
             setTimeout(function () {
-              navigate("/dashboard"); // Navigate to the dashboard.
-            }, 5000);
+              fetchUserInfo()
+            }, 2000);
           } else {
             // If login fails, set an error message.
             setServerMessage(response.message || "An unknown error occurred.");
@@ -114,6 +115,32 @@ export const AuthProvider = ({ children }) => {
     location.reload()
   }
 
+  const fetchUserInfo = async () => {
+    const sessionUsername = sessionStorage.getItem("username")
+
+    if(sessionUsername) {
+      const response = await fetch(`${FetchUrl}/userInfo.php`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: sessionUsername })
+      })
+
+      if(response.ok) {
+        const data = await response.json()
+
+        setUsername(sessionUsername)
+        setPassword('')
+        setUserId(data.userId)
+        setCoinBalance(data.coinBalance)
+        setIsLoggedIn(true)
+
+        navigate('/dashboard')
+      }
+    }
+  }
+
   useEffect(() => {
     if (userSettings.isDarkMode) {
       document.getElementById("root").classList.add("dark-mode");
@@ -125,30 +152,6 @@ export const AuthProvider = ({ children }) => {
   }, [userSettings]);
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      const sessionUsername = sessionStorage.getItem("username")
-
-      if(sessionUsername) {
-        const response = await fetch(`${FetchUrl}/userInfo.php`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ username: sessionUsername })
-        })
-
-        if(response.ok) {
-          const data = await response.json()
-
-          setUsername(sessionUsername)
-          setCoinBalance(data.coinBalance)
-          setIsLoggedIn(true)
-
-          navigate('/dashboard')
-        }
-      }
-    }
-
     fetchUserInfo()
   }, [])
 
@@ -157,6 +160,8 @@ export const AuthProvider = ({ children }) => {
       value={{
         username,
         setUsername,
+        userId, 
+        setUserId,
         password,
         setPassword,
         userSettings,
@@ -169,7 +174,8 @@ export const AuthProvider = ({ children }) => {
         setServerMessage,
         register, 
         login, 
-        logout
+        logout,
+        fetchUserInfo
       }}
     >
       {children}
