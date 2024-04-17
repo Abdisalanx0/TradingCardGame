@@ -23,13 +23,14 @@ const Dashboard = () => {
         return <Marketplace></Marketplace>;
 
       case "Trade":
-        return <Trade></Trade>
+        return <Trade></Trade>;
 
       case "Inventory":
         return <Inventory></Inventory>;
 
       case "Checkout":
         return <Checkout></Checkout>;
+
     }
   };
 
