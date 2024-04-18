@@ -238,6 +238,22 @@
         }
       }
     }
+    $messageData = array(
+    array("Hey, would you like to trade your Charizard?", 1, 2), // message from admin to Chase
+    array("no!", 2, 1), // message from chase to Admin
+    array("Can you lower the price for Dratini?", 3, 1), // message from Abdisalan to admin
+    array("Thanks for the trade yesterday!", 4, 1) // message from Hamze to admin
+  );
+
+  foreach ($messageData as $msg) {
+    $sql = "INSERT INTO user_message (content, sending_user_id, receiving_user_id) VALUES (?, ?, ?)";
+    $bindParams = array($msg[0], $msg[1], $msg[2]);
+    runInsertQuery($sql, $bindParams);
+  }
+
+
+
+
   ?>
 
 </body>

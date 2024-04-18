@@ -143,17 +143,13 @@ const Message = () => {
 
             <form id="message-box-user-search-form" autoComplete="off">
               <fieldset id="message-box-user-search-fieldset">
-                <legend id="add-conversation-legend">Add Conversation</legend>
 
-                <input
-                  id="message-box-user-search-input"
-                  placeholder="enter username"
-                ></input>
 
+                
                 <input
                   id="message-box-add-user-button"
                   type="submit"
-                  value="Add"
+                  value="Add Conversation"
                   onClick={handleAddUserButtonOnClick}
                 ></input>
               </fieldset>

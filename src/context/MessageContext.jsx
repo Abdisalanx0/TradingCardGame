@@ -1,56 +1,58 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import AuthContext from "./AuthContext";
+import FetchUrl from "./FetchUrl"; // Assuming FetchUrl exports a base URL string
 
 const MessageContext = createContext();
 
 export const MessageProvider = ({ children }) => {
-  /*
-    {
-      'otherUsername': [
-        { 
-          id,
-          content,
-          originator // 'other' || 'self'
-        }, 
-        ...
-      ],
-      ...
-    }
-  */
   const [messages, setMessages] = useState({});
   const [isMessageBoxExpanded, setIsMessageBoxExpanded] = useState(false);
   const [selectedConversation, setSelectedConversation] = useState("");
-  const [messageToSend, setMessageToSend] = useState("");
+  const { isLoggedIn } = useContext(AuthContext);
 
-  useEffect(() => {
-    const handleFetchMessages = async () => {
-      try {
-        const response = await fetch("./src/context/messages.json");
-
-        if (response.ok) {
-          const data = await response.json();
-
-          setMessages(data);
-        }
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
-
-    handleFetchMessages();
-  }, []);
-
-  useEffect(() => {
-    const userConversationList = document.getElementById(
-      "message-box-selected-user-conversation-ul"
-    );
-
-    if (userConversationList) {
-      const lastListItem =
-        userConversationList.children[userConversationList.children.length - 1];
-
-      userConversationList.scrollTo(0, lastListItem.offsetTop);
+  const fetchMessages = async () => {
+    if (!isLoggedIn) {
+      console.log("User is not logged in.");
+      return;
     }
-  }, [messages]);
+
+    const username = sessionStorage.getItem("username");
+    if (!username) {
+      console.log("No username found in session storage.");
+      return;
+    }
+
+    try {
+      const headers = {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      };
+      const data = { username };
+
+      const response = await fetch(
+        `${FetchUrl}/getMessages.php`, 
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData);
+        setMessages(responseData); // Assume responseData is correctly formatted
+      } else {
+        console.log("Failed to fetch messages. HTTP status:", response.status);
+      }
+    } catch (err) {
+      console.error("Error fetching messages:", err.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchMessages();
+  }, [isLoggedIn]); 
 
   return (
     <MessageContext.Provider
@@ -61,8 +63,7 @@ export const MessageProvider = ({ children }) => {
         setIsMessageBoxExpanded,
         selectedConversation,
         setSelectedConversation,
-        messageToSend,
-        setMessageToSend,
+        fetchMessages,
       }}
     >
       {children}
