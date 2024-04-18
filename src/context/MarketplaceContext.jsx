@@ -11,7 +11,7 @@ export const MarketplaceProvider = ({ children }) => {
   const [marketplaceCardsNameFilter, setMarketplaceCardsNameFilter] = useState("");
   const [marketplaceCardsCurrentPage, setMarketplaceCardsCurrentPage] = useState(1);
 
-  const { isLoggedIn } = useContext(AuthContext)
+  const { username, isLoggedIn } = useContext(AuthContext)
 
   const fetchMarketplaceCards = async () => {
     if(isLoggedIn) {
@@ -22,6 +22,7 @@ export const MarketplaceProvider = ({ children }) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            username,
             sort: marketplaceCardsSort,
             priceFilter: marketplaceCardsPriceFilter,
             nameFilter: marketplaceCardsNameFilter,

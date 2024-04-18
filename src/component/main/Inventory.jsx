@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import EventsContext from "../../context/EventsContext";
 import InventoryContext from "../../context/InventoryContext";
+import MarketplaceContext from "../../context/MarketplaceContext";
 
 const Inventory = () => {
   const { setPopupContent, setPopupConfirmationCallback, openPopup } = useContext(EventsContext)
@@ -11,44 +12,59 @@ const Inventory = () => {
     setInventoryCardsSort,
     inventoryCardNameFilter,
     setInventoryCardNameFilter,
+    listCardOnMarketplace,
+    delistCardFromMarketplace
   } = useContext(InventoryContext);
+
+  const { marketplaceCards } = useContext(MarketplaceContext)
 
   let isAtLeastOneCardVisible = false;
 
   const generateInventoryCard = (card) => {
-    const handleTradeCardOnClick = (e) => {
-      setPopupContent(() => {
-        const newContent = {}
+    const handleListCardOnClick = (e) => {
+      if(e.target.value === 'List on Marketplace') {
+        setPopupContent(() => {
+          const newContent = {}
+  
+          newContent.html = 
+          <>
+            <p>Set price:</p>
+  
+            <form id='list-card-popup-form'>
+  
+              {/* on enter key down submits form because it is the first input in the form */}
+              <input id='list-card-price-input' type='number' min='0' placeholder='amount' onKeyDown={ (e) => { e.key === 'Enter' ? e.preventDefault() : null } }></input>
+              <label htmlFor='list-card-price-input'></label>
+            </form>
+          </>
+  
+          return newContent
+        })
+  
+        setPopupConfirmationCallback(() => {
+          const callback = () => {
+            const price = document.getElementById('list-card-price-input').value
 
-        newContent.html = 
-        <>
-          <p>Set a recipient and price.</p>
-          <form id='initiate-trade-popup-form'>
+            listCardOnMarketplace(card.id, price)
+          }
+  
+          return callback
+        })
+      }
+      // 'Delist'
+      else {
+        setPopupContent({ 
+          html: <p>Card will be delisted from the marketplace.</p>
+        })
 
-            {/* on enter key down submits form because it is the first input in the form */}
-            <input id='initiate-trade-username-input' placeholder='enter recipient username' onKeyDown={ (e) => { e.key === 'Enter' ? e.preventDefault() : null } }></input>
-            <label htmlFor='initiate-trade-username-input'></label>
-    
-            <input id='initiate-trade-price-input' placeholder='enter trade price'></input>
-            <label htmlFor='initiate-trade-price-input'></label>
-          </form>
-        </>
+        setPopupConfirmationCallback(() => {
+          const callback = () => {
+            delistCardFromMarketplace(card.id)
+          }
 
-        return newContent
-      })
-
-      setPopupConfirmationCallback(() => {
-        const callback = () => {
-          // code to initiate tade request to designated user
-
-          const recipient = document.getElementById('initiate-trade-username-input').value
-          const price = document.getElementById('initiate-trade-price-input').value
-
-          console.log(`Trade request sent to ${recipient} for $${price}.`)
-        }
-
-        return callback
-      })
+          return callback
+        })
+      }
 
       openPopup()
     }
@@ -89,9 +105,20 @@ const Inventory = () => {
         </figure>
 
         <form className="card-actions-form">
-          <label className='card-button-label'>
-            <input id={ `${card.id}-card-trade-button` } className='card-trade-button' type='button' value='Trade' onClick={ handleTradeCardOnClick }></input>
-          </label>
+          { 
+            // if card is on the marketplace
+            card.listed === 1 ? 
+            <label className='card-button-label'>
+              <input id={ `${card.id}-card-list-button` } className='card-list-button' type='button' value='Delist' onClick={ handleListCardOnClick }></input>
+            </label> :
+            // else if card is in a trade 
+            card.listed === 2 ? 
+            <p className='card-listed-in-trade-note'>Listed in Trade Request</p> :
+            // else if card is not listed
+            <label className='card-button-label'>
+              <input id={ `${card.id}-card-list-button` } className='card-list-button' type='button' value='List on Marketplace' onClick={ handleListCardOnClick }></input>
+            </label>
+          }
         </form>
       </li>
     ) : null;

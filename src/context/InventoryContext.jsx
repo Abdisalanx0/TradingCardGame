@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import CardContext from "./CardContext";
 import AuthContext from "./AuthContext";
+import MarketplaceContext from "./MarketplaceContext";
 import FetchUrl from "./FetchUrl";
 
 const InventoryContext = createContext();
@@ -11,6 +12,7 @@ export const InventoryProvider = ({ children }) => {
   const [inventoryCardNameFilter, setInventoryCardNameFilter] = useState("");
   const { sortCards } = useContext(CardContext);
   const { isLoggedIn } = useContext(AuthContext);
+  const { fetchMarketplaceCards } = useContext(MarketplaceContext)
 
   const fetchInventoryCards = async () => {
     try {
@@ -50,11 +52,51 @@ export const InventoryProvider = ({ children }) => {
     }
   }
 
+  const listCardOnMarketplace = async (userCardId, price) => {
+    try {
+      const response = await fetch(`${FetchUrl}/listCardOnMarketplace.php`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userCardId, price })
+      })
+
+      if(response.ok) {
+        fetchMarketplaceCards()
+        fetchInventoryCards()
+      }
+    }
+    catch(err) {
+      console.log(err.message)
+    }
+  }
+
+  const delistCardFromMarketplace = async (userCardId) => {
+    try {
+      const response = await fetch(`${FetchUrl}/delistCardFromMarketplace.php`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userCardId })
+      })
+
+      if(response.ok) {
+        fetchMarketplaceCards()
+        fetchInventoryCards()
+      }
+    }
+    catch(err) {
+      console.log(err.message)
+    }
+  }
+
   useEffect(() => {
     if(isLoggedIn) {
       fetchInventoryCards()
     }
-  }, [isLoggedIn]);
+  }, [inventoryCardsSort, isLoggedIn]);
 
   return (
     <InventoryContext.Provider
@@ -65,7 +107,9 @@ export const InventoryProvider = ({ children }) => {
         setInventoryCardsSort,
         inventoryCardNameFilter,
         setInventoryCardNameFilter,
-        fetchInventoryCards
+        fetchInventoryCards,
+        listCardOnMarketplace,
+        delistCardFromMarketplace
       }}
     >
       {children}

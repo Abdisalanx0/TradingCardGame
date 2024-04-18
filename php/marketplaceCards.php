@@ -12,9 +12,8 @@
 
   $responseData = array( 'cards' => array(), 'currentPage' => 1 );
 
-  // query for rows in listed_card
+  // query for rows in marketplace_card
   $sql = 'SELECT * FROM marketplace_card';
-
   $marketplaceCards = runQuery($sql);
 
   if($marketplaceCards) {
@@ -23,16 +22,19 @@
       // query for user_card row that corresponds to $marketplaceCard
       $sql = 'SELECT * FROM user_card WHERE id = ?';
       $bindParams = array($marketplaceCard['user_card_id']);
-
-      $userCards = runSelectQuery($sql, $bindParams);
+      $userCardQuery = runSelectQuery($sql, $bindParams);
+      $userCard = $userCardQuery[0];
 
       $sql = 'SELECT * FROM trading_card WHERE id = ?';
-      $bindParams = array($userCards[0]['card_id']);
+      $bindParams = array($userCard['card_id']);
 
-      // query for trading_card row that corresponds to $userCards[0]
+      // query for trading_card row that corresponds to $userCard
       $tradingCard = runSelectQuery($sql, $bindParams);
 
+      $tradingCard[0]['user_id'] = $userCard['user_id'];
       $tradingCard[0]['price'] = floatval($marketplaceCard['price']);
+      $tradingCard[0]['card_id'] = $tradingCard[0]['id'];
+      $tradingCard[0]['id'] = intval($marketplaceCard['user_card_id']);
 
       $responseData['cards'][] = $tradingCard[0];
     }

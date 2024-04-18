@@ -1,6 +1,9 @@
 import React, { useContext } from "react";
 import MarketplaceContext from "../../context/MarketplaceContext";
+import EventsContext from "../../context/EventsContext";
 import CheckoutContext from "../../context/CheckoutContext";
+import AuthContext from "../../context/AuthContext";
+import InventoryContext from "../../context/InventoryContext";
 
 const Marketplace = () => {
   const {
@@ -13,7 +16,12 @@ const Marketplace = () => {
     marketplaceCardsCurrentPage,
     setMarketplaceCardsCurrentPage,
   } = useContext(MarketplaceContext);
+
+  const { setPopupContent, setPopupConfirmationCallback, openPopup } = useContext(EventsContext)
   const { cart, addCardToCart, removeCardFromCart } = useContext(CheckoutContext);
+  const { delistCardFromMarketplace } = useContext(InventoryContext)
+
+  const { userId } = useContext(AuthContext)
 
   const handleAddToCartOnClick = (e) => {
     const delimiterIndex = e.target.id.indexOf("-add-to-cart-button");
@@ -33,6 +41,22 @@ const Marketplace = () => {
   };
 
   const generateMarketplaceCards = (card) => {
+    const handleListCardOnClick = (e) => {
+      setPopupContent({ 
+        html: <p>Card will be delisted from the marketplace.</p>
+      })
+
+      setPopupConfirmationCallback(() => {
+        const callback = () => {
+          delistCardFromMarketplace(card.id)
+        }
+
+        return callback
+      })
+
+      openPopup()
+    }
+
     return (
       <li
         key={card.id}
@@ -59,17 +83,21 @@ const Marketplace = () => {
         <form className="card-actions-form">
           <label className="card-button-label">
             <p className="card-price">{card.price} CZ</p>
-            <input
-              id={`${card.id}-add-to-cart-button`}
-              className="card-add-to-cart-button"
-              type="button"
-              value={
-                cart.cards.some((cartCard) => cartCard.id === card.id)
-                  ? "Remove from Cart"
-                  : "Add to Cart"
-              }
-              onClick={handleAddToCartOnClick}
-            ></input>
+            {
+              card.user_id === userId ?
+              <input id={ `${card.id}-card-list-button` } className='card-list-button' type='button' value='Delist' onClick={ handleListCardOnClick }></input> :
+              <input
+                id={`${card.id}-add-to-cart-button`}
+                className="card-add-to-cart-button"
+                type="button"
+                value={
+                  cart.cards.some((cartCard) => cartCard.id === card.id)
+                    ? "Remove from Cart"
+                    : "Add to Cart"
+                }
+                onClick={handleAddToCartOnClick}
+              ></input>
+            }
           </label>
         </form>
       </li>

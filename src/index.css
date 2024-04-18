@@ -21,10 +21,6 @@ body,
   scroll-behavior: smooth;
 }
 
-#root {
-  @apply h-screen flex flex-col items-center justify-between;
-}
-
 h1 {
   font-size: xx-large;
 }
@@ -46,6 +42,11 @@ fieldset {
 
 legend {
   font-size: larger;
+  font-weight: 600;
+}
+
+ul, ol {
+  list-style: none;
 }
 
 input[type="button"],

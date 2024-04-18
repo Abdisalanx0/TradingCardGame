@@ -22,7 +22,11 @@ const Popup = () => {
       <article ref={ popup } id='popup-container' className='hidden-container'>
         <h2>Confirmation</h2>
 
-        { popupContent.html }
+        <section id='popup-content-section'>
+          <h3 hidden>Note</h3>
+
+          { popupContent.html }
+        </section>
         
         <form id='popup-form'>
           <fieldset>

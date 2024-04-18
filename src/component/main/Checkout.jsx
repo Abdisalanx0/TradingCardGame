@@ -1,8 +1,14 @@
 import React, { useContext } from "react";
 import CheckoutContext from "../../context/CheckoutContext";
+import MarketplaceContext from "../../context/MarketplaceContext";
+import InventoryContext from "../../context/InventoryContext";
+import AuthContext from "../../context/AuthContext";
 
 const Checkout = () => {
   const { cart, setCart } = useContext(CheckoutContext);
+  const { fetchUserInfo } = useContext(AuthContext)
+  const { fetchMarketplaceCards } = useContext(MarketplaceContext)
+  const { fetchInventoryCards } = useContext(InventoryContext)
 
   const handleCheckoutOnClick = async () => {
     const username = sessionStorage.getItem("username");
@@ -32,6 +38,11 @@ const Checkout = () => {
         setCart({ cards: [], count: 0, totalPrice: 0 }); // Reset the cart in context
         sessionStorage.removeItem("cart"); // If you're also syncing the cart to sessionStorage, clear it here
         alert(jsonResponse.message);
+
+        // update client-side user balance, marketplace, and inventory
+        fetchUserInfo()
+        fetchMarketplaceCards()
+        fetchInventoryCards()
       } else {
         throw new Error("Failed to send data");
       }

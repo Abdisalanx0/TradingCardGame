@@ -53,7 +53,7 @@
       id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       user_id INT(11) UNSIGNED,
       card_id INT(11) UNSIGNED,
-      is_listed BOOLEAN NOT NULL DEFAULT FALSE,
+      listed TINYINT(1) NOT NULL DEFAULT FALSE,
       FOREIGN KEY (user_id) REFERENCES tcg_user(id),
       FOREIGN KEY (card_id) REFERENCES trading_card(id)
     )";
@@ -85,7 +85,8 @@
       id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       initiator_user_id INT(11) UNSIGNED,
       target_user_id INT(11) UNSIGNED,
-      price INT(11) DEFAULT 0,
+      offered_price INT(11) DEFAULT 0,
+      requested_price INT(11) DEFAULT 0,
       FOREIGN KEY (initiator_user_id) REFERENCES tcg_user(id),
       FOREIGN KEY (target_user_id) REFERENCES tcg_user(id)
     )";
@@ -156,28 +157,19 @@
       
       for($j = 0; $j < count($usersArray); $j++) {
         // table: user_card
-        $sql = 'INSERT INTO user_card (user_id, card_id, is_listed) VALUES (?, ?, ?)';
+        $sql = 'INSERT INTO user_card (user_id, card_id, listed) VALUES (?, ?, ?)';
 
-        // set admin cards as listed and other users' cards as not listed
+        // set admin cards as listed on marketplace and other users' cards as not listed
         $bindParams = array($usersArray[$j], $tradingCardInsertId, $usersArray[$j] === 1 ? 1 : 0);
     
         runInsertQuery($sql, $bindParams);
       }
     }
 
-    $tradeRequests = array( 'usedUserCardIndexes' => array() );
+    $tradeRequests = array( 'usedUserCardIds' => array() );
 
     $sql = 'SELECT * FROM user_card WHERE user_id = 1';
     $adminCards = runQuery($sql);
-
-    $sql = 'SELECT * FROM user_card WHERE user_id <> 1';
-    $otherUserCardsResult = runQuery($sql);
-
-    $otherUserCards = array();
-
-    while($otherUserCard = $otherUserCardsResult -> fetch_assoc()) {
-      $otherUserCards[] = $otherUserCard;
-    }
 
     // for each admin card,
     // determine if it is listed on the marketplace or part of a trade request
@@ -200,10 +192,19 @@
       // else if random value is 1 through 3
       else {
         // if there is no trade request entry for the target user indentified in usersArray by the random index
-        if(!isset($tradeRequests[$usersArray[$randTargetUserIndex]])) {
+        if(!isset($tradeRequests[$usersArray[$randTargetUserIndex]])) {          
           // insert a trade_request entity in the database
-          $sql = 'INSERT INTO trade_request (initiator_user_id, target_user_id, price) VALUES (?, ?, ?)';
-          $bindParams = array(1, $usersArray[$randTargetUserIndex], $randPrice);
+          $sql = 'INSERT INTO trade_request (initiator_user_id, target_user_id, offered_price, requested_price) VALUES (?, ?, ?, ?)';
+          
+          // determine if price is offered or requested
+          $offerOrRequestPrice = rand(0, 1);
+
+          if($offerOrRequestPrice === 0) {
+            $bindParams = array(1, $usersArray[$randTargetUserIndex], 0, $randPrice);
+          }
+          else {
+            $bindParams = array(1, $usersArray[$randTargetUserIndex], $randPrice, 0);
+          }
           
           $tradeRequestInsertId = runInsertQuery($sql, $bindParams);
 
@@ -214,27 +215,35 @@
         // insert the current adminCard into trade_request_card for the current trade_request
         $sql = 'INSERT INTO trade_request_card (request_id, user_card_id) VALUES (?, ?)';
         $bindParams = array($tradeRequests[$usersArray[$randTargetUserIndex]], $adminCard['id']);
-
         runInsertQuery($sql, $bindParams);
+
+        // set listed to 2 to indicate it is in a trade
+        $sql = 'UPDATE user_card SET listed = 2 WHERE id = ?';
+        $bindParams = array($adminCard['id']);
+        runParameterizedQuery($sql, $bindParams);
+
+        $sql = 'SELECT * FROM user_card WHERE user_id = ?';
+        $bindParams = array($usersArray[$randTargetUserIndex]);
+        $otherUserCards = runSelectQuery($sql, $bindParams);
 
         // select a random other user card to insert into trade_request_card for the current trade reqeust
         $randomRequestedCardIndex = rand(0, count($otherUserCards) - 1);  
 
         // get the card's user_card row
-        $sql = 'SELECT is_listed FROM user_card WHERE id = ?';
+        $sql = 'SELECT listed FROM user_card WHERE id = ?';
         $bindParams = array($otherUserCards[$randomRequestedCardIndex]['id']);
 
         $cardQuery = runSelectQuery($sql, $bindParams);
 
         // if the card is not used in a trade request
-        if(!isset($tradeRequests['usedUserCardIndexes'][$randomRequestedCardIndex])) {
+        if(!isset($tradeRequests['usedUserCardIds'][$otherUserCards[$randomRequestedCardIndex]['id']])) {
           // insert it into trade_request_card
           $sql = 'INSERT INTO trade_request_card (request_id, user_card_id) VALUES (?, ?)';
           $bindParams = array($tradeRequests[$usersArray[$randTargetUserIndex]], $otherUserCards[$randomRequestedCardIndex]['id']);
   
           runInsertQuery($sql, $bindParams);
 
-          $tradeRequests['usedUserCardIndexes'][$randomRequestedCardIndex] = true;
+          $tradeRequests['usedUserCardIds'][$otherUserCards[$randomRequestedCardIndex]['id']] = true;
         }
       }
     }
