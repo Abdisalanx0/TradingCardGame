@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import AuthContext from "./AuthContext";
-import FetchUrl from "./FetchUrl"; // Assuming FetchUrl exports a base URL string
+import FetchUrl from "./FetchUrl"; 
 
 const MessageContext = createContext();
 
@@ -8,6 +8,7 @@ export const MessageProvider = ({ children }) => {
   const [messages, setMessages] = useState({});
   const [isMessageBoxExpanded, setIsMessageBoxExpanded] = useState(false);
   const [selectedConversation, setSelectedConversation] = useState("");
+  const [messageToSend, setMessageToSend] = useState(""); // Add this line
   const { isLoggedIn } = useContext(AuthContext);
 
   const fetchMessages = async () => {
@@ -29,14 +30,11 @@ export const MessageProvider = ({ children }) => {
       };
       const data = { username };
 
-      const response = await fetch(
-        `${FetchUrl}/getMessages.php`, 
-        {
-          method: "POST",
-          headers,
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch(`${FetchUrl}/getMessages.php`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(data),
+      });
 
       if (response.ok) {
         const responseData = await response.json();
@@ -52,6 +50,22 @@ export const MessageProvider = ({ children }) => {
 
   useEffect(() => {
     fetchMessages();
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    let intervalId = null;
+    if (isLoggedIn) {
+      fetchMessages(); 
+      intervalId = setInterval(fetchMessages, 1000); 
+    } else {
+      setMessages({}); 
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId); 
+      }
+    };
   }, [isLoggedIn]); 
 
   return (
@@ -63,6 +77,8 @@ export const MessageProvider = ({ children }) => {
         setIsMessageBoxExpanded,
         selectedConversation,
         setSelectedConversation,
+        messageToSend, // Provide this
+        setMessageToSend, // And this
         fetchMessages,
       }}
     >

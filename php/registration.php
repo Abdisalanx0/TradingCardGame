@@ -41,10 +41,10 @@ if ($res && $res->num_rows > 0) {
     
     // Hashing the password before storing it in the database.
     $hashedPassword = password_hash($pass, PASSWORD_DEFAULT);
-
+    $coinbalance = 100;
     // Prepares an SQL statement for inserting the new user.
     $stmt = $conn->prepare("INSERT INTO tcg_user (username, password_hash, coin_balance) VALUES (?, ?, ?)");
-    $stmt->bind_param("ssi", $user, $hashedPassword, 100); // Binds parameters to the SQL statement.
+    $stmt->bind_param("ssi", $user, $hashedPassword, $coinbalance); // Binds parameters to the SQL statement.
     
     // Executes the SQL statement and checks if the user was successfully registered.
     if ($stmt->execute()) {

@@ -12,6 +12,7 @@ $dData = json_decode($eData, true);
 
 $username = $dData['username'];
 
+
 if (empty($username)) {
     echo json_encode(['success' => false, 'message' => 'Username not provided']);
     exit();
