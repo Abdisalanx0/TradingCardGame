@@ -1,8 +1,8 @@
 /*
   local development: 'http://localhost/php
-  deployment: ''
+  deployment: '/php'
 */
 
-const FetchUrl = 'http://localhost/php'
+const FetchUrl = '/php'
 
 export default FetchUrl
