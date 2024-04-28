@@ -90,16 +90,6 @@ const Header = () => {
           value="Inventory"
           onClick={handleNavigationButtonOnClick}
         ></input>
-        {/* Message tab */}
-        <input
-          className={
-            (currentTab === "Message" ? "current-tab-button " : "") +
-            "navigation-button"
-          }
-          type="button"
-          value="Message"
-          onClick={handleNavigationButtonOnClick}
-        ></input>
       </nav>
 
       <section id="header-right-container">
