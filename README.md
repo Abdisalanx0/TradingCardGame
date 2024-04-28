@@ -7,4 +7,6 @@ Group Memebers : Abdisalan Mohamed, Chase Shertzer ,Hamze Jama
 3. open the rest of the project in your favorite code editor and run These in the terminal, one after another:
 - run NPM install
 - run NPM run dev
+# Preview
+![image](https://github.com/Abdisalanx0/TradingCardGame/assets/106049998/cd7b65c5-1763-4d02-811a-0a637c5cc2d6)
 
