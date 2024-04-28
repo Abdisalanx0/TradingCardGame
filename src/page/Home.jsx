@@ -10,7 +10,6 @@ const Home = () => {
       <HomeNavigation />
       <HomeHero />
       <About />
-      <Contact />
       <Footer/>
     </>
   );

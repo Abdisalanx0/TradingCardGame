@@ -23,32 +23,40 @@ if (!isset($dData["username"]) || !isset($dData["password"])) {
     exit();
 }
 
-// Extracts the username and password from the decoded data.
 $user = $dData['username'];
 $pass = $dData['password'];
 
 // Prepares an SQL statement to check if the username already exists.
 $stmt = $conn->prepare("SELECT * FROM tcg_user WHERE username = ?");
-$stmt->bind_param("s", $user); // Binds parameters to the SQL statement.
-$stmt->execute(); // Executes the SQL statement.
-$res = $stmt->get_result(); // Gets the result of the query.
+$stmt->bind_param("s", $user);
+$stmt->execute();
+$res = $stmt->get_result();
 
 // Checks if the username already exists.
 if ($res && $res->num_rows > 0) {
     echo json_encode(['success' => false, 'message' => 'Username already exists, please choose a different one.']);
 } else {
     // Username does not exist, proceed with registration.
-    
-    // Hashing the password before storing it in the database.
     $hashedPassword = password_hash($pass, PASSWORD_DEFAULT);
     $coinbalance = 100;
-    // Prepares an SQL statement for inserting the new user.
     $stmt = $conn->prepare("INSERT INTO tcg_user (username, password_hash, coin_balance) VALUES (?, ?, ?)");
-    $stmt->bind_param("ssi", $user, $hashedPassword, $coinbalance); // Binds parameters to the SQL statement.
+    $stmt->bind_param("ssi", $user, $hashedPassword, $coinbalance);
     
     // Executes the SQL statement and checks if the user was successfully registered.
     if ($stmt->execute()) {
+        $newUserId = $conn->insert_id; // Get the ID of the newly registered user
         echo json_encode(['success' => true, 'message' => 'User registered successfully!', 'coinBalance' => 100]);
+
+        // Prepare a sample message to insert into user_message table
+        $sampleMessage = "Welcome to our platform!";
+        $adminUserId = 1; 
+        $stmt = $conn->prepare("INSERT INTO user_message (content, sending_user_id, receiving_user_id) VALUES (?, ?, ?)");
+        $stmt->bind_param("sii", $sampleMessage, $newUserId, $adminUserId);
+        
+        // Executes the statement and checks for success.
+        if (!$stmt->execute()) {
+            echo json_encode(['success' => false, 'message' => 'Failed to send welcome message.']);
+        }
     } else {
         echo json_encode(['success' => false, 'message' => 'Registration failed, please try again.']);
     }
@@ -57,4 +65,5 @@ if ($res && $res->num_rows > 0) {
 // Closes the database connection.
 $conn->close();
 exit();
-?>
+
+

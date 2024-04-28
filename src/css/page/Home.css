@@ -1,5 +1,8 @@
 .content-container {
-  background-image: url("/graphics/background.png");
+  background-image: url("/graphics/ww.png");
+  background-position:top center;
+  background-repeat: no-repeat;
+  background-size: cover;
   width: 100%; /* Take full width of the viewport */
   min-height: 100vh; /* Minimum height to fill the viewport */
   margin: auto; /* Centering horizontally */
@@ -12,9 +15,11 @@
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
-
+.logo{
+  font-size: 40px;
+}
 .main-title {
-  color: #314e52; /* Darker, modern color for better readability */
+  color: black; /* Darker, modern color for better readability */
   font-size: 2.5rem; /* Slightly larger for impact */
   margin-bottom: 0.5rem; /* Adjust spacing */
 }
@@ -57,6 +62,8 @@
   box-shadow: 0 10px 16px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   max-width: 1240px;
   margin: auto;
+  margin-top: 100px;
+  margin-bottom: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;

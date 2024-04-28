@@ -5,8 +5,7 @@ const HomeNavigation = () => {
     <div>
       <nav className="nav-bar">
         <div className="icon-nav">
-          <i className="fas fa-moon"></i>
-          <span className="logo">TCG</span>
+          <h1 className="logo">TCG</h1>
         </div>
 
         <ul className="list-nav-bar active">
@@ -15,9 +14,6 @@ const HomeNavigation = () => {
           </li>
           <li className="list-item">
             <a href="#about">about</a>
-          </li>
-          <li className="list-item">
-            <a href="#contact">contact</a>
           </li>
           <a href="/login">
         <button>LOGIN</button>
