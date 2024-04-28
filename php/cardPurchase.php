@@ -10,7 +10,6 @@ $username = $dData['username'];
 $cardIds = $dData['cardIds'] ?? [];
 $totalPrice = $dData['tPrice']; 
 
-// check for empty price raises error when price is 0
 if (empty($username) || empty($cardIds)) {
     echo json_encode(['success' => false, 'message' => 'Username or Card IDs not provided']);
     exit;
@@ -42,7 +41,6 @@ $userRow = $result->fetch_assoc();
 $newUserId = $userRow['id'];
 $currentBalance = $userRow['coin_balance'];
 
-// Check if user has enough balance
 if ($currentBalance < $totalPrice) {
     echo json_encode(['success' => false, 'message' => 'Insufficient funds']);
     exit;
@@ -50,45 +48,39 @@ if ($currentBalance < $totalPrice) {
 
 $newBalance = $currentBalance - $totalPrice;
 
-// Update user's balance
-$sql = "UPDATE tcg_user SET coin_balance = ? WHERE id = ?";
+$sql = "SELECT user_id FROM user_card WHERE id IN (?)";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $cardIds[0]); 
+$stmt->execute();
+$sellerResult = $stmt->get_result();
+$sellerRow = $sellerResult->fetch_assoc();
+$sellerId = $sellerRow['user_id'];
+
+$sql = "UPDATE tcg_user SET coin_balance = CASE id WHEN ? THEN ? WHEN ? THEN coin_balance + ? END WHERE id IN (?, ?)";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     echo json_encode(['success' => false, 'message' => "Prepare failed: " . $conn->error]);
     exit;
 }
-
-$stmt->bind_param("ii", $newBalance, $newUserId);
+$stmt->bind_param("iiiiii", $newUserId, $newBalance, $sellerId, $totalPrice, $newUserId, $sellerId);
 if (!$stmt->execute()) {
-    echo json_encode(['success' => false, 'message' => 'Failed to update user balance']);
+    echo json_encode(['success' => false, 'message' => 'Failed to update user balances']);
     exit;
 }
 
-$placeholders = implode(',', array_fill(0, count($cardIds), '?'));//converts to strings
+// Update card ownership
+$placeholders = implode(',', array_fill(0, count($cardIds), '?'));
 $sql = "UPDATE user_card SET listed = 0, user_id = ? WHERE id IN ($placeholders)";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     echo json_encode(['success' => false, 'message' => "Prepare failed: " . $conn->error]);
     exit;
 }
-
 $params = array_merge([$newUserId], $cardIds);
 $types = 'i' . str_repeat('i', count($cardIds));
 $stmt->bind_param($types, ...$params);
 
 if ($stmt->execute()) {
-    $sql = "DELETE FROM marketplace_card WHERE user_card_id IN ($placeholders)";
-    $stmt = $conn->prepare($sql);
-    if (!$stmt) {
-        echo json_encode(['success' => false, 'message' => "Prepare failed: " . $conn->error]);
-        exit;
-    }
-
-    $stmt->bind_param(str_repeat('i', count($cardIds)), ...$cardIds);
-    if (!$stmt->execute()) {
-        echo json_encode(['success' => false, 'message' => 'Failed to delete card from marketplace_card']);
-        exit;
-    }
     echo json_encode(['success' => true, 'message' => 'Card purchased successfully']);
 } else {
     echo json_encode(['success' => false, 'message' => 'Failed to update card ownership']);
