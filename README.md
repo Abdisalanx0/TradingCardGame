@@ -4,7 +4,17 @@
 A trading card platform where you can buy, sell, list and trade cards with other users
 
 
-## Deployment
+## Tech Stack
+
+**Front End:** React
+
+**Back End:** PHP, MySQL
+
+
+## Run Locally
+
+Clone the project
+
 
 1. To run this project you would need to put the php folder in a server folder.(Ampps/www or xampp/htdocs).
 2. In the PHP folder you must edit the dbConnection with your phpmyadmin login credentials.
@@ -12,6 +22,9 @@ A trading card platform where you can buy, sell, list and trade cards with other
 
 ```bash
 NPM install
+```
+
+```bash
 NPM run dev
 ```
 
