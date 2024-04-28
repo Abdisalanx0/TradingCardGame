@@ -10,9 +10,9 @@ Group Memebers : Abdisalan Mohamed, Chase Shertzer ,Hamze Jama
 # Preview
 - Home page
 ![image](https://github.com/Abdisalanx0/TradingCardGame/assets/106049998/cd7b65c5-1763-4d02-811a-0a637c5cc2d6)
--Login page
+- Login page
 ![image](https://github.com/Abdisalanx0/TradingCardGame/assets/106049998/25c63cf2-8c91-4b76-91e0-61f403720dbf)
--Marketplace tab
+- Marketplace tab
 ![image](https://github.com/Abdisalanx0/TradingCardGame/assets/106049998/85364a1c-1544-4a1f-9bb1-e9fc65feddbf)
 - Trading Tab
   ![image](https://github.com/Abdisalanx0/TradingCardGame/assets/106049998/f0bde63e-1c44-4b87-91f6-75c4bc205cf1)
